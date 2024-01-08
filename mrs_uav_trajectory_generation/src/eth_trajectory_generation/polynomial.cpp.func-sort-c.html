@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - MRS UAV System - Test coverage report - mrs_uav_trajectory_generation/src/eth_trajectory_generation/polynomial.cpp - functions</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../index.html" target="_parent">top level</a> - <a href="index.html" target="_parent">mrs_uav_trajectory_generation/src/eth_trajectory_generation</a> - polynomial.cpp<span style="font-size: 80%;"> (<a href="polynomial.cpp.gcov.html">source</a> / functions)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">MRS UAV System - Test coverage report</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">52</td>
+            <td class="headerCovTableEntry">103</td>
+            <td class="headerCovTableEntryLo">50.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2024-01-08 22:42:39</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntry">11</td>
+            <td class="headerCovTableEntryLo">54.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <center>
+  <table width="60%" cellpadding=1 cellspacing=1 border=0>
+    <tr><td><br></td></tr>
+    <tr>
+      <td width="80%" class="tableHead">Function Name <span class="tableHeadSort"><a href="polynomial.cpp.func.html"><img src="../../../updown.png" width=10 height=14 alt="Sort by function name" title="Sort by function name" border=0></a></span></td>
+      <td width="20%" class="tableHead">Hit count <span class="tableHeadSort"><img src="../../../glass.png" width=10 height=14 alt="Sort by hit count" title="Sort by hit count" border=0></span></td>
+    </tr>
+    <tr>
+              <td class="coverFn"><a href="polynomial.cpp.gcov.html#228">eth_trajectory_generation::Polynomial::offsetPolynomial(double)</a></td>
+              <td class="coverFnLo">0</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="polynomial.cpp.gcov.html#106">eth_trajectory_generation::Polynomial::computeMinMax(double, double, int, std::pair&lt;double, double&gt;*, std::pair&lt;double, double&gt;*) const</a></td>
+              <td class="coverFnLo">0</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="polynomial.cpp.gcov.html#89">eth_trajectory_generation::Polynomial::selectMinMaxFromRoots(double, double, int, Eigen::Matrix&lt;std::complex&lt;double&gt;, -1, 1, 0, -1, 1&gt; const&amp;, std::pair&lt;double, double&gt;*, std::pair&lt;double, double&gt;*) const</a></td>
+              <td class="coverFnLo">0</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="polynomial.cpp.gcov.html#122">eth_trajectory_generation::Polynomial::selectMinMaxFromCandidates(std::vector&lt;double, std::allocator&lt;double&gt; &gt; const&amp;, int, std::pair&lt;double, double&gt;*, std::pair&lt;double, double&gt;*) const</a></td>
+              <td class="coverFnLo">0</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="polynomial.cpp.gcov.html#196">eth_trajectory_generation::Polynomial::getPolynomialWithAppendedCoefficients(int, eth_trajectory_generation::Polynomial*) const</a></td>
+              <td class="coverFnLo">0</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="polynomial.cpp.gcov.html#153">eth_trajectory_generation::computeBaseCoefficients(int)</a></td>
+              <td class="coverFnHi">62</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="polynomial.cpp.gcov.html#216">eth_trajectory_generation::Polynomial::scalePolynomialInTime(double)</a></td>
+              <td class="coverFnHi">864</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="polynomial.cpp.gcov.html#174">eth_trajectory_generation::Polynomial::convolve(Eigen::Matrix&lt;double, -1, 1, 0, -1, 1&gt; const&amp;, Eigen::Matrix&lt;double, -1, 1, 0, -1, 1&gt; const&amp;)</a></td>
+              <td class="coverFnHi">2592</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="polynomial.cpp.gcov.html#34">eth_trajectory_generation::Polynomial::selectMinMaxCandidatesFromRoots(double, double, Eigen::Matrix&lt;std::complex&lt;double&gt;, -1, 1, 0, -1, 1&gt; const&amp;, std::vector&lt;double, std::allocator&lt;double&gt; &gt;*)</a></td>
+              <td class="coverFnHi">3888</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="polynomial.cpp.gcov.html#67">eth_trajectory_generation::Polynomial::computeMinMaxCandidates(double, double, int, std::vector&lt;double, std::allocator&lt;double&gt; &gt;*) const</a></td>
+              <td class="coverFnHi">3888</td>
+            </tr>
+    <tr>
+              <td class="coverFn"><a href="polynomial.cpp.gcov.html#28">eth_trajectory_generation::Polynomial::getRoots(int, Eigen::Matrix&lt;std::complex&lt;double&gt;, -1, 1, 0, -1, 1&gt;*) const</a></td>
+              <td class="coverFnHi">3888</td>
+            </tr>
+  </table>
+  <br>
+  </center>
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.14</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
