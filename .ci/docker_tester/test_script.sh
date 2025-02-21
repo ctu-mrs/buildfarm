@@ -31,6 +31,8 @@ cd $WORKSPACE
 catkin build --limit-status-rate 0.2 --cmake-args -DCOVERAGE=true -DMRS_ENABLE_TESTING=true
 catkin build --limit-status-rate 0.2 --cmake-args -DCOVERAGE=true -DMRS_ENABLE_TESTING=true --catkin-make-args tests
 
+sourcee /tmp/workspace/devel/setup.bash
+
 ## set coredump generation
 
 mkdir -p /tmp/coredump
@@ -62,6 +64,6 @@ if [[ "$FAILED" -eq 0 ]]; then
   # extract coverage data for the source folder of the workspace
   lcov --extract /tmp/coverage.removed "$WORKSPACE/src/*" --output-file $ARTIFACT_FOLDER/$REPOSITORY_NAME.info || echo "$0: coverage tracefile is empty"
 
-  exit $FAILED
-
 fi
+
+exit $FAILED
