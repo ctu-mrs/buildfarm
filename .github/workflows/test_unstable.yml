@@ -1,0 +1,81 @@
+name: test_unstable
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - containerized_stable
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+
+  init-artifacts:
+    runs-on: ubuntu-22.04
+    env:
+      TOKEN: ${{ secrets.DOCKERHUB }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - id: init_artifacts
+        run: |
+          mkdir -p /tmp/artifacts
+      - id: prime_image
+        run: |
+          ./.ci/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 stable
+      - name: Save artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts
+          path: /tmp/artifacts/
+          overwrite: true
+
+  generate-jobs:
+    needs: init-artifacts
+    runs-on: ubuntu-22.04
+    outputs:
+      packages: ${{ steps.generate.outputs.packages }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - id: generate
+        run: |
+          JOB_STRATEGY_MATRIX=$(./.ci/get_test_matrix.sh)
+          echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
+
+  build-job:
+    needs: generate-jobs
+    runs-on: ubuntu-22.04-arm
+    timeout-minutes: 360 # 6 hour timeout
+    strategy:
+      fail-fast: false
+      matrix:
+        job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
+    env:
+      TOKEN: ${{ secrets.DOCKERHUB }}
+    steps:
+      - name: Load artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: artifacts
+          path: /tmp/artifacts/
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - name: Checkout CI scripts
+        uses: actions/checkout@v3
+        with:
+          repository: ctu-mrs/ci_scripts
+          ref: master
+          path: .ci_scripts
+          token: ${{ secrets.PUSH_TOKEN }}
+      - id: build
+        run: |
+          .ci/run_tests.sh mrs unstable "${{ matrix.job }}"
