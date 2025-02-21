@@ -19,6 +19,8 @@ REPOSITORY_NAME=$3
 REPOSITORY_PATH=$MY_PATH/docker_builder
 ARTIFACTS_FOLDER=/tmp/artifacts
 
+YAML_FILE=${LIST}.yaml
+
 if [ -e $ARTIFACT_FOLDER/workspace.tar.gz ]; then
 
   echo "$0: workspace passed from the job before"
