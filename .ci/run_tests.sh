@@ -27,7 +27,7 @@ if [ -e $ARTIFACT_FOLDER/workspace.tar.gz ]; then
 
 else
 
-  mkdir -p $MY_PATH/docker_tester/workspace
+  mkdir -p $MY_PATH/docker_tester/workspace/src
 
 fi
 
@@ -40,7 +40,7 @@ THIS_TEST_REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $REPOSITORY
 # clone and checkout
 echo "$THIS_TEST_REPOS" | while IFS= read -r REPO; do
 
-  cd $WORKSPACE/src
+  cd $MY_PATH/docker_tester/workspace/src
 
   PACKAGE=$(echo "$REPO" | awk '{print $1}')
   URL=$(echo "$REPO" | awk '{print $2}')
