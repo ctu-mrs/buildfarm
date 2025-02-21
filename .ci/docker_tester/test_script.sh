@@ -8,7 +8,7 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 WORKSPACE=/tmp/workspace
 REPOSITORY_NAME=$1
 
-if [ -e $WORKSPACE/devel ]; then
+if [ ! -e $WORKSPACE/devel ]; then
 
   echo "$0: workspace not initialized, initializing"
 
@@ -25,6 +25,8 @@ if [ -e $WORKSPACE/devel ]; then
 fi
 
 echo "$0: building the workspace"
+
+cd $WORKSPACE
 
 catkin build --limit-status-rate 0.2 --cmake-args -DCOVERAGE=true -DMRS_ENABLE_TESTING=true
 catkin build --limit-status-rate 0.2 --cmake-args -DCOVERAGE=true -DMRS_ENABLE_TESTING=true --catkin-make-args tests

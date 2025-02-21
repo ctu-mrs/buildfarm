@@ -49,9 +49,9 @@ jobs:
           JOB_STRATEGY_MATRIX=$(./.ci/get_test_matrix.sh)
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
-  build-job:
+  test-job:
     needs: generate-jobs
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-22.04
     timeout-minutes: 360 # 6 hour timeout
     strategy:
       fail-fast: false
