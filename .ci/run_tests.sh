@@ -21,11 +21,15 @@ ARTIFACTS_FOLDER=/tmp/artifacts
 
 if [ -e $ARTIFACT_FOLDER/workspace.tar.gz ]; then
 
+  echo "$0: workspace passed from the job before"
+
   mv $ARTIFACT_FOLDER/workspace.tar.gz $MY_PATH/docker_tester/
   cd $MY_PATH/docker_tester/
   tar -xvzf workspace.tar.gz
 
 else
+
+  echo "$0: creating the workspace"
 
   mkdir -p $MY_PATH/docker_tester/workspace/src
 
@@ -46,6 +50,8 @@ echo "$THIS_TEST_REPOS" | while IFS= read -r REPO; do
   URL=$(echo "$REPO" | awk '{print $2}')
   BRANCH=$(echo "$REPO" | awk '{print $3}')
   GITMAN=$(echo "$REPO" | awk '{print $4}')
+
+  ls -la
 
   [ ! -e ${PACKAGE} ] && echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'" || echo "$0: not cloning, already there"
   [ ! -e ${PACKAGE} ] && git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE || echo "$0: not cloning, already there"
