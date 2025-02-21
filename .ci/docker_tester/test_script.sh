@@ -31,7 +31,7 @@ cd $WORKSPACE
 catkin build --limit-status-rate 0.2 --cmake-args -DCOVERAGE=true -DMRS_ENABLE_TESTING=true
 catkin build --limit-status-rate 0.2 --cmake-args -DCOVERAGE=true -DMRS_ENABLE_TESTING=true --catkin-make-args tests
 
-sourcee /tmp/workspace/devel/setup.bash
+source /tmp/workspace/devel/setup.bash
 
 ## set coredump generation
 
