@@ -26,7 +26,7 @@ jobs:
           mkdir -p /tmp/artifacts
       - id: prime_image
         run: |
-          ./.ci/prime_image/prime_image_testing.sh ctumrs/ros_noetic:2025-02-05 unstable
+          ./.ci/prime_image_testing/prime_image.sh ctumrs/ros_noetic:2025-02-05 unstable
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
