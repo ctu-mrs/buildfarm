@@ -5,8 +5,13 @@ set -e
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 
-WORKSPACE=/tmp/workspace
 REPOSITORY_NAME=$1
+
+WORKSPACE=/etc/docker/workspace
+COVERAGE=/etc/docker/coverage
+COREDUMP=/etc/docker/coredump
+
+## | ---------------- initialize the workspace ---------------- |
 
 if [ ! -e $WORKSPACE/devel ]; then
 
@@ -20,9 +25,13 @@ if [ ! -e $WORKSPACE/devel ]; then
   catkin config --profile debug --cmake-args -DCMAKE_BUILD_TYPE=Debug
   catkin profile set debug
 
+  echo "$0: installing dependencies using rosdep"
+
   rosdep install -y -v --from-path src/
 
 fi
+
+## | ------------------- build the workspace ------------------ |
 
 echo "$0: building the workspace"
 
@@ -31,13 +40,9 @@ cd $WORKSPACE
 catkin build --limit-status-rate 0.2 --cmake-args -DCOVERAGE=true -DMRS_ENABLE_TESTING=true
 catkin build --limit-status-rate 0.2 --cmake-args -DCOVERAGE=true -DMRS_ENABLE_TESTING=true --catkin-make-args tests
 
-source /tmp/workspace/devel/setup.bash
+source $WORKSPACE/devel/setup.bash
 
-## set coredump generation
-
-mkdir -p /tmp/coredump
-sudo sysctl -w kernel.core_pattern="/tmp/coredump/%e_%p.core"
-ulimit -c unlimited
+## | --- run tests an all ros packages within the repository -- |
 
 cd $WORKSPACE/src/$REPOSITORY_NAME
 ROS_DIRS=$(find . -name package.xml -printf "%h\n")
@@ -51,6 +56,8 @@ done
 
 echo "$0: tests finished"
 
+## | ---------------------- save coverage --------------------- |
+
 if [[ "$FAILED" -eq 0 ]]; then
 
   echo "$0: storing coverage data"
@@ -62,7 +69,7 @@ if [[ "$FAILED" -eq 0 ]]; then
   lcov --remove /tmp/coverage.original "*/test/*" --output-file /tmp/coverage.removed || echo "$0: coverage tracefile is empty"
 
   # extract coverage data for the source folder of the workspace
-  lcov --extract /tmp/coverage.removed "$WORKSPACE/src/*" --output-file $ARTIFACT_FOLDER/$REPOSITORY_NAME.info || echo "$0: coverage tracefile is empty"
+  lcov --extract /tmp/coverage.removed "$WORKSPACE/src/*" --output-file $COVERAGE/$REPOSITORY_NAME.info || echo "$0: coverage tracefile is empty"
 
 fi
 

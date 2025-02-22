@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#
+# ./prime_image.sh <base image> <variant>
+#
+
 set -e
 
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG

@@ -5,14 +5,29 @@ set -e
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$0: \"${last_command}\" command failed with exit code $?' ERR
 
+# get the path to this script
+MY_PATH=`dirname "$0"`
+MY_PATH=`( cd "$MY_PATH" && pwd )`
+
+REPO_PATH=${MY_PATH}/..
+
 DEBUG=false
 
-LIST=mrs
-ARCH=amd64
+## | ------------------------ arguments ----------------------- |
 
-YAML_FILE=$LIST.yaml
+LIST=$1
 
-REPOS=$(./.ci/parse_yaml.py $YAML_FILE $ARCH)
+if [ -z $LIST ]; then
+  LIST=mrs
+fi
+
+## | ----------------------------  ---------------------------- |
+
+ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
+
+YAML_FILE=$REPO_PATH/$LIST.yaml
+
+REPOS=$($REPO_PATH/scripts/helpers/parse_yaml.py $YAML_FILE $ARCH)
 
 FIRST=true
 
