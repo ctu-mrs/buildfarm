@@ -1,19 +1,5 @@
 #!/bin/bash
 
-# This script will build ROS packages from a particular repository into
-# deb packages
-#
-# INPUT:
-# * ./build.sh <package list file name> <{stable/testing/unstable} variant> <repository name>
-# * /tmp/artifacts containts the build artifacts from the previous jobs
-# * /tmp/artifacts/idx.txt contains idx of the previous job
-# * /tmp/artifacts/generated_***_***.yaml rosdep file from the previous jobs
-
-# OUTPUT:
-# * deb packages are put into the "/tmp/artifacts/$IDX" folder where $IDX is the incremented iterator of this build
-# * /tmp/idx.txt with incremented value of $IDX
-# * /tmp/artifacts/generated_***_***.yaml rosdep file with updated definitions from this build
-
 set -e
 
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
@@ -22,17 +8,19 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 # determine our architecture
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 
+DEBS_FOLDER=/etc/docker/debs
+OTHER_FILES_FOLDER=/etc/docker/other_files
+
 WORKSPACE=/etc/docker/workspace
-ARTIFACTS_FOLDER=/etc/docker/artifacts
-
 mkdir -p $WORKSPACE/src
-
 cd $WORKSPACE
 source /opt/ros/noetic/setup.bash
 catkin init
 
 cd src
 ln -s /etc/docker/repository
+
+git config --global --add safe.directory /etc/docker/repository
 
 BUILD_ORDER=$(catkin list -u)
 
@@ -41,13 +29,13 @@ echo "$0: catkin reported following topological build order:"
 echo "$BUILD_ORDER"
 echo ""
 
-ROSDEP_FILE=$ARTIFACTS_FOLDER/rosdep.yaml
+ROSDEP_FILE=$OTHER_FILES_FOLDER/rosdep.yaml
 
 cat $ROSDEP_FILE
 
 if [ -s $ROSDEP_FILE ]; then
 
-  echo "$0: adding $ROSDEP_FILE to rodep"
+  echo "$0: adding $ROSDEP_FILE to rosdep"
   echo "$0: contents:"
 
   echo "yaml file://$ROSDEP_FILE" | tee /etc/ros/rosdep/sources.list.d/temp.list
@@ -68,7 +56,7 @@ for PACKAGE in $BUILD_ORDER; do
   echo "$0: future deb name: $FUTURE_DEB_NAME"
 
   SHA=$(git rev-parse --short HEAD)
-  DOCKER_SHA=$(cat $ARTIFACTS_FOLDER/base_sha.txt)
+  DOCKER_SHA=$(cat $OTHER_FILES_FOLDER/base_sha.txt)
 
   echo "$0: SHA=$SHA"
 
@@ -87,7 +75,7 @@ for PACKAGE in $BUILD_ORDER; do
   DEPENDENCIES_CHANGED=false
   for dep in `echo $MY_DEPENDENCIES`; do
 
-    FOUND=$(cat $ARTIFACTS_FOLDER/compiled.txt | grep $dep | wc -l)
+    FOUND=$(cat $OTHER_FILES_FOLDER/compiled.txt | grep $dep | wc -l)
 
     if [ $FOUND -ge 1 ]; then
       DEPENDENCIES_CHANGED=true
@@ -141,11 +129,11 @@ for PACKAGE in $BUILD_ORDER; do
 
     # if [ $FIND_METAPACKAGE -eq 0 ]; then
     #
-    echo "$0: installing artifacts from $ARTIFACTS_FOLDER"
+    echo "$0: installing newly compiled deb file"
     [ -e "${DEBS[0]}" ] && apt-get -y install --allow-downgrades ../*.deb || echo "$0: no artifacts to be installed"
 
-    echo "$0: moving the artifact to $ARTIFACTS_FOLDER"
-    [ -e "${DEBS[0]}" ] && mv ../*.deb $ARTIFACTS_FOLDER || echo "$0: no artifacts to be moved"
+    echo "$0: moving the artifact to $DEBS_FOLDER"
+    [ -e "${DEBS[0]}" ] && mv ../*.deb $DEBS_FOLDER || echo "$0: no artifacts to be moved"
 
     # else
     #   echo "$0: moving the artifact to $ARTIFACTS_FOLDER/metarepositories"
@@ -161,7 +149,7 @@ for PACKAGE in $BUILD_ORDER; do
 
     source /opt/ros/noetic/setup.bash
 
-    echo "$PACKAGE" >> $ARTIFACTS_FOLDER/compiled.txt
+    echo "$PACKAGE" >> $OTHER_FILES_FOLDER/compiled.txt
 
   else
 

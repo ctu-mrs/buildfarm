@@ -24,6 +24,7 @@ LIST=$1
 VARIANT=$2
 REPOSITORY_NAME=$3
 DOCKER_IMAGE=$4
+ARTIFACTS_FOLDER=$5
 
 # defaults for testing
 
@@ -43,11 +44,14 @@ if [ -z $DOCKER_IMAGE ]; then
   DOCKER_IMAGE=noetic_builder
 fi
 
+if [ -z $ARTIFACTS_FOLDER ]; then
+  ARTIFACTS_FOLDER=/tmp/artifacts
+fi
+
 ## | -------------------- derived variables ------------------- |
 
 YAML_FILE=${REPO_PATH}/${LIST}.yaml
 
-ARTIFACTS_FOLDER=/tmp/artifacts
 WORKSPACE_FOLDER=/tmp/workspace
 
 ## --------------------------------------------------------------
