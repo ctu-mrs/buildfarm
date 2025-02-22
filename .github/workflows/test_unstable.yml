@@ -26,7 +26,7 @@ jobs:
           mkdir -p /tmp/artifacts
       - id: prime_image
         run: |
-          ./scripts/prime_image_testing/prime_image.sh ctumrs/ros_noetic:2025-02-05 ctumrs/docker_builder unstable /tmp/artifacts
+          ./scripts/prime_image_testing/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder unstable /tmp/artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -78,4 +78,4 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          ./scripts/ros_tests/run_tests.sh mrs unstable "${{ matrix.job }}"
+          ./scripts/ros_tests/run_tests.sh mrs unstable "${{ matrix.job }}" noetic_builder

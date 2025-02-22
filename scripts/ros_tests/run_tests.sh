@@ -23,6 +23,7 @@ ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 LIST=$1
 VARIANT=$2
 REPOSITORY_NAME=$3
+DOCKER_IMAGE=$4
 
 # defaults for testing
 
@@ -34,8 +35,12 @@ if [ -z $VARIANT ]; then
   VARIANT=unstable
 fi
 
-if [ -z $VARIANT ]; then
+if [ -z $REPOSITORY_NAME ]; then
   REPOSITORY_NAME=mrs_lib
+fi
+
+if [ -z $DOCKER_IMAGE ]; then
+  DOCKER_IMAGE=noetic_builder
 fi
 
 ## | -------------------- derived variables ------------------- |
@@ -50,8 +55,6 @@ WORKSPACE_FOLDER=/tmp/workspace
 ## --------------------------------------------------------------
 
 $REPO_PATH/scripts/helpers/wait_for_docker.sh
-
-BUILDER_IMAGE=ctumrs/ros:noetic_builder
 
 docker buildx use default
 
@@ -126,5 +129,5 @@ docker run \
   -v $WORKSPACE_FOLDER:/etc/docker/workspace \
   -v /tmp/coredumps:/etc/docker/coredumps \
   -v /tmp/coverage:/etc/docker/coverage \
-  ctumrs/ros:noetic_builder \
+  $DOCKER_IMAGE \
   /bin/bash -c "/etc/docker/workspace/entrypoint.sh $REPOSITORY_NAME"
