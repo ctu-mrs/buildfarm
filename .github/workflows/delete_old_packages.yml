@@ -12,10 +12,12 @@ concurrency:
 
 jobs:
   delete_old_packages:
-    uses: smartsquaregmbh/delete-old-packages@v0.8.1
-    with:
-      token: ${{ secrets.PUSH_TOKEN }}
-      organization: ctu-mrs
-      type: docker
-      names: |
-        mrs_uav_managers
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: smartsquaregmbh/delete-old-packages@v0.8.1
+        with:
+          token: ${{ secrets.PUSH_TOKEN }}
+          organization: ctu-mrs
+          type: docker
+          names: |
+            mrs_uav_managers
