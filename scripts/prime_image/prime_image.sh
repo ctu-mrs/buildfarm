@@ -47,7 +47,7 @@ if $USE_REGISTRY; then
 
   echo "$0: logging in to docker registry"
 
-  echo $PUSH_TOKEN | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+  echo $PUSH_TOKEN | docker login ghcr.io -u ctumrsbot --password-stdin
 
 fi
 
@@ -61,8 +61,8 @@ echo "$0: exporting image"
 
 if $USE_REGISTRY; then
 
-  docker tag $OUTPUT_IMAGE ghcr.io/ctumrs/buildfarm:$OUTPUT_IMAGE
-  docker push ghcr.io/ctumrs/buildfarm:$OUTPUT_IMAGE
+  docker tag $OUTPUT_IMAGE ghcr.io/ctumrsbot/buildfarm:$OUTPUT_IMAGE
+  docker push ghcr.io/ctumrsbot/buildfarm:$OUTPUT_IMAGE
 
 else
 
