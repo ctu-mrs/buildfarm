@@ -1,0 +1,21 @@
+name: delete_old_packages
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - containerized_stable
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  delete_old_packages:
+    uses: smartsquaregmbh/delete-old-packages@v0.8.1
+    with:
+      token: ${{ secrets.PUSH_TOKEN }}
+      organization: ctu-mrs
+      type: docker
+      names: |
+        mrs_uav_managers
