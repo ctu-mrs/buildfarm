@@ -17,8 +17,7 @@ jobs:
     env:
       TOKEN: ${{ secrets.DOCKERHUB }}
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action
+      - uses: styfle/cancel-workflow-action
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
