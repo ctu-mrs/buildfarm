@@ -135,6 +135,7 @@ jobs:
         run: .ci_scripts/package_build/push_to_ppa.sh unstable /tmp/artifacts
 
   delete_builder:
+    needs: collect-artifacts
     runs-on: ubuntu-latest
     steps:
       - uses: dataaxiom/ghcr-cleanup-action@v1
