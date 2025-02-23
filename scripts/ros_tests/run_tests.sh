@@ -26,6 +26,8 @@ REPOSITORY_NAME=$3
 DOCKER_IMAGE=$4
 ARTIFACTS_FOLDER=$5
 
+USE_REGISTRY=true
+
 # defaults for testing
 
 [ -z $LIST ] && LIST=mrs
@@ -46,11 +48,28 @@ WORKSPACE_FOLDER=/tmp/workspace
 
 $REPO_PATH/scripts/helpers/wait_for_docker.sh
 
+if $USE_REGISTRY; then
+
+  echo "$0: logging in to docker registry"
+
+  echo $PUSH_TOKEN | docker login ghcr.io -u ctumrsbot --password-stdin
+
+fi
+
 docker buildx use default
 
 echo "$0: loading cached builder docker image"
 
-docker load -i $ARTIFACTS_FOLDER/builder.tar.gz
+if $USE_REGISTRY; then
+
+  docker pull ghcr.io/ctu-mrs/buildfarm:$DOCKER_IMAGE
+  docker tag ghcr.io/ctu-mrs/buildfarm:$DOCKER_IMAGE $DOCKER_IMAGE
+
+else
+
+  docker load -i $ARTIFACTS_FOLDER/builder.tar.gz
+
+fi
 
 echo "$0: image loaded"
 

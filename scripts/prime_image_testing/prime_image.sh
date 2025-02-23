@@ -15,6 +15,8 @@ MY_PATH=`( cd "$MY_PATH" && pwd )`
 
 REPO_PATH=$MY_PATH/../..
 
+USE_REGISTRY=true
+
 cd $MY_PATH
 
 BASE_IMAGE=$1
@@ -28,6 +30,23 @@ docker pull $BASE_IMAGE
 
 docker buildx use default
 
+if $USE_REGISTRY; then
+
+  echo "$0: logging in to docker registry"
+
+  echo $PUSH_TOKEN | docker login ghcr.io -u ctumrsbot --password-stdin
+
+fi
+
 docker build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg PPA_VARIANT=${PPA_VARIANT} --tag ${OUTPUT_IMAGE} --progress plain
 
-docker save ${OUTPUT_IMAGE} | gzip > ${ARTIFACT_FOLDER}/builder.tar.gz
+if $USE_REGISTRY; then
+
+  docker tag $OUTPUT_IMAGE ghcr.io/ctu-mrs/buildfarm:$OUTPUT_IMAGE
+  docker push ghcr.io/ctu-mrs/buildfarm:$OUTPUT_IMAGE
+
+else
+
+  docker save $OUTPUT_IMAGE | gzip > $ARTIFACTS_FOLDER/builder.tar.gz
+
+fi

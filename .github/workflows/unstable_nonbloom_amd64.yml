@@ -6,9 +6,9 @@ on:
   # schedule:
   #   - cron:  '0 19 * * *'
 
-  # push:
-  #   branches:
-  #     - containerized_stable
+  push:
+    branches:
+      - containerized_stable
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -21,7 +21,6 @@ jobs:
       TOKEN: ${{ secrets.DOCKERHUB }}
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
     steps:
-      - uses: styfle/cancel-workflow-action
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -31,7 +30,7 @@ jobs:
           mkdir -p /tmp/artifacts
       - id: prime_image
         run: |
-          ./scripts/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder unstable /tmp/artifacts
+          ./scripts/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} unstable /tmp/artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -91,7 +90,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          ./scripts/nonbloom_build/build.sh nonbloom unstable "${{ matrix.job }}" ctumrs/ros_noetic:2025-02-05 noetic_builder /tmp/artifacts
+          ./scripts/nonbloom_build/build.sh nonbloom unstable "${{ matrix.job }}" ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} /tmp/artifacts
           ls /tmp/artifacts
       - name: Delete old artifacts
         uses: geekyeggo/delete-artifact@v5
@@ -120,7 +119,6 @@ jobs:
         run: |
           rm /tmp/artifacts/compiled.txt 2> /dev/null || true
           rm /tmp/artifacts/base_sha.txt 2> /dev/null || true
-          rm /tmp/artifacts/builder.tar.gz 2> /dev/null || true
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0

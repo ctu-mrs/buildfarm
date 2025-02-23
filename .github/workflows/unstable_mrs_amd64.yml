@@ -21,7 +21,6 @@ jobs:
       TOKEN: ${{ secrets.DOCKERHUB }}
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
     steps:
-      - uses: styfle/cancel-workflow-action
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -121,7 +120,6 @@ jobs:
         run: |
           rm /tmp/artifacts/compiled.txt 2> /dev/null || true
           rm /tmp/artifacts/base_sha.txt 2> /dev/null || true
-          rm /tmp/artifacts/builder.tar.gz 2> /dev/null || true
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -136,16 +134,12 @@ jobs:
       - name: Deploy
         run: .ci_scripts/package_build/push_to_ppa.sh unstable /tmp/artifacts
 
-  # clean-docker-images:
-  #   runs-on: ubuntu-22.04
-  #   needs: collect-artifacts
-  #   if: always()
-  #   env:
-  #     PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       with:
-  #         fetch-depth: 0
-  #         submodules: 'recursive'
-  #     - name: Deploy
-  #       run: ./scripts/helpers/clean_docker_image.sh noetic_builder_${{ github.RUN_ID }}
+  delete_builder:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          packages: '^${{ github.event.repository.name }}/.*$'
+          expand-packages: true
+          use-regex: true
+          token: ${{ secrets.PUSH_TOKEN }}
