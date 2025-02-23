@@ -16,6 +16,7 @@ jobs:
     steps:
       - uses: dataaxiom/ghcr-cleanup-action@v1
         with:
+          packages: '^.*$'
+          expand-packages: true
+          use-regex: true
           token: ${{ secrets.PUSH_TOKEN }}
-          delete-tags: '.*'
-          delete-untagged: true
