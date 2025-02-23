@@ -22,7 +22,7 @@ YAML_FILE=$REPO_PATH/$LIST.yaml
 
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 
-REPOS=$($MY_PATH/parse_yaml.py $YAML_FILE $ARCH)
+REPOS=$($REPO_PATH/scripts/helpers/parse_yaml.py $YAML_FILE $ARCH)
 
 WORKSPACE=/tmp/workspace
 
