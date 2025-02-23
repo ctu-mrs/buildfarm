@@ -120,6 +120,8 @@ if [ $DEBS_EXIST -gt 0 ]; then
 
   echo "$0: updating the builder docker image"
 
+  cd $MY_PATH
+
   PASS_TO_DOCKER_BUILD="Dockerfile /tmp/debs"
 
   tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target squash_builder --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg BUILDER_IMAGE=${DOCKER_IMAGE} --tag ${DOCKER_IMAGE} --progress plain
