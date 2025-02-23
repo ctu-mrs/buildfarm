@@ -15,8 +15,6 @@ MY_PATH=`( cd "$MY_PATH" && pwd )`
 
 REPO_PATH=$MY_PATH/../..
 
-USE_REGISTRY=true
-
 cd $MY_PATH
 
 BASE_IMAGE=$1
@@ -24,13 +22,15 @@ OUTPUT_IMAGE=$2
 PPA_VARIANT=$3
 ARTIFACT_FOLDER=$4
 
+RUN_LOCALLY=true
+
 $REPO_PATH/scripts/helpers/wait_for_docker.sh
 
 docker pull $BASE_IMAGE
 
 docker buildx use default
 
-if $USE_REGISTRY; then
+if $RUN_LOCALLY; then
 
   echo "$0: logging in to docker registry"
 
@@ -40,13 +40,9 @@ fi
 
 docker build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg PPA_VARIANT=${PPA_VARIANT} --tag ${OUTPUT_IMAGE} --progress plain
 
-if $USE_REGISTRY; then
+if $RUN_LOCALLY; then
 
   docker tag $OUTPUT_IMAGE ghcr.io/ctu-mrs/buildfarm:$OUTPUT_IMAGE
   docker push ghcr.io/ctu-mrs/buildfarm:$OUTPUT_IMAGE
-
-else
-
-  docker save $OUTPUT_IMAGE | gzip > $ARTIFACTS_FOLDER/builder.tar.gz
 
 fi

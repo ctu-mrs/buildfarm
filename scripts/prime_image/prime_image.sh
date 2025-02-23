@@ -17,14 +17,14 @@ REPO_PATH=$MY_PATH/../..
 
 cd $MY_PATH
 
-USE_REGISTRY=true
-
 ## | ------------------------ arguments ----------------------- |
 
 BASE_IMAGE=$1
 OUTPUT_IMAGE=$2
 PPA_VARIANT=$3
 ARTIFACTS_FOLDER=$4
+
+RUN_LOCALLY=true
 
 # defaults for testing
 
@@ -43,7 +43,7 @@ docker pull $BASE_IMAGE
 
 docker buildx use default
 
-if $USE_REGISTRY; then
+if $RUN_LOCALLY; then
 
   echo "$0: logging in to docker registry"
 
@@ -59,14 +59,10 @@ mkdir -p $ARTIFACTS_FOLDER
 
 echo "$0: exporting image"
 
-if $USE_REGISTRY; then
+if $RUN_LOCALLY; then
 
   docker tag $OUTPUT_IMAGE ghcr.io/ctu-mrs/buildfarm:$OUTPUT_IMAGE
   docker push ghcr.io/ctu-mrs/buildfarm:$OUTPUT_IMAGE
-
-else
-
-  docker save $OUTPUT_IMAGE | gzip > $ARTIFACTS_FOLDER/builder.tar.gz
 
 fi
 

@@ -21,7 +21,7 @@ BASE_IMAGE=$4
 DOCKER_IMAGE=$5
 ARTIFACTS_FOLDER=$6
 
-USE_REGISTRY=true
+RUN_LOCALLY=true
 
 # default for testing
 
@@ -73,7 +73,7 @@ echo "$0: repository cloned to /tmp/repository"
 
 $REPO_PATH/scripts/helpers/wait_for_docker.sh
 
-if $USE_REGISTRY; then
+if $RUN_LOCALLY; then
 
   echo "$0: logging in to docker registry"
 
@@ -88,14 +88,10 @@ docker buildx use default
 echo "$0: loading cached builder docker image"
 
 
-if $USE_REGISTRY; then
+if $RUN_LOCALLY; then
 
   docker pull ghcr.io/ctu-mrs/buildfarm:$DOCKER_IMAGE
   docker tag ghcr.io/ctu-mrs/buildfarm:$DOCKER_IMAGE $DOCKER_IMAGE
-
-else
-
-  docker load -i $ARTIFACTS_FOLDER/builder.tar.gz
 
 fi
 
