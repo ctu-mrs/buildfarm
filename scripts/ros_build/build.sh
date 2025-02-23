@@ -21,6 +21,8 @@ BASE_IMAGE=$4
 DOCKER_IMAGE=$5
 ARTIFACTS_FOLDER=$6
 
+USE_REGISTRY=true
+
 # default for testing
 
 [ -z $LIST ] && LIST=mrs
@@ -75,13 +77,29 @@ echo "$0: repository cloned to /tmp/repository"
 
 $REPO_PATH/scripts/helpers/wait_for_docker.sh
 
+if $USE_REGISTRY; then
+
+  echo "$0: logging in to docker registry"
+
+  echo $PUSH_TOKEN | docker login ghcr.io -u ctumrsbot --password-stdin
+
+fi
+
 TRANSPORT_IMAGE=alpine:latest
 
 docker buildx use default
 
 echo "$0: loading cached builder docker image"
 
-docker load -i $ARTIFACTS_FOLDER/builder.tar.gz
+if $USE_REGISTRY; then
+
+  docker pull ghcr.io/ctumrs/buildfarm:$DOCKER_IMAGE
+
+else
+
+  docker load -i $ARTIFACTS_FOLDER/builder.tar.gz
+
+fi
 
 echo "$0: image loaded"
 
@@ -130,7 +148,15 @@ if [ $DEBS_EXIST -gt 0 ]; then
 
   echo "$0: exporting the builder docker image as ${DOCKER_IMAGE}"
 
-  docker save ${DOCKER_IMAGE} | gzip > $ARTIFACTS_FOLDER/builder.tar.gz
+  if $USE_REGISTRY; then
+
+    docker push ghcr.io/ctumrs/buildfarm:$DOCKER_IMAGE
+
+  else
+
+    docker save $DOCKER_IMAGE | gzip > $ARTIFACTS_FOLDER/builder.tar.gz
+
+  fi
 
   echo "$0: copying artifacts"
 

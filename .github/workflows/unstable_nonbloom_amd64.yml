@@ -6,9 +6,9 @@ on:
   # schedule:
   #   - cron:  '0 19 * * *'
 
-  push:
-    branches:
-      - containerized_stable
+  # push:
+  #   branches:
+  #     - containerized_stable
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-22.04
     env:
       TOKEN: ${{ secrets.DOCKERHUB }}
+      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -69,6 +70,7 @@ jobs:
       max-parallel: 1 # Run jobs serially
     env:
       TOKEN: ${{ secrets.DOCKERHUB }}
+      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
     steps:
       - name: Load artifacts
         uses: actions/download-artifact@v4

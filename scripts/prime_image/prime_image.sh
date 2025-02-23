@@ -15,6 +15,8 @@ MY_PATH=`( cd "$MY_PATH" && pwd )`
 
 cd $MY_PATH
 
+USE_REGISTRY=true
+
 ## | ------------------------ arguments ----------------------- |
 
 BASE_IMAGE=$1
@@ -33,9 +35,19 @@ ARTIFACTS_FOLDER=$4
 
 echo "$0: pulling the base image"
 
+$REPO_PATH/scripts/helpers/wait_for_docker.sh
+
 docker pull $BASE_IMAGE
 
 docker buildx use default
+
+if $USE_REGISTRY; then
+
+  echo "$0: logging in to docker registry"
+
+  echo $PUSH_TOKEN | docker login ghcr.io -u ctumrsbot --password-stdin
+
+fi
 
 echo "$0: building the image"
 
@@ -45,7 +57,15 @@ mkdir -p $ARTIFACTS_FOLDER
 
 echo "$0: exporting image"
 
-docker save $OUTPUT_IMAGE | gzip > $ARTIFACTS_FOLDER/builder.tar.gz
+if $USE_REGISTRY; then
+
+  docker push ghcr.io/ctumrs/buildfarm:$OUTPUT_IMAGE
+
+else
+
+  docker save $OUTPUT_IMAGE | gzip > $ARTIFACTS_FOLDER/builder.tar.gz
+
+fi
 
 IMAGE_SHA=$(docker inspect --format='{{index .Id}}' ${BASE_IMAGE} | head -c 15 | tail -c 8)
 
