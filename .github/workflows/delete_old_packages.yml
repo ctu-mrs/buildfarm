@@ -3,9 +3,9 @@ name: delete_old_packages
 on:
   workflow_dispatch:
 
-  push:
-    branches:
-      - containerized_stable
+  # push:
+  #   branches:
+  #     - containerized_stable
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

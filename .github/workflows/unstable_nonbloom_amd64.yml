@@ -21,6 +21,8 @@ jobs:
       TOKEN: ${{ secrets.DOCKERHUB }}
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
