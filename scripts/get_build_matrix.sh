@@ -57,14 +57,13 @@ echo "$REPOS" | while IFS= read -r REPO; do
   echo "$0: Cloning '$REPO' from '$URL --branch $BRANCH' into '$PACKAGE'" >> /tmp/log.txt 2>&1
 
   git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE >> /tmp/log.txt 2>&1
-  echo "$PACKAGE" > $PACKAGE/BUILD_THIS_REPO.txt
 
 done
 
 echo "$0: Done cloning" >> /tmp/log.txt 2>&1
 echo "" >> /tmp/log.txt 2>&1
 
-BUILD_ORDER=$($MY_PATH/scripts/helpers/get_build_order.py $WORKSPACE)
+BUILD_ORDER=$($REPO_PATH/scripts/helpers/get_build_order.py $WORKSPACE)
 
 echo "$0: ROS package build order:" >> /tmp/log.txt 2>&1
 echo "$BUILD_ORDER" >> /tmp/log.txt 2>&1
