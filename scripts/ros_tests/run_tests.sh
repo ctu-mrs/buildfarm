@@ -28,25 +28,11 @@ ARTIFACTS_FOLDER=$5
 
 # defaults for testing
 
-if [ -z $LIST ]; then
-  LIST=mrs
-fi
-
-if [ -z $VARIANT ]; then
-  VARIANT=unstable
-fi
-
-if [ -z $REPOSITORY_NAME ]; then
-  REPOSITORY_NAME=mrs_lib
-fi
-
-if [ -z $DOCKER_IMAGE ]; then
-  DOCKER_IMAGE=noetic_builder
-fi
-
-if [ -z $ARTIFACTS_FOLDER ]; then
-  ARTIFACTS_FOLDER=/tmp/artifacts
-fi
+[ -z $LIST ] && LIST=mrs
+[ -z $VARIANT ] && VARIANT=unstable
+[ -z $REPOSITORY_NAME ] && REPOSITORY_NAME=mrs_lib
+[ -z $DOCKER_IMAGE ] && DOCKER_IMAGE=noetic_builder
+[ -z $ARTIFACTS_FOLDER ] && ARTIFACTS_FOLDER=/tmp/artifacts
 
 ## | -------------------- derived variables ------------------- |
 

@@ -81,7 +81,7 @@ docker buildx use default
 
 echo "$0: loading cached builder docker image"
 
-# docker load -i $ARTIFACTS_FOLDER/builder.tar
+docker load -i $ARTIFACTS_FOLDER/builder.tar
 
 echo "$0: image loaded"
 
@@ -122,8 +122,6 @@ if [ $DEBS_EXIST -gt 0 ]; then
 
   PASS_TO_DOCKER_BUILD="Dockerfile /tmp/debs"
 
-  # this second build takes the resulting workspace and storest in in a final image
-  # that can be deployed to a drone
   tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target squash_builder --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg BUILDER_IMAGE=${DOCKER_IMAGE} --tag ${DOCKER_IMAGE} --progress plain
 
   echo "$0: exporting the builder docker image as ${DOCKER_IMAGE}"
