@@ -136,12 +136,11 @@ jobs:
 
   delete_builder:
     needs: collect-artifacts
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           packages: 'buildfarm'
           delete-tags: 'noetic_builder_${{ github.RUN_ID }}'
-          expand-packages: true
-          use-regex: true
           token: ${{ secrets.PUSH_TOKEN }}
