@@ -57,7 +57,6 @@ jobs:
       - id: generate
         run: |
           JOB_STRATEGY_MATRIX=$(./scripts/get_nonbloom_build_matrix.sh nonbloom)
-          cat /tmp/log.txt
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
   build-job:
