@@ -13,6 +13,8 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?' ERR
 MY_PATH=`dirname "$0"`
 MY_PATH=`( cd "$MY_PATH" && pwd )`
 
+REPO_PATH=$MY_PATH/../..
+
 cd $MY_PATH
 
 USE_REGISTRY=true
