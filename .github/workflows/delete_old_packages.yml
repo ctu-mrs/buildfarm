@@ -20,4 +20,4 @@ jobs:
           organization: ctu-mrs
           type: docker
           names: |
-            mrs_uav_managers
+            mrs_uav_managers/run-on-arch-ctu-mrs-mrs-uav-managers-ros-package-build-aarch64-noetic
