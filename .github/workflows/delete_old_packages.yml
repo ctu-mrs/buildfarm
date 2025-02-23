@@ -16,5 +16,4 @@ jobs:
     steps:
       - uses: dataaxiom/ghcr-cleanup-action@v1
         with:
-          older-than: 7 days
           token: ${{ secrets.PUSH_TOKEN }}
