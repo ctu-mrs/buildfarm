@@ -139,8 +139,15 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - uses: dataaxiom/ghcr-cleanup-action@v1
+      - name: Delete current image
+        uses: dataaxiom/ghcr-cleanup-action@v1
         with:
-          packages: 'buildfarm'
+          packages: '${{ github.event.repository.name }}'
           delete-tags: 'noetic_builder_${{ github.RUN_ID }}'
+          token: ${{ secrets.PUSH_TOKEN }}
+      - name: Delete old images
+        uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          packages: '${{ github.event.repository.name }}'
+          older-than: 7 days
           token: ${{ secrets.PUSH_TOKEN }}

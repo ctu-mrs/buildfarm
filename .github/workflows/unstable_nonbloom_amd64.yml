@@ -6,9 +6,9 @@ on:
   # schedule:
   #   - cron:  '0 19 * * *'
 
-  # push:
-  #   branches:
-  #     - containerized_stable
+  push:
+    branches:
+      - containerized_stable
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -132,3 +132,21 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - name: Deploy
         run: .ci_scripts/package_build/push_to_ppa.sh unstable /tmp/artifacts
+
+  delete_builder:
+    needs: collect-artifacts
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete current image
+        uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          packages: '${{ github.event.repository.name }}'
+          delete-tags: 'noetic_builder_${{ github.RUN_ID }}'
+          token: ${{ secrets.PUSH_TOKEN }}
+      - name: Delete old images
+        uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          packages: '${{ github.event.repository.name }}'
+          older-than: 7 days
+          token: ${{ secrets.PUSH_TOKEN }}
