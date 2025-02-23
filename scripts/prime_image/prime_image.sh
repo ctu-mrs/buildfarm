@@ -47,7 +47,7 @@ if $USE_REGISTRY; then
 
   echo "$0: logging in to docker registry"
 
-  echo $PUSH_TOKEN | docker login ghcr.io -u ctumrsbot --password-stdin
+  echo $PUSH_TOKEN | docker login ghcr.io -u klaxalk --password-stdin
 
 fi
 
