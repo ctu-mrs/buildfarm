@@ -12,12 +12,9 @@ concurrency:
 
 jobs:
   delete_old_packages:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: smartsquaregmbh/delete-old-packages@v0.8.1
+      - uses: dataaxiom/ghcr-cleanup-action@v1
         with:
+          older-than: 7 days
           token: ${{ secrets.PUSH_TOKEN }}
-          organization: ctu-mrs
-          type: docker
-          names: |
-            mrs_uav_managers/run-on-arch-ctu-mrs-mrs-uav-managers-ros-package-build-aarch64-noetic
