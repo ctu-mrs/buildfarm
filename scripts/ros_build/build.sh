@@ -81,7 +81,7 @@ docker buildx use default
 
 echo "$0: loading cached builder docker image"
 
-docker load -i $ARTIFACTS_FOLDER/builder.tar
+docker load -i $ARTIFACTS_FOLDER/builder.tar.gz
 
 echo "$0: image loaded"
 
@@ -120,7 +120,7 @@ if [ $DEBS_EXIST -gt 0 ]; then
 
   echo "$0: updating the builder docker image"
 
-  rm $ARTIFACTS_FOLDER/builder.tar
+  rm $ARTIFACTS_FOLDER/builder.tar.gz
 
   cd $MY_PATH
 
@@ -130,7 +130,7 @@ if [ $DEBS_EXIST -gt 0 ]; then
 
   echo "$0: exporting the builder docker image as ${DOCKER_IMAGE}"
 
-  docker save ${DOCKER_IMAGE} > $ARTIFACTS_FOLDER/builder.tar
+  docker save ${DOCKER_IMAGE} | gzip > $ARTIFACTS_FOLDER/builder.tar.gz
 
   echo "$0: copying artifacts"
 

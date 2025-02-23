@@ -118,7 +118,7 @@ jobs:
         run: |
           rm /tmp/artifacts/compiled.txt 2> /dev/null || true
           rm /tmp/artifacts/base_sha.txt 2> /dev/null || true
-          rm /tmp/artifacts/builder.tar 2> /dev/null || true
+          rm /tmp/artifacts/builder.tar.gz 2> /dev/null || true
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0

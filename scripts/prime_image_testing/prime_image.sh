@@ -30,4 +30,4 @@ docker buildx use default
 
 docker build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg PPA_VARIANT=${PPA_VARIANT} --tag ${OUTPUT_IMAGE} --progress plain
 
-docker save ${OUTPUT_IMAGE} > ${ARTIFACT_FOLDER}/builder.tar
+docker save ${OUTPUT_IMAGE} | gzip > ${ARTIFACT_FOLDER}/builder.tar.gz

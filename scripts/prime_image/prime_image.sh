@@ -45,7 +45,7 @@ mkdir -p $ARTIFACTS_FOLDER
 
 echo "$0: exporting image"
 
-docker save $OUTPUT_IMAGE > $ARTIFACTS_FOLDER/builder.tar
+docker save $OUTPUT_IMAGE | gzip > $ARTIFACTS_FOLDER/builder.tar.gz
 
 IMAGE_SHA=$(docker inspect --format='{{index .Id}}' ${BASE_IMAGE} | head -c 15 | tail -c 8)
 

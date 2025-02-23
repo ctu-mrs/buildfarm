@@ -50,7 +50,7 @@ docker buildx use default
 
 echo "$0: loading cached builder docker image"
 
-docker load -i $ARTIFACTS_FOLDER/builder.tar
+docker load -i $ARTIFACTS_FOLDER/builder.tar.gz
 
 echo "$0: image loaded"
 
