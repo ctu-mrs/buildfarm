@@ -17,9 +17,8 @@ DEBUG=false
 
 LIST=$1
 
-if [ -z $LIST ]; then
-  LIST=mrs
-fi
+# defaults for testing
+[ -z $LIST ] && LIST=mrs
 
 ## | ----------------------------  ---------------------------- |
 

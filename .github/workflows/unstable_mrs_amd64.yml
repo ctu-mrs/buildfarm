@@ -1,4 +1,4 @@
-name: unstable_mrs_arm64
+name: unstable_mrs_amd64
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ concurrency:
 jobs:
 
   init-artifacts:
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-22.04
     env:
       TOKEN: ${{ secrets.DOCKERHUB }}
     steps:
@@ -39,7 +39,7 @@ jobs:
 
   generate-jobs:
     needs: init-artifacts
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-22.04
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
     steps:
@@ -56,13 +56,13 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./scripts/get_build_matrix.sh mrs unstable arm64)
+          JOB_STRATEGY_MATRIX=$(./scripts/get_build_matrix.sh mrs unstable amd64)
           cat /tmp/log.txt
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
   build-job:
     needs: generate-jobs
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-22.04
     timeout-minutes: 360 # 6 hour timeout
     strategy:
       matrix:
@@ -104,7 +104,7 @@ jobs:
           overwrite: true
 
   collect-artifacts:
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-22.04
     needs: build-job
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
