@@ -120,6 +120,8 @@ if [ $DEBS_EXIST -gt 0 ]; then
 
   echo "$0: updating the builder docker image"
 
+  rm $ARTIFACTS_FOLDER/builder.tar
+
   cd $MY_PATH
 
   PASS_TO_DOCKER_BUILD="Dockerfile /tmp/debs"
@@ -132,7 +134,7 @@ if [ $DEBS_EXIST -gt 0 ]; then
 
   echo "$0: copying artifacts"
 
-  cp -r /tmp/debs/* $ARTIFACTS_FOLDER/
+  mv /tmp/debs/* $ARTIFACTS_FOLDER/
 
 fi
 
