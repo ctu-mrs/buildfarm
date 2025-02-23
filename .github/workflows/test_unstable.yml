@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
 
-  init-artifacts:
+  prime-image:
     runs-on: ubuntu-22.04
     env:
       TOKEN: ${{ secrets.DOCKERHUB }}
@@ -22,21 +22,12 @@ jobs:
         with:
           fetch-depth: 0
           submodules: 'recursive'
-      - id: init_artifacts
-        run: |
-          mkdir -p /tmp/artifacts
       - id: prime_image
         run: |
           ./scripts/prime_image_testing/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} unstable /tmp/artifacts
-      - name: Save artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifacts
-          path: /tmp/artifacts/
-          overwrite: true
 
   generate-jobs:
-    needs: init-artifacts
+    needs: prime-image
     runs-on: ubuntu-22.04
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
@@ -61,11 +52,6 @@ jobs:
     env:
       TOKEN: ${{ secrets.DOCKERHUB }}
     steps:
-      - name: Load artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: artifacts
-          path: /tmp/artifacts/
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0

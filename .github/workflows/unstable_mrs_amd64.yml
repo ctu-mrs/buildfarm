@@ -139,7 +139,7 @@ jobs:
     steps:
       - uses: dataaxiom/ghcr-cleanup-action@v1
         with:
-          packages: '^${{ github.event.repository.name }}/.*$'
+          packages: '^.*noetic_builder_${{ github.RUN_ID }}'
           expand-packages: true
           use-regex: true
           token: ${{ secrets.PUSH_TOKEN }}
