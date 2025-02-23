@@ -61,8 +61,8 @@ echo "$0: exporting image"
 
 if $USE_REGISTRY; then
 
-  docker tag $OUTPUT_IMAGE ghcr.io/ctumrsbot/buildfarm:$OUTPUT_IMAGE
-  docker push ghcr.io/ctumrsbot/buildfarm:$OUTPUT_IMAGE
+  docker tag $OUTPUT_IMAGE ghcr.io/ctu-mrs/buildfarm:$OUTPUT_IMAGE
+  docker push ghcr.io/ctu-mrs/buildfarm:$OUTPUT_IMAGE
 
 else
 

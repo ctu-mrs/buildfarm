@@ -93,7 +93,7 @@ echo "$0: loading cached builder docker image"
 
 if $USE_REGISTRY; then
 
-  docker pull ghcr.io/ctumrs/buildfarm:$DOCKER_IMAGE
+  docker pull ghcr.io/ctu-mrs/buildfarm:$DOCKER_IMAGE
 
 else
 
@@ -150,7 +150,7 @@ if [ $DEBS_EXIST -gt 0 ]; then
 
   if $USE_REGISTRY; then
 
-    docker push ghcr.io/ctumrs/buildfarm:$DOCKER_IMAGE
+    docker push ghcr.io/ctu-mrs/buildfarm:$DOCKER_IMAGE
 
   else
 
