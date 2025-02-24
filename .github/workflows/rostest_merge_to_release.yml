@@ -62,7 +62,7 @@ jobs:
           JOB_STRATEGY_MATRIX=$(./scripts/get_test_matrix.sh mrs)
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
-  test-job:
+  test_job:
     needs: generate-jobs
     runs-on: ubuntu-22.04
     timeout-minutes: 360 # 6 hour timeout
@@ -103,7 +103,7 @@ jobs:
 
   merge_and_push:
     runs-on: ubuntu-22.04
-    needs: test-job
+    needs: test_job
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
     steps:
@@ -117,7 +117,7 @@ jobs:
 
   publish_coverage:
       runs-on: ubuntu-22.04
-      needs: test-job
+      needs: test_job
       steps:
         - name: Load artifacts
           uses: actions/download-artifact@v4
@@ -142,7 +142,7 @@ jobs:
             force_orphan: true
 
   delete_builder:
-    needs: test-job
+    needs: test_job
     if: always()
     runs-on: ubuntu-latest
     steps:

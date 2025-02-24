@@ -135,7 +135,7 @@ jobs:
         run: .ci_scripts/package_build/push_to_ppa.sh testing /tmp/artifacts
 
   delete_builder:
-    needs: test-job
+    needs: collect-artifacts
     if: always()
     runs-on: ubuntu-latest
     steps:
