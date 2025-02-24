@@ -135,8 +135,6 @@ if [ $DEBS_EXIST -gt 0 ]; then
 
   echo "$0: updating the builder docker image"
 
-  rm $ARTIFACTS_FOLDER/builder.tar.gz
-
   cd $MY_PATH
 
   PASS_TO_DOCKER_BUILD="Dockerfile /tmp/debs"
