@@ -16,19 +16,15 @@ REPO_PATH=$MY_PATH/../..
 # INPUTS
 LIST=$1
 VARIANT=$2
-REPOSITORY=$3
-BASE_IMAGE=$4
-DOCKER_IMAGE=$5
-ARTIFACTS_FOLDER=$6
+DOCKER_IMAGE=$3
+ARTIFACTS_FOLDER=$4
 
 [ -z $RUN_LOCALLY ] && RUN_LOCALLY=false
 
 # default for testing
 
-[ -z $LIST ] && LIST=nonbloom
+[ -z $LIST ] && LIST=mrs
 [ -z $VARIANT ] && VARIANT=unstable
-[ -z $REPOSITORY ] && REPOSITORY=mrs_uav_shell_additions
-[ -z $BASE_IMAGE ] && BASE_IMAGE=ctumrs/ros_noetic:2025-02-05
 [ -z $DOCKER_IMAGE ] && DOCKER_IMAGE=noetic_builder
 [ -z $ARTIFACTS_FOLDER ] && ARTIFACTS_FOLDER=/tmp/artifacts
 
@@ -42,26 +38,46 @@ YAML_FILE=$REPO_PATH/${LIST}.yaml
 # needed for building open_vins
 export ROS_VERSION=1
 
-REPOS=$($REPO_PATH/scripts/helpers/get_repo_source.py $YAML_FILE $VARIANT $ARCH $REPOSITORY)
+FULL_COVERAGE_REPOS=$($REPO_PATH/scripts/helpers/parse_yaml.py $YAML_FILE $ARCH)
 
-# clone and checkout
-echo "$REPOS" | while IFS= read -r REPO; do
+[ -e /tmp/workspace ] && sudo rm -rf /tmp/workspace
+mkdir -p /tmp/workspace/src
 
-  cd /tmp
+echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
 
-  sudo rm -rf repository
+  cd /tmp/workspace/src
 
-  REPO_NAME=$(echo "$REPO" | awk '{print $1}')
+  PACKAGE=$(echo "$REPO" | awk '{print $1}')
   URL=$(echo "$REPO" | awk '{print $2}')
-  BRANCH=$(echo "$REPO" | awk '{print $3}')
-  GITMAN=$(echo "$REPO" | awk '{print $4}')
+  TEST=$(echo "$REPO" | awk '{print $6}')
+  FULL_COVERAGE=$(echo "$REPO" | awk '{print $7}')
+  GITMAN=$(echo "$REPO" | awk '{print $8}')
 
-  echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$REPO'"
-  [ -e repository ] && rm -rf repository || git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH repository
+  if [[ "$VARIANT" == "stable" ]]; then
+    BRANCH=$(echo "$REPO" | awk '{print $3}')
+  elif [[ "$VARIANT" == "testing" ]]; then
+    BRANCH=$(echo "$REPO" | awk '{print $4}')
+  elif [[ "$VARIANT" == "unstable" ]]; then
+    BRANCH=$(echo "$REPO" | awk '{print $5}')
+  fi
+
+  if [[ "$TEST" != "True" ]]; then
+    continue
+  fi
+
+  if [[ "$FULL_COVERAGE" != "True" ]]; then
+    continue
+  fi
+
+  if [[ "$PACKAGE" == "$REPOSITORY_NAME" ]]; then
+    continue
+  fi
+
+  echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
+  git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
 
   if [[ "$GITMAN" == "True" ]]; then
-    cd repository
-    pipx install gitman
+    cd $PACKAGE
     [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
   fi
 
@@ -69,7 +85,9 @@ done
 
 echo "$0: repository cloned to /tmp/repository"
 
-## | --------------------- prepare docker --------------------- |
+## --------------------------------------------------------------
+## |                        docker build                        |
+## --------------------------------------------------------------
 
 $REPO_PATH/scripts/helpers/wait_for_docker.sh
 
@@ -81,12 +99,9 @@ if ! $RUN_LOCALLY; then
 
 fi
 
-TRANSPORT_IMAGE=alpine:latest
-
 docker buildx use default
 
 echo "$0: loading cached builder docker image"
-
 
 if ! $RUN_LOCALLY; then
 
@@ -97,32 +112,24 @@ fi
 
 echo "$0: image loaded"
 
-mkdir -p /tmp/debs
 mkdir -p /tmp/other_files
 
 cp $MY_PATH/entrypoint.sh /tmp/other_files/entrypoint.sh
 
-## | ---------------------- run the build --------------------- |
+## | ---------------------- run the test ---------------------- |
 
 docker run \
   --rm \
-  -v /tmp/repository:/etc/docker/repository \
-  -v /tmp/debs:/etc/docker/debs \
+  -v /tmp/workspace:/etc/docker/workspace \
   -v /tmp/other_files:/etc/docker/other_files \
   $DOCKER_IMAGE \
-  /bin/bash -c "/etc/docker/other_files/entrypoint.sh $VARIANT /etc/docker/debs $BASE_IMAGE"
+  /bin/bash -c "/etc/docker/other_files/entrypoint.sh"
 
-# if there are any artifacts, update the builder image
+# tar the workspace
 
-DEBS_EXIST=$(ls /tmp/debs | grep ".deb" | wc -l)
-
-if [ $DEBS_EXIST -gt 0 ]; then
-
-  echo "$0: copying artifacts"
-
-  cp -r /tmp/debs/* $ARTIFACTS_FOLDER/
-
-fi
+cd /tmp
+tar -cvzf workspace.tar.gz workspace
+mv workspace.tar.gz $ARTIFACTS_FOLDER/
 
 echo "$0: "
 echo "$0: artifacts are:"

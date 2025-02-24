@@ -22,7 +22,7 @@ OUTPUT_IMAGE=$2
 PPA_VARIANT=$3
 ARTIFACT_FOLDER=$4
 
-RUN_LOCALLY=true
+[ -z $RUN_LOCALLY ] && RUN_LOCALLY=false
 
 $REPO_PATH/scripts/helpers/wait_for_docker.sh
 
@@ -30,7 +30,7 @@ docker pull $BASE_IMAGE
 
 docker buildx use default
 
-if $RUN_LOCALLY; then
+if ! $RUN_LOCALLY; then
 
   echo "$0: logging in to docker registry"
 
@@ -40,7 +40,7 @@ fi
 
 docker build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg PPA_VARIANT=${PPA_VARIANT} --tag ${OUTPUT_IMAGE} --progress plain
 
-if $RUN_LOCALLY; then
+if ! $RUN_LOCALLY; then
 
   docker tag $OUTPUT_IMAGE ghcr.io/ctu-mrs/buildfarm:$OUTPUT_IMAGE
   docker push ghcr.io/ctu-mrs/buildfarm:$OUTPUT_IMAGE

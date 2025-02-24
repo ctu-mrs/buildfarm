@@ -1,4 +1,4 @@
-name: unstable_mrs_amd64
+name: release_candidate_merge
 
 on:
   workflow_dispatch:
@@ -30,7 +30,7 @@ jobs:
           mkdir -p /tmp/artifacts
       - id: prime_image
         run: |
-          ./scripts/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} unstable
+          ./scripts/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} testing
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -57,7 +57,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./scripts/get_build_matrix.sh mrs unstable amd64)
+          JOB_STRATEGY_MATRIX=$(./scripts/get_build_matrix.sh mrs testing amd64)
           cat /tmp/log.txt
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
@@ -91,7 +91,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          ./scripts/ros_build/build.sh mrs unstable "${{ matrix.job }}" ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} /tmp/artifacts
+          ./scripts/ros_build/build.sh mrs testing "${{ matrix.job }}" ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} /tmp/artifacts
           ls /tmp/artifacts
       - name: Delete old artifacts
         uses: geekyeggo/delete-artifact@v5
@@ -132,7 +132,39 @@ jobs:
           path: .ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
       - name: Deploy
-        run: .ci_scripts/package_build/push_to_ppa.sh unstable /tmp/artifacts
+        run: .ci_scripts/package_build/push_to_ppa.sh testing /tmp/artifacts
+
+  wait-for-ppa:
+    runs-on: ubuntu-22.04
+    needs: collect-artifacts
+    steps:
+      - id: run
+        run: |
+          sleep 300
+
+  build-for-coverage:
+    needs: wait-for-ppa
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Load artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: artifacts
+          merge-multiple: true
+          path: /tmp/artifacts/
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - id: test
+        run: |
+          ./scripts/build_for_testing/build.sh mrs testing noetic_builder_${{ github.RUN_ID }} /tmp/artifacts testing
+      - name: Save artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts
+          path: /tmp/artifacts/
+          overwrite: true
 
   delete_builder:
     needs: collect-artifacts
