@@ -136,7 +136,7 @@ jobs:
         - id: test
           run: |
             ls -la /tmp/artifacts
-            ./.ci/publish_coverage.sh /tmp/artifacts
+            ./scripts/publish_coverage.sh /tmp/artifacts
         - name: Deploy
           uses: peaceiris/actions-gh-pages@v3
           with:

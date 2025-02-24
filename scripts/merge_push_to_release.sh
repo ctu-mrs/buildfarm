@@ -5,16 +5,23 @@ set -e
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$0: \"${last_command}\" command failed with exit code $?' ERR
 
-ARCH=amd64
+# get the path to this script
+MY_PATH=`dirname "$0"`
+MY_PATH=`( cd "$MY_PATH" && pwd )`
+
+REPO_PATH=$MY_PATH/..
+
+ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
+
 LOCATION=/tmp/git
 
-REPOS=$(./.ci/parse_yaml.py mrs.yaml $ARCH)
+REPOS=$($REPO_PATH/scripts/helpers/parse_yaml.py mrs.yaml $ARCH)
 
 REPOS="$REPOS
-$(./.ci/parse_yaml.py thirdparty.yaml $ARCH)"
+$($REPO_PATH/scripts/helpers/parse_yaml.py thirdparty.yaml $ARCH)"
 
 REPOS="$REPOS
-$(./.ci/parse_yaml.py nonbloom.yaml $ARCH)"
+$($REPO_PATH/scripts/helpers/parse_yaml.py nonbloom.yaml $ARCH)"
 
 [ -e $LOCATION ] && rm -rf $LOCATION || echo "$0: nothing to delete"
 mkdir -p $LOCATION
