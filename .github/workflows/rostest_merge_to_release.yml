@@ -53,7 +53,7 @@ jobs:
           overwrite: true
 
   generate-jobs:
-    needs: build-for-coveraage
+    needs: build-for-coverage
     runs-on: ubuntu-22.04
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
