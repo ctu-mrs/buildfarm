@@ -136,3 +136,6 @@ docker run \
   -v /tmp/coverage:/etc/docker/coverage \
   $DOCKER_IMAGE \
   /bin/bash -c "/etc/docker/workspace/entrypoint.sh $REPOSITORY_NAME"
+
+# move the generated coverage data
+cp -r /tmp/coverage/* /tmp/artifacts
