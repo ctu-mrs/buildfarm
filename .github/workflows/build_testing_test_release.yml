@@ -1,4 +1,4 @@
-name: release_candidate_merge
+name: build_testing_test_release
 
 on:
   workflow_dispatch:
@@ -6,9 +6,9 @@ on:
   # schedule:
   #   - cron:  '0 19 * * *'
 
-  # push:
-  #   branches:
-  #     - containerized_stable
+  push:
+    branches:
+      - containerized_stable
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -142,44 +142,8 @@ jobs:
         run: |
           sleep 300
 
-  build-for-coverage:
+  test_and_release:
     needs: wait-for-ppa
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Load artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: artifacts
-          merge-multiple: true
-          path: /tmp/artifacts/
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          submodules: 'recursive'
-      - id: test
-        run: |
-          ./scripts/build_for_testing/build.sh mrs testing noetic_builder_${{ github.RUN_ID }} /tmp/artifacts testing
-      - name: Save artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifacts
-          path: /tmp/artifacts/
-          overwrite: true
-
-  delete_builder:
-    needs: collect-artifacts
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - name: Delete current image
-        uses: dataaxiom/ghcr-cleanup-action@v1
-        with:
-          packages: '${{ github.event.repository.name }}'
-          delete-tags: 'noetic_builder_${{ github.RUN_ID }}'
-          token: ${{ secrets.PUSH_TOKEN }}
-      - name: Delete old images
-        uses: dataaxiom/ghcr-cleanup-action@v1
-        with:
-          packages: '${{ github.event.repository.name }}'
-          older-than: 7 days
-          token: ${{ secrets.PUSH_TOKEN }}
+    uses: ctu-mrs/buildfarm/.github/workflows/rostest_merge_to_release.yml@containerized_stable
+    secrets:
+      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}

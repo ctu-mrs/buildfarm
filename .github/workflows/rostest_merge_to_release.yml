@@ -8,10 +8,6 @@ on:
 
   workflow_dispatch:
 
-  push:
-    branches:
-      - containerized_stable
-
 jobs:
 
   init-artifacts:
