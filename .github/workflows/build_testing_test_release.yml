@@ -134,9 +134,21 @@ jobs:
       - name: Deploy
         run: .ci_scripts/package_build/push_to_ppa.sh testing /tmp/artifacts
 
+  delete_builder:
+    needs: test-job
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete current image
+        uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          packages: '${{ github.event.repository.name }}'
+          delete-tags: 'noetic_builder_${{ github.RUN_ID }}'
+          token: ${{ secrets.PUSH_TOKEN }}
+
   wait-for-ppa:
     runs-on: ubuntu-22.04
-    needs: collect-artifacts
+    needs: delete_builder
     steps:
       - id: run
         run: |
