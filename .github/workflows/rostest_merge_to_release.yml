@@ -30,6 +30,8 @@ jobs:
 
   build-for-coverage:
     needs: init-artifacts
+    env:
+      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
     runs-on: ubuntu-22.04
     steps:
       - name: Load artifacts
