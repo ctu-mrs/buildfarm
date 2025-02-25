@@ -99,7 +99,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          ./ci_scripts/ros_test/run_test.sh mrs unstable "${{ matrix.job }}" noetic_builder_${{ github.RUN_ID }} /tmp/artifacts
+          ./scripts/ros_test/run_test.sh mrs unstable "${{ matrix.job }}" noetic_builder_${{ github.RUN_ID }} /tmp/artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:

@@ -137,7 +137,7 @@ jobs:
           path: ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
       - name: Deploy
-        run: ci_scripts/package_build/push_to_ppa.sh unstable /tmp/artifacts
+        run: ./scripts/package_build/push_to_ppa.sh unstable /tmp/artifacts
 
   delete_builder:
     needs: collect-artifacts
