@@ -20,9 +20,15 @@ jobs:
         with:
           fetch-depth: 0
           submodules: 'recursive'
+      - name: Checkout CI scripts
+        uses: actions/checkout@v3
+        with:
+          repository: ctu-mrs/ci_scripts
+          ref: master
+          path: ci_scripts
       - id: prime_image
         run: |
-          ./scripts/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} testing
+          ./ci_scripts/docker/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} testing
 
   build-for-coverage:
     needs: init-artifacts
@@ -89,11 +95,11 @@ jobs:
         with:
           repository: ctu-mrs/ci_scripts
           ref: master
-          path: .ci_scripts
+          path: ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          ./scripts/ros_tests/run_tests.sh mrs unstable "${{ matrix.job }}" noetic_builder_${{ github.RUN_ID }} /tmp/artifacts
+          ./ci_scripts/ros_test/run_test.sh mrs unstable "${{ matrix.job }}" noetic_builder_${{ github.RUN_ID }} /tmp/artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:

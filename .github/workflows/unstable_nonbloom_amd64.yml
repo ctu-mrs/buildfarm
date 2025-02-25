@@ -6,9 +6,9 @@ on:
   # schedule:
   #   - cron:  '0 19 * * *'
 
-  # push:
-  #   branches:
-  #     - containerized_stable
+  push:
+    branches:
+      - containerized_stable
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -25,12 +25,18 @@ jobs:
         with:
           fetch-depth: 0
           submodules: 'recursive'
+      - name: Checkout CI scripts
+        uses: actions/checkout@v3
+        with:
+          repository: ctu-mrs/ci_scripts
+          ref: master
+          path: ci_scripts
       - id: init_artifacts
         run: |
           mkdir -p /tmp/artifacts
       - id: prime_image
         run: |
-          ./scripts/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} unstable /tmp/artifacts
+          ./ci_scripts/docker/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} unstable /tmp/artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -53,7 +59,7 @@ jobs:
         with:
           repository: ctu-mrs/ci_scripts
           ref: master
-          path: .ci_scripts
+          path: ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
       - id: generate
         run: |
@@ -86,7 +92,7 @@ jobs:
         with:
           repository: ctu-mrs/ci_scripts
           ref: master
-          path: .ci_scripts
+          path: ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
@@ -128,10 +134,10 @@ jobs:
         with:
           repository: ctu-mrs/ci_scripts
           ref: master
-          path: .ci_scripts
+          path: ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
       - name: Deploy
-        run: .ci_scripts/package_build/push_to_ppa.sh unstable /tmp/artifacts
+        run: ci_scripts/package_build/push_to_ppa.sh unstable /tmp/artifacts
 
   delete_builder:
     needs: collect-artifacts
