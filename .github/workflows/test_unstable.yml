@@ -30,7 +30,7 @@ jobs:
           path: ci_scripts
       - id: prime_image
         run: |
-          ./scripts/docker/prime_image_testing/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} unstable /tmp/artifacts
+          ./ci_scripts/docker/prime_image_testing/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} unstable /tmp/artifacts
 
   generate-jobs:
     needs: prime-image

@@ -75,7 +75,7 @@ echo "$0: repository cloned to /tmp/repository"
 ## |                        docker build                        |
 ## --------------------------------------------------------------
 
-$REPO_PATH/scripts/helpers/wait_for_docker.sh
+$REPO_PATH/ci_scripts/helpers/wait_for_docker.sh
 
 if ! $RUN_LOCALLY; then
 

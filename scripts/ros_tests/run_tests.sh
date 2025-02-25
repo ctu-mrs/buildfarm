@@ -46,7 +46,7 @@ WORKSPACE_FOLDER=/tmp/workspace
 ## |                  prepare the tester image                  |
 ## --------------------------------------------------------------
 
-$REPO_PATH/scripts/helpers/wait_for_docker.sh
+$REPO_PATH/ci_scripts/helpers/wait_for_docker.sh
 
 if ! $RUN_LOCALLY; then
 

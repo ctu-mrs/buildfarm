@@ -18,5 +18,11 @@ jobs:
         with:
           packages: '^.*$'
           expand-packages: true
+          delete-ghost-images: true
+          delete-partial-images: true
+          delete-orphaned-images: true
+          keep-n-tagged: 0
+          keep-n-untagged: 0
+          delete-untagged: true
           use-regex: true
           token: ${{ secrets.PUSH_TOKEN }}
