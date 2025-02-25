@@ -21,606 +21,606 @@ mrs_lib:
     enabled: true
     full_test_coverage: true
 
-mrs_modules_msgs:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_modules_msgs
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_modules_msgs:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_modules_msgs
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_uav_testing:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_testing
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: true
-    full_test_coverage: true
+# mrs_uav_testing:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_testing
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: true
+#     full_test_coverage: true
 
-mrs_uav_gazebo_testing:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_gazebo_testing
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
-    full_test_coverage: false
+# mrs_uav_gazebo_testing:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_gazebo_testing
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
+#     full_test_coverage: false
 
-mrs_uav_managers:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_managers
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: true
-    full_test_coverage: true
+# mrs_uav_managers:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_managers
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: true
+#     full_test_coverage: true
 
-mrs_bumper:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_bumper
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_bumper:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_bumper
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_multirotor_simulator:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_multirotor_simulator
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
-    full_test_coverage: true
+# mrs_multirotor_simulator:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_multirotor_simulator
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
+#     full_test_coverage: true
 
-mrs_uav_controllers:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_controllers
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: true
-    full_test_coverage: true
+# mrs_uav_controllers:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_controllers
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: true
+#     full_test_coverage: true
 
-mrs_uav_autostart:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_autostart
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: true
-    full_test_coverage: true
+# mrs_uav_autostart:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_autostart
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: true
+#     full_test_coverage: true
 
-mrs_uav_hw_api:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_hw_api
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
-    full_test_coverage: true
+# mrs_uav_hw_api:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_hw_api
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
+#     full_test_coverage: true
 
-mrs_uav_state_estimators:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_state_estimators
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: true
-    full_test_coverage: true
+# mrs_uav_state_estimators:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_state_estimators
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: true
+#     full_test_coverage: true
 
-mrs_uav_deployment:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_deployment
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_uav_deployment:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_deployment
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_uav_status:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_status
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_uav_status:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_status
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_uav_trackers:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_trackers
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: true
-    full_test_coverage: true
+# mrs_uav_trackers:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_trackers
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: true
+#     full_test_coverage: true
 
-mrs_uav_px4_api:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_px4_api
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_uav_px4_api:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_px4_api
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_uav_dji_tello_api:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_dji_tello_api
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_uav_dji_tello_api:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_dji_tello_api
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_rviz_plugins:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_rviz_plugins
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_rviz_plugins:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_rviz_plugins
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_uav_trajectory_generation:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_trajectory_generation
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: true
-    full_test_coverage: true
+# mrs_uav_trajectory_generation:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_trajectory_generation
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: true
+#     full_test_coverage: true
 
-mrs_serial:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_serial
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_serial:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_serial
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_uav_path_loader:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_path_loader
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_uav_path_loader:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_path_loader
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_uav_trajectory_loader:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_trajectory_loader
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_uav_trajectory_loader:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_trajectory_loader
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_utils:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_utils
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_utils:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_utils
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_gazebo_common_resources:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_gazebo_common_resources
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_gazebo_common_resources:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_gazebo_common_resources
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_pcl_tools:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_pcl_tools
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_pcl_tools:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_pcl_tools
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_subt_planning_lib:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_subt_planning_lib
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_subt_planning_lib:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_subt_planning_lib
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_octomap_tools:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_octomap_tools
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_octomap_tools:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_octomap_tools
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_octomap_server:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_octomap_server
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_octomap_server:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_octomap_server
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_octomap_planner:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_octomap_planner
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_octomap_planner:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_octomap_planner
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_octomap_mapping_planning:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_octomap_mapping_planning
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_octomap_mapping_planning:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_octomap_mapping_planning
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_uav_coppelia_simulation:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_coppelia_simulation
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_uav_coppelia_simulation:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_coppelia_simulation
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_uav_gazebo_simulation:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_gazebo_simulation
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: true
+# mrs_uav_gazebo_simulation:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_gazebo_simulation
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: true
 
-aloam:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/aloam
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# aloam:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/aloam
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_uav_modules:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_modules
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_uav_modules:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_modules
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_uav_core:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_core
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_uav_core:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_core
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_uav_system:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_system
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_uav_system:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_system
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_hector_estimator_plugin:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_hector_estimator_plugin
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_hector_estimator_plugin:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_hector_estimator_plugin
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_hector_core:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_hector_core
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_hector_core:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_hector_core
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_open_vins_estimator_plugin:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_open_vins_estimator_plugin
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_open_vins_estimator_plugin:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_open_vins_estimator_plugin
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_vins_republisher:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_vins_republisher
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_vins_republisher:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_vins_republisher
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_vins_imu_filter:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_vins_imu_filter
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_vins_imu_filter:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_vins_imu_filter
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_open_vins_core:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_open_vins_core
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_open_vins_core:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_open_vins_core
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_aloam_estimator_plugin:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_aloam_estimator_plugin
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_aloam_estimator_plugin:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_aloam_estimator_plugin
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_aloam_core:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_aloam_core
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_aloam_core:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_aloam_core
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-uvdar_core:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/uvdar_core
-  gitman: true
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# uvdar_core:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/uvdar_core
+#   gitman: true
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-uvdar_gazebo_plugin:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/uvdar_gazebo_plugin
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# uvdar_gazebo_plugin:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/uvdar_gazebo_plugin
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-liosam:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/liosam
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# liosam:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/liosam
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_liosam_estimator_plugin:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_liosam_estimator_plugin
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_liosam_estimator_plugin:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_liosam_estimator_plugin
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_liosam_core:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_liosam_core
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_liosam_core:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_liosam_core
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_uav_unreal_simulation:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_unreal_simulation
-  gitman: true
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_uav_unreal_simulation:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_unreal_simulation
+#   gitman: true
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_mins_estimator_plugin:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_mins_estimator_plugin
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_mins_estimator_plugin:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_mins_estimator_plugin
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_mins_core:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_mins_core
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_mins_core:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_mins_core
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_precise_landing:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_precise_landing
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_precise_landing:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_precise_landing
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_icm_imu_driver:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_icm_imu_driver
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_icm_imu_driver:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_icm_imu_driver
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_robofly_core:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_robofly_core
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_robofly_core:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_robofly_core
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
 
-mrs_vins_kickoff_estimator_plugin:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_vins_kickoff_estimator_plugin
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: false
+# mrs_vins_kickoff_estimator_plugin:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_vins_kickoff_estimator_plugin
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: false
