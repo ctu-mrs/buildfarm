@@ -58,7 +58,7 @@ echo "$0: tests finished"
 
 ## | ---------------------- save coverage --------------------- |
 
-if [[ "$FAILED" -eq 0 ]]; then
+if [[ "$FAILED" -eq 0 ]] && [ -e /tmp/coverage.original ]; then
 
   echo "$0: storing coverage data"
 
