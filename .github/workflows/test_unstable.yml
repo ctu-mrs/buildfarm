@@ -72,7 +72,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          ./ci_scripts/ros_test/run_test.sh mrs unstable "${{ matrix.job }}" noetic_builder_${{ github.RUN_ID }} /tmp/artifacts
+          ./scripts/ros_test/run_test.sh mrs unstable "${{ matrix.job }}" noetic_builder_${{ github.RUN_ID }} /tmp/artifacts
 
   delete_builder:
     needs: test-job
