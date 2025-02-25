@@ -138,4 +138,6 @@ docker run \
   /bin/bash -c "/etc/docker/workspace/entrypoint.sh $REPOSITORY_NAME"
 
 # move the generated coverage data
-cp -r /tmp/coverage/* /tmp/artifacts
+if [ -z "$( ls -A '/tmp/artifacts' )" ]; then
+  cp -r /tmp/coverage/* /tmp/artifacts
+fi
