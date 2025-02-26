@@ -1,10 +1,10 @@
-name: unstable_mrs_amd64
+name: stable_nonbloom_arm64
 
 on:
   workflow_dispatch:
 
   schedule:
-    - cron:  '0 20 * * *'
+    - cron:  '0 12 * * *'
 
   push:
     branches:
@@ -15,16 +15,16 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  VARIANT: unstable
-  APP_LIST: mrs
+  VARIANT: stable
+  APP_LIST: nonbloom
   BASE_IMAGE: ctumrs/ros_noetic:latest
-  BUILDER_IMAGE: noetic_builder_amd_${{github.RUN_ID}}
+  BUILDER_IMAGE: noetic_builder_arm_${{github.RUN_ID}}
   ARTIFACTS_FOLDER: /tmp/artifacts
 
 jobs:
 
   init-artifacts:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04-arm
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
@@ -53,9 +53,9 @@ jobs:
 
   generate-jobs:
     needs: init-artifacts
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04-arm
     outputs:
-      packages: ${{steps.generate.outputs.packages}}
+      packages: ${{ steps.generate.outputs.packages }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -70,19 +70,18 @@ jobs:
           token: ${{secrets.PUSH_TOKEN}}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./scripts/get_build_matrix.sh ${{env.APP_LIST}} ${{env.VARIANT}})
+          JOB_STRATEGY_MATRIX=$(./scripts/get_nonbloom_build_matrix.sh ${{env.APP_LIST}})
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
   build-job:
     needs: generate-jobs
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04-arm
     timeout-minutes: 360 # 6 hour timeout
     strategy:
       matrix:
         job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
       max-parallel: 1 # Run jobs serially
     env:
-      TOKEN: ${{secrets.DOCKERHUB}}
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
       - name: Load artifacts
@@ -103,7 +102,7 @@ jobs:
           token: ${{secrets.PUSH_TOKEN}}
       - id: build
         run: |
-          ./scripts/ros_build/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
+          ./scripts/nonbloom_build/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
           ls /tmp/artifacts
       - name: Delete old artifacts
         uses: geekyeggo/delete-artifact@v5
@@ -118,7 +117,7 @@ jobs:
           overwrite: true
 
   collect-artifacts:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04-arm
     needs: build-job
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
@@ -149,7 +148,7 @@ jobs:
   delete_builder:
     needs: collect-artifacts
     if: always()
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04-arm
     steps:
       - name: Delete old images
         uses: dataaxiom/ghcr-cleanup-action@v1

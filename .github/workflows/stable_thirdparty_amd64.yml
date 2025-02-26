@@ -1,10 +1,10 @@
-name: unstable_mrs_amd64
+name: stable_thirdparty_amd64
 
 on:
   workflow_dispatch:
 
   schedule:
-    - cron:  '0 20 * * *'
+    - cron:  '0 15 * * *'
 
   push:
     branches:
@@ -15,8 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  VARIANT: unstable
-  APP_LIST: mrs
+  VARIANT: stable
+  APP_LIST: thirdparty
   BASE_IMAGE: ctumrs/ros_noetic:latest
   BUILDER_IMAGE: noetic_builder_amd_${{github.RUN_ID}}
   ARTIFACTS_FOLDER: /tmp/artifacts
@@ -55,7 +55,7 @@ jobs:
     needs: init-artifacts
     runs-on: ubuntu-22.04
     outputs:
-      packages: ${{steps.generate.outputs.packages}}
+      packages: ${{ steps.generate.outputs.packages }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -82,7 +82,6 @@ jobs:
         job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
       max-parallel: 1 # Run jobs serially
     env:
-      TOKEN: ${{secrets.DOCKERHUB}}
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
       - name: Load artifacts
@@ -149,7 +148,7 @@ jobs:
   delete_builder:
     needs: collect-artifacts
     if: always()
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Delete old images
         uses: dataaxiom/ghcr-cleanup-action@v1

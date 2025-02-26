@@ -1,4 +1,4 @@
-name: unstable_mrs_amd64
+name: stable_mrs_amd64
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  VARIANT: unstable
+  VARIANT: stable
   APP_LIST: mrs
   BASE_IMAGE: ctumrs/ros_noetic:latest
   BUILDER_IMAGE: noetic_builder_amd_${{github.RUN_ID}}

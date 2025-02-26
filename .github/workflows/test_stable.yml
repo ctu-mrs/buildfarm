@@ -1,0 +1,98 @@
+name: test_stable
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron:  '0 06 * * *'
+
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+
+env:
+  VARIANT: stable
+  APP_LIST: mrs
+  BASE_IMAGE: ctumrs/ros_noetic:latest
+  BUILDER_IMAGE: noetic_builder_amd_${{github.RUN_ID}}
+  ARTIFACTS_FOLDER: /tmp/artifacts
+
+jobs:
+
+  prime-image:
+    runs-on: ubuntu-22.04
+    env:
+      TOKEN: ${{secrets.DOCKERHUB}}
+      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - name: Checkout CI scripts
+        uses: actions/checkout@v3
+        with:
+          repository: ctu-mrs/ci_scripts
+          ref: master
+          path: ci_scripts
+      - id: prime_image
+        run: |
+          ./ci_scripts/docker/prime_image_testing/prime_image.sh ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}} buildfarm
+
+  generate-jobs:
+    needs: prime-image
+    runs-on: ubuntu-22.04
+    outputs:
+      packages: ${{ steps.generate.outputs.packages }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - id: generate
+        run: |
+          JOB_STRATEGY_MATRIX=$(./scripts/get_test_matrix.sh ${{env.APP_LIST}})
+          echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
+
+  test-job:
+    needs: generate-jobs
+    runs-on: ubuntu-22.04
+    timeout-minutes: 360 # 6 hour timeout
+    strategy:
+      fail-fast: false
+      matrix:
+        job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
+    env:
+      TOKEN: ${{secrets.DOCKERHUB}}
+      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - name: Checkout CI scripts
+        uses: actions/checkout@v3
+        with:
+          repository: ctu-mrs/ci_scripts
+          ref: master
+          path: ci_scripts
+          token: ${{secrets.PUSH_TOKEN}}
+      - id: build
+        run: |
+          ./scripts/ros_test/run_test.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
+
+  delete_builder:
+    needs: test-job
+    if: always()
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Delete old images
+        uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          packages: '${{github.event.repository.name}}'
+          older-than: 7 days
+          token: ${{secrets.PUSH_TOKEN}}

@@ -5,8 +5,8 @@ LOCATION=~/git/mrs
 
 LISTS=(
   'mrs'
-  # 'nonbloom'
-  # 'thirdparty'
+  'nonbloom'
+  'thirdparty'
 )
 
 for ((i=0; i < ${#LISTS[*]}; i++));
@@ -14,9 +14,9 @@ do
 
   LIST=${LISTS[$i]}
 
-  YAML_FILE=../$LIST.yaml
+  YAML_FILE=$LIST.yaml
 
-  REPOS=$(../.ci/parse_yaml.py $YAML_FILE $ARCH)
+  REPOS=$(./scripts/helpers/parse_yaml.py $YAML_FILE $ARCH)
 
   echo $REPOS
 
@@ -53,7 +53,7 @@ do
 
       cd $LOCATION/$LIST
       echo "$0: nothing to be merged, deleting the repo"
-      # rm -rf ./$PACKAGE
+      rm -rf ./$PACKAGE
 
     fi
 

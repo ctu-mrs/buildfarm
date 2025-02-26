@@ -8,10 +8,6 @@ on:
 
   workflow_dispatch:
 
-  push:
-    branches:
-      - master
-
 env:
   VARIANT: unstable
   APP_LIST: mrs

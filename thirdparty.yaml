@@ -7,103 +7,103 @@ nlopt_ros:
     testing: release_candidate
     stable: release
 
-# px4_sitl_gazebo:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/px4_sitl_gazebo
-#   gitman: false
-#   git_refs:
-#     unstable: firmware_1.13.2-deb
-#     testing: release_candidate
-#     stable: release
+px4_sitl_gazebo:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/px4_sitl_gazebo
+  gitman: false
+  git_refs:
+    unstable: firmware_1.13.2-deb
+    testing: release_candidate
+    stable: release
 
-# ouster-ros:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/ouster-ros
-#   gitman: false
-#   git_refs:
-#     unstable: mrs
-#     testing: release_candidate
-#     stable: release
+ouster-ros:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/ouster-ros
+  gitman: false
+  git_refs:
+    unstable: mrs
+    testing: release_candidate
+    stable: release
 
-# mavros:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/mavros
-#   gitman: false
-#   git_refs:
-#     unstable: 1.13.0-deb
-#     testing: release_candidate
-#     stable: release
+mavros:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mavros
+  gitman: false
+  git_refs:
+    unstable: 1.13.0-deb
+    testing: release_candidate
+    stable: release
 
-# mav_comm:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/mav_comm
-#   gitman: false
-#   git_refs:
-#     unstable: master
-#     testing: release_candidate
-#     stable: release
+mav_comm:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mav_comm
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
 
-# ros_comm:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/ros_comm
-#   gitman: false
-#   git_refs:
-#     unstable: rosbag-patch
-#     testing: release_candidate
-#     stable: release
+ros_comm:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/ros_comm
+  gitman: false
+  git_refs:
+    unstable: rosbag-patch
+    testing: release_candidate
+    stable: release
 
-# geometry2:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/geometry2
-#   gitman: false
-#   git_refs:
-#     unstable: warning-fix
-#     testing: release_candidate
-#     stable: release
+geometry2:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/geometry2
+  gitman: false
+  git_refs:
+    unstable: warning-fix
+    testing: release_candidate
+    stable: release
 
-# nimbro_network:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/nimbro_network
-#   gitman: false
-#   git_refs:
-#     unstable: develop-deb
-#     testing: release_candidate
-#     stable: release
+nimbro_network:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/nimbro_network
+  gitman: false
+  git_refs:
+    unstable: develop-deb
+    testing: release_candidate
+    stable: release
 
-# hector_slam:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/hector_slam
-#   gitman: false
-#   git_refs:
-#     unstable: master
-#     testing: release_candidate
-#     stable: release
+hector_slam:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/hector_slam
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
 
-# open_vins:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/open_vins
-#   gitman: false
-#   git_refs:
-#     unstable: master
-#     testing: release_candidate
-#     stable: release
+open_vins:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/open_vins
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
 
-# mins:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/mins
-#   gitman: false
-#   git_refs:
-#     unstable: master
-#     testing: release_candidate
-#     stable: release
+mins:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mins
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
 
-# libcamera_ros_driver:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/libcamera_ros_driver
-#   gitman: false
-#   git_refs:
-#     unstable: master
-#     testing: release_candidate
-#     stable: release
-#   ros_test:
-#     enabled: false
+libcamera_ros_driver:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/libcamera_ros_driver
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
+  ros_test:
+    enabled: false
