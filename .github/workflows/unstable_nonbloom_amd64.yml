@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron:  '0 20 * * *'
+    - cron:  '0 12 * * *'
 
   push:
     branches:
@@ -17,7 +17,7 @@ concurrency:
 env:
   VARIANT: unstable
   APP_LIST: nonbloom
-  BASE_IMAGE: ctumrs/ros_noetic:2025-02-05
+  BASE_IMAGE: ctumrs/ros_noetic:latest
   BUILDER_IMAGE: noetic_builder_amd_${{github.RUN_ID}}
   ARTIFACTS_FOLDER: /tmp/artifacts
 

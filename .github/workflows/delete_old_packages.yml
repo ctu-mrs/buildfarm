@@ -3,10 +3,6 @@ name: delete_old_packages
 on:
   workflow_dispatch:
 
-  # push:
-  #   branches:
-  #     - containerized_stable
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 
@@ -21,8 +17,8 @@ jobs:
           delete-ghost-images: true
           delete-partial-images: true
           delete-orphaned-images: true
-          keep-n-tagged: 0
-          keep-n-untagged: 0
+          keep-n-tagged: 1
+          keep-n-untagged: 1
           delete-untagged: true
           use-regex: true
           token: ${{ secrets.PUSH_TOKEN }}

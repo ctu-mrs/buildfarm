@@ -3,9 +3,12 @@ name: test_unstable
 on:
   workflow_dispatch:
 
-  # push:
-  #   branches:
-  #     - master
+  schedule:
+    - cron:  '0 06 * * *'
+
+  push:
+    branches:
+      - master
 
 concurrency:
   group: ${{github.workflow}}-${{github.ref}}
@@ -14,7 +17,7 @@ concurrency:
 env:
   VARIANT: unstable
   APP_LIST: mrs
-  BASE_IMAGE: ctumrs/ros_noetic:2025-02-05
+  BASE_IMAGE: ctumrs/ros_noetic:latest
   BUILDER_IMAGE: noetic_builder_amd_${{github.RUN_ID}}
   ARTIFACTS_FOLDER: /tmp/artifacts
 
@@ -34,11 +37,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ctu-mrs/ci_scripts
-          ref: containerized
+          ref: master
           path: ci_scripts
       - id: prime_image
         run: |
-          ./ci_scripts/docker/prime_image/prime_image.sh ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}} buildfarm
+          ./ci_scripts/docker/prime_image_testing/prime_image.sh ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}} buildfarm
 
   generate-jobs:
     needs: prime-image
@@ -64,8 +67,8 @@ jobs:
       matrix:
         job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
     env:
-      TOKEN: ${{ secrets.DOCKERHUB }}
-      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      TOKEN: ${{secrets.DOCKERHUB}}
+      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -75,27 +78,21 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ctu-mrs/ci_scripts
-          ref: containerized
+          ref: master
           path: ci_scripts
-          token: ${{ secrets.PUSH_TOKEN }}
+          token: ${{secrets.PUSH_TOKEN}}
       - id: build
         run: |
-          ./scripts/ros_test/run_test.sh ${{env.APP_LIST}} unstable "${{matrix.job}}" noetic_builder_${{github.RUN_ID}} /tmp/artifacts
+          ./scripts/ros_test/run_test.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
 
   delete_builder:
     needs: test-job
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - name: Delete current image
-        uses: dataaxiom/ghcr-cleanup-action@v1
-        with:
-          packages: '${{ github.event.repository.name }}'
-          delete-tags: 'noetic_builder_${{ github.RUN_ID }}'
-          token: ${{ secrets.PUSH_TOKEN }}
       - name: Delete old images
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
-          packages: '${{ github.event.repository.name }}'
+          packages: '${{github.event.repository.name}}'
           older-than: 7 days
-          token: ${{ secrets.PUSH_TOKEN }}
+          token: ${{secrets.PUSH_TOKEN}}

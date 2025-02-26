@@ -3,24 +3,31 @@ name: build_testing_test_release
 on:
   workflow_dispatch:
 
-  # schedule:
-  #   - cron:  '0 19 * * *'
+  schedule:
+    - cron:  '0 17 * * *'
 
   push:
     branches:
-      - containerized_stable
+      - master
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+env:
+  VARIANT: unstable
+  APP_LIST: mrs
+  BASE_IMAGE: ctumrs/ros_noetic:latest
+  BUILDER_IMAGE: noetic_builder_amd_${{github.RUN_ID}}
+  ARTIFACTS_FOLDER: /tmp/artifacts
 
 jobs:
 
   init-artifacts:
     runs-on: ubuntu-22.04
     env:
-      TOKEN: ${{ secrets.DOCKERHUB }}
-      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      TOKEN: ${{secrets.DOCKERHUB}}
+      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -30,19 +37,19 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ctu-mrs/ci_scripts
-          ref: containerized
+          ref: master
           path: ci_scripts
       - id: init_artifacts
         run: |
-          mkdir -p /tmp/artifacts
+          mkdir -p ${{env.ARTIFACTS_FOLDER}}
       - id: prime_image
         run: |
-          ./ci_scripts/docker/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} testing
+          ./ci_scripts/docker/prime_image/prime_image.sh ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}} buildfarm
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
-          path: /tmp/artifacts/
+          path: ${{env.ARTIFACTS_FOLDER}}
           overwrite: true
 
   generate-jobs:
@@ -59,13 +66,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ctu-mrs/ci_scripts
-          ref: containerized
+          ref: master
           path: ci_scripts
-          token: ${{ secrets.PUSH_TOKEN }}
+          token: ${{secrets.PUSH_TOKEN}}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./scripts/get_build_matrix.sh mrs testing amd64)
-          cat /tmp/log.txt
+          JOB_STRATEGY_MATRIX=$(./scripts/get_build_matrix.sh ${{env.APP_LIST}} ${{env.VARIANT}})
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
   build-job:
@@ -77,14 +83,14 @@ jobs:
         job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
       max-parallel: 1 # Run jobs serially
     env:
-      TOKEN: ${{ secrets.DOCKERHUB }}
-      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      TOKEN: ${{secrets.DOCKERHUB}}
+      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
       - name: Load artifacts
         uses: actions/download-artifact@v4
         with:
           name: artifacts
-          path: /tmp/artifacts/
+          path: ${{env.ARTIFACTS_FOLDER}}
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -93,13 +99,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ctu-mrs/ci_scripts
-          ref: containerized
+          ref: master
           path: ci_scripts
-          token: ${{ secrets.PUSH_TOKEN }}
+          token: ${{secrets.PUSH_TOKEN}}
       - id: build
         run: |
-          ./scripts/ros_build/build.sh mrs testing "${{ matrix.job }}" ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} /tmp/artifacts
-          ls /tmp/artifacts
+          ./scripts/ros_build/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
       - name: Delete old artifacts
         uses: geekyeggo/delete-artifact@v5
         with:
@@ -109,24 +114,24 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
-          path: /tmp/artifacts/
+          path: ${{env.ARTIFACTS_FOLDER}}
           overwrite: true
 
   collect-artifacts:
     runs-on: ubuntu-22.04
     needs: build-job
     env:
-      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
       - name: Load artifacts
         uses: actions/download-artifact@v4
         with:
           name: artifacts
-          path: /tmp/artifacts/
+          path: ${{env.ARTIFACTS_FOLDER}}
       - id: execute
         run: |
-          rm /tmp/artifacts/compiled.txt 2> /dev/null || true
-          rm /tmp/artifacts/base_sha.txt 2> /dev/null || true
+          rm ${{env.ARTIFACTS_FOLDER}}/compiled.txt 2> /dev/null || true
+          rm ${{env.ARTIFACTS_FOLDER}}/base_sha.txt 2> /dev/null || true
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -135,11 +140,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ctu-mrs/ci_scripts
-          ref: containerized
+          ref: master
           path: ci_scripts
-          token: ${{ secrets.PUSH_TOKEN }}
+          token: ${{secrets.PUSH_TOKEN}}
       - name: Deploy
-        run: ./ci_scripts/package_build/push_to_ppa.sh testing /tmp/artifacts
+        run: ./ci_scripts/package_build/push_to_ppa.sh ${{env.APP_LIST}} ${{env.ARTIFACTS_FOLDER}}
 
   delete_builder:
     needs: collect-artifacts
@@ -149,9 +154,9 @@ jobs:
       - name: Delete current image
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
-          packages: '${{ github.event.repository.name }}'
-          delete-tags: 'noetic_builder_${{ github.RUN_ID }}'
-          token: ${{ secrets.PUSH_TOKEN }}
+          packages: '${{github.event.repository.name}}'
+          delete-tags: '${{env.BUILDER_IMAGE}}'
+          token: ${{secrets.PUSH_TOKEN}}
 
   wait-for-ppa:
     runs-on: ubuntu-22.04
@@ -163,6 +168,6 @@ jobs:
 
   test_and_release:
     needs: wait-for-ppa
-    uses: ctu-mrs/buildfarm/.github/workflows/rostest_merge_to_release.yml@containerized_stable
+    uses: ctu-mrs/buildfarm/.github/workflows/rostest_merge_to_release.yml@master
     secrets:
-      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}

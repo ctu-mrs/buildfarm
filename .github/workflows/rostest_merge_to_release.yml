@@ -10,7 +10,14 @@ on:
 
   push:
     branches:
-      - containerized_stable
+      - master
+
+env:
+  VARIANT: unstable
+  APP_LIST: mrs
+  BASE_IMAGE: ctumrs/ros_noetic:latest
+  BUILDER_IMAGE: noetic_builder_amd_${{github.RUN_ID}}
+  ARTIFACTS_FOLDER: /tmp/artifacts
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -21,8 +28,7 @@ jobs:
   init-artifacts:
     runs-on: ubuntu-22.04
     env:
-      TOKEN: ${{ secrets.DOCKERHUB }}
-      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -32,21 +38,21 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ctu-mrs/ci_scripts
-          ref: containerized
+          ref: master
           path: ci_scripts
       - id: prime_image
         run: |
-          ./ci_scripts/docker/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} testing
+          ./ci_scripts/docker/prime_image_testing/prime_image.sh ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}} ${{github.event.repository.name}}
 
   build-for-coverage:
     needs: init-artifacts
     env:
-      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     runs-on: ubuntu-22.04
     steps:
       - id: init_artifacts
         run: |
-          mkdir -p /tmp/artifacts
+          mkdir -p ${{env.ARTIFACTS_FOLDER}}
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -55,16 +61,16 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ctu-mrs/ci_scripts
-          ref: containerized
+          ref: master
           path: ci_scripts
       - id: test
         run: |
-          ./scripts/build_for_testing/build.sh mrs testing noetic_builder_${{ github.RUN_ID }} /tmp/artifacts testing
+          ./scripts/build_for_testing/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
-          path: /tmp/artifacts/
+          path: ${{env.ARTIFACTS_FOLDER}}
           overwrite: true
 
   generate-jobs:
@@ -79,10 +85,10 @@ jobs:
           submodules: 'recursive'
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./scripts/get_test_matrix.sh mrs)
+          JOB_STRATEGY_MATRIX=$(./scripts/get_test_matrix.sh ${{env.APP_LIST}})
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
-  test_job:
+  test-job:
     needs: generate-jobs
     runs-on: ubuntu-22.04
     timeout-minutes: 360 # 6 hour timeout
@@ -103,27 +109,27 @@ jobs:
         with:
           pattern: artifacts
           merge-multiple: true
-          path: /tmp/artifacts/
+          path: ${{env.ARTIFACTS_FOLDER}}
       - name: Checkout CI scripts
         uses: actions/checkout@v3
         with:
           repository: ctu-mrs/ci_scripts
-          ref: containerized
+          ref: master
           path: ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          ./scripts/ros_test/run_test.sh mrs unstable "${{ matrix.job }}" noetic_builder_${{ github.RUN_ID }} /tmp/artifacts
+          ./scripts/ros_test/run_test.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
-          path: /tmp/artifacts/
+          path: ${{env.ARTIFACTS_FOLDER}}
           overwrite: true
 
-  merge_and_push:
+  merge-and-push:
     runs-on: ubuntu-22.04
-    needs: test_job
+    needs: test-job
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
     steps:
@@ -135,46 +141,41 @@ jobs:
         run: |
           ./scripts/merge_push_to_release.sh
 
-  publish_coverage:
+  publish-coverage:
       runs-on: ubuntu-22.04
-      needs: test_job
+      needs: test-job
       steps:
         - name: Load artifacts
           uses: actions/download-artifact@v4
           with:
             pattern: artifacts
             merge-multiple: true
-            path: /tmp/artifacts/
+            path: ${{env.ARTIFACTS_FOLDER}}
         - uses: actions/checkout@v3
           with:
             fetch-depth: 0
             submodules: 'recursive'
         - id: test
           run: |
-            ls -la /tmp/artifacts
-            ./scripts/publish_coverage.sh /tmp/artifacts
+            ls -la ${{env.ARTIFACTS_FOLDER}}
+            ./scripts/publish_coverage.sh ${{env.ARTIFACTS_FOLDER}}
         - name: Deploy
           uses: peaceiris/actions-gh-pages@v3
           with:
-            github_token: ${{ secrets.PUSH_TOKEN }}
+            github_token: ${{secrets.PUSH_TOKEN}}
             publish_dir: /tmp/coverage_html
             allow_empty_commit: true
             force_orphan: true
 
-  delete_builder:
-    needs: test_job
+  delete-builder:
+    needs: test-job
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - name: Delete current image
-        uses: dataaxiom/ghcr-cleanup-action@v1
-        with:
-          packages: '${{ github.event.repository.name }}'
-          delete-tags: 'noetic_builder_${{ github.RUN_ID }}'
-          token: ${{ secrets.PUSH_TOKEN }}
       - name: Delete old images
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
-          packages: '${{ github.event.repository.name }}'
+          packages: '${{github.event.repository.name}}'
           older-than: 7 days
-          token: ${{ secrets.PUSH_TOKEN }}
+          keep-n-tagged: 1
+          token: ${{secrets.PUSH_TOKEN}}
