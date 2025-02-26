@@ -3,21 +3,28 @@ name: test_unstable
 on:
   workflow_dispatch:
 
-  push:
-    branches:
-      - containerized_stable
+  # push:
+  #   branches:
+  #     - master
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{github.workflow}}-${{github.ref}}
   cancel-in-progress: true
+
+env:
+  VARIANT: unstable
+  APP_LIST: mrs
+  BASE_IMAGE: ctumrs/ros_noetic:2025-02-05
+  BUILDER_IMAGE: noetic_builder_amd_${{github.RUN_ID}}
+  ARTIFACTS_FOLDER: /tmp/artifacts
 
 jobs:
 
   prime-image:
     runs-on: ubuntu-22.04
     env:
-      TOKEN: ${{ secrets.DOCKERHUB }}
-      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      TOKEN: ${{secrets.DOCKERHUB}}
+      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -31,7 +38,7 @@ jobs:
           path: ci_scripts
       - id: prime_image
         run: |
-          ./ci_scripts/docker/prime_image_testing/prime_image.sh ctumrs/ros_noetic:2025-02-05 noetic_builder_${{ github.RUN_ID }} unstable /tmp/artifacts
+          ./ci_scripts/docker/prime_image/prime_image.sh ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}} buildfarm
 
   generate-jobs:
     needs: prime-image
@@ -45,7 +52,7 @@ jobs:
           submodules: 'recursive'
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./scripts/get_test_matrix.sh mrs)
+          JOB_STRATEGY_MATRIX=$(./scripts/get_test_matrix.sh ${{env.APP_LIST}})
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
   test-job:
@@ -73,7 +80,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          ./scripts/ros_test/run_test.sh mrs unstable "${{ matrix.job }}" noetic_builder_${{ github.RUN_ID }} /tmp/artifacts
+          ./scripts/ros_test/run_test.sh ${{env.APP_LIST}} unstable "${{matrix.job}}" noetic_builder_${{github.RUN_ID}} /tmp/artifacts
 
   delete_builder:
     needs: test-job
