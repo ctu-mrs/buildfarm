@@ -102,7 +102,7 @@ jobs:
           token: ${{secrets.PUSH_TOKEN}}
       - id: build
         run: |
-          ./scripts/nonbloom_build/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
+          ./scripts/ros_build/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
           ls /tmp/artifacts
       - name: Delete old artifacts
         uses: geekyeggo/delete-artifact@v5
