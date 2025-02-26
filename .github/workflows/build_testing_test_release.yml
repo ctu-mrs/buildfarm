@@ -144,7 +144,7 @@ jobs:
           path: ci_scripts
           token: ${{secrets.PUSH_TOKEN}}
       - name: Deploy
-        run: ./ci_scripts/package_build/push_to_ppa.sh ${{env.APP_LIST}} ${{env.ARTIFACTS_FOLDER}}
+        run: ./ci_scripts/package_build/push_to_ppa.sh ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}}
 
   delete_builder:
     needs: collect-artifacts
