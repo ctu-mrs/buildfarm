@@ -1,4 +1,4 @@
-name: unstable_nonbloom_amd64
+name: unstable_thirdparty_amd64
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ concurrency:
 
 env:
   VARIANT: unstable
-  APP_LIST: nonbloom
+  APP_LIST: thirdparty
   BASE_IMAGE: ctumrs/ros_noetic:2025-02-05
   BUILDER_IMAGE: noetic_builder_amd_${{github.RUN_ID}}
   ARTIFACTS_FOLDER: /tmp/artifacts
