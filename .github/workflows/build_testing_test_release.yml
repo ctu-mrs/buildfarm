@@ -6,9 +6,9 @@ on:
   schedule:
     - cron:  '0 17 * * *'
 
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
