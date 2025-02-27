@@ -10,5 +10,7 @@ BASE_IMAGE=$2
 
 cd /etc/docker/repository
 
+git config --global --add safe.directory /etc/docker/repository
+
 # call the build script within the clone repository
 ./.ci/build_package.sh ${ARTIFACTS_FOLDER} ${BASE_IMAGE}

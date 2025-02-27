@@ -27,7 +27,7 @@ ARTIFACTS_FOLDER=$6
 
 [ -z $LIST ] && LIST=nonbloom
 [ -z $VARIANT ] && VARIANT=unstable
-[ -z $REPOSITORY ] && REPOSITORY=mrs_uav_shell_additions
+[ -z $REPOSITORY ] && REPOSITORY=px4_firmware
 [ -z $BASE_IMAGE ] && BASE_IMAGE=ctumrs/ros_noetic:2025-02-05
 [ -z $DOCKER_IMAGE ] && DOCKER_IMAGE=noetic_builder
 [ -z $ARTIFACTS_FOLDER ] && ARTIFACTS_FOLDER=/tmp/artifacts
@@ -81,8 +81,6 @@ if ! $RUN_LOCALLY; then
 
 fi
 
-TRANSPORT_IMAGE=alpine:latest
-
 docker buildx use default
 
 echo "$0: loading cached builder docker image"
@@ -104,13 +102,15 @@ cp $MY_PATH/entrypoint.sh /tmp/other_files/entrypoint.sh
 
 ## | ---------------------- run the build --------------------- |
 
+BASE_IMAGE_SHA=$(cat $ARTIFACTS_FOLDER/base_sha.txt)
+
 docker run \
   --rm \
   -v /tmp/repository:/etc/docker/repository \
   -v /tmp/debs:/etc/docker/debs \
   -v /tmp/other_files:/etc/docker/other_files \
   $DOCKER_IMAGE \
-  /bin/bash -c "/etc/docker/other_files/entrypoint.sh /etc/docker/debs $BASE_IMAGE"
+  /bin/bash -c "/etc/docker/other_files/entrypoint.sh /etc/docker/debs $BASE_IMAGE_SHA"
 
 # if there are any artifacts, update the builder image
 
