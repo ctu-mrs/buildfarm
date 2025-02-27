@@ -92,6 +92,7 @@ def find_packages(root_dir):
                 dependencies = dependencies + [dep.text.strip() for dep in root.findall("build_depend") if dep.text]
                 dependencies = dependencies + [dep.text.strip() for dep in root.findall("exec_depend") if dep.text]
                 dependencies = dependencies + [dep.text.strip() for dep in root.findall("test_depend") if dep.text]
+                dependencies = dependencies + [dep.text.strip() for dep in root.findall("run_depend") if dep.text]
 
                 for dependency in dependencies:
 
