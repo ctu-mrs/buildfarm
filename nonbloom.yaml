@@ -1,29 +1,29 @@
-# mrs_uav_shell_additions:
-#   architecture: [amd64] # this package is for all architectures
-#   source: https://github.com/ctu-mrs/mrs_uav_shell_additions
-#   gitman: false
-#   git_refs:
-#     unstable: master
-#     testing: release_candidate
-#     stable: release
+mrs_uav_shell_additions:
+  architecture: [amd64] # this package is for all architectures
+  source: https://github.com/ctu-mrs/mrs_uav_shell_additions
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
 
-# mrs_uav_usb_configurator:
-#   architecture: [amd64] # this package is for all architectures
-#   source: https://github.com/ctu-mrs/mrs_uav_usb_configurator
-#   gitman: false
-#   git_refs:
-#     unstable: master
-#     testing: release_candidate
-#     stable: release
+mrs_uav_usb_configurator:
+  architecture: [amd64] # this package is for all architectures
+  source: https://github.com/ctu-mrs/mrs_uav_usb_configurator
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
 
-# mrs_geographiclib_datasets:
-#   architecture: [amd64] # this package is for all architectures
-#   source: https://github.com/ctu-mrs/mrs-geographiclib-datasets
-#   gitman: false
-#   git_refs:
-#     unstable: master
-#     testing: release_candidate
-#     stable: release
+mrs_geographiclib_datasets:
+  architecture: [amd64] # this package is for all architectures
+  source: https://github.com/ctu-mrs/mrs-geographiclib-datasets
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
 
 px4_firmware:
   architecture: [amd64, arm64]
@@ -34,20 +34,20 @@ px4_firmware:
     testing: release_candidate
     stable: mrs_release
 
-# libcamera_ros:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/libcamera_ros
-#   gitman: false
-#   git_refs:
-#     unstable: master
-#     testing: release_candidate
-#     stable: release
+libcamera_ros:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/libcamera_ros
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
 
-# mrs_uav_bluetooth:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/mrs_uav_bluetooth
-#   gitman: false
-#   git_refs:
-#     unstable: master
-#     testing: release_candidate
-#     stable: release
+mrs_uav_bluetooth:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_bluetooth
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
