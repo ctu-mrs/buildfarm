@@ -18,7 +18,5 @@ jobs:
           delete-partial-images: true
           delete-orphaned-images: true
           keep-n-tagged: 1
-          keep-n-untagged: 1
-          delete-untagged: true
           use-regex: true
           token: ${{ secrets.PUSH_TOKEN }}
