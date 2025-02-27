@@ -110,7 +110,7 @@ docker run \
   -v /tmp/debs:/etc/docker/debs \
   -v /tmp/other_files:/etc/docker/other_files \
   $DOCKER_IMAGE \
-  /bin/bash -c "/etc/docker/other_files/entrypoint.sh $VARIANT /etc/docker/debs $BASE_IMAGE"
+  /bin/bash -c "/etc/docker/other_files/entrypoint.sh /etc/docker/debs $BASE_IMAGE"
 
 # if there are any artifacts, update the builder image
 
