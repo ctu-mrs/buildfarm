@@ -20,6 +20,16 @@ def clean_xml(file_path):
 
 def find_packages(root_dir):
 
+    deb_ignore_file_path = os.path.join(root_dir, ".deb_ignore")
+
+    ignore_packages = []
+
+    if os.path.exists(deb_ignore_file_path):
+
+        with open(deb_ignore_file_path, 'r') as f:
+
+            ignore_packages = [line.strip("\n") for line in f]
+
     packages_set = set()
     packages_dependencies = {}
     pruned_depenencies = {}
@@ -42,6 +52,9 @@ def find_packages(root_dir):
             name_elem = root.find("name")
 
             package_name = name_elem.text.strip()
+
+            if package_name in ignore_packages:
+                continue
 
             if name_elem is None:
                 continue
