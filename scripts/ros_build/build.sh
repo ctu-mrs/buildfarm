@@ -117,6 +117,13 @@ cp $MY_PATH/entrypoint.sh /tmp/other_files/entrypoint.sh
 mv $ARTIFACTS_FOLDER/compiled.txt /tmp/other_files/compiled.txt
 mv $ARTIFACTS_FOLDER/$ROSDEP_FILE /tmp/other_files/rosdep.yaml
 
+$REPO_PATH/helpers/get_build_order.py /tmp/repository > /tmp/other_files/build_order.txt
+
+echo "$0:"
+echo "$0: builder order:"
+cat /tmp/other_files/build_order.txt
+echo "$0: "
+
 ## | ---------------------- run the test ---------------------- |
 
 docker run \

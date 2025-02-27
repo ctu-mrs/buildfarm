@@ -22,7 +22,7 @@ ln -s /etc/docker/repository
 
 git config --global --add safe.directory /etc/docker/repository
 
-BUILD_ORDER=$(catkin list -u)
+BUILD_ORDER=$(cat /etc/docker/other_files/build_order.txt)
 
 echo ""
 echo "$0: catkin reported following topological build order:"
