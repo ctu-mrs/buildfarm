@@ -17,7 +17,7 @@ env:
 
 jobs:
 
-  init-artifacts:
+  prime-image:
     runs-on: ubuntu-22.04
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
@@ -37,7 +37,7 @@ jobs:
           ./ci_scripts/docker/prime_image_testing/prime_image.sh ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}} ${{github.event.repository.name}}
 
   build-for-coverage:
-    needs: init-artifacts
+    needs: prime-image
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     runs-on: ubuntu-22.04
@@ -61,7 +61,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: artifacts
+          name: workspace
           path: ${{env.ARTIFACTS_FOLDER}}
           overwrite: true
 
@@ -99,7 +99,7 @@ jobs:
       - name: Load artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: artifacts
+          pattern: workspace
           merge-multiple: true
           path: ${{env.ARTIFACTS_FOLDER}}
       - name: Checkout CI scripts
@@ -115,7 +115,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: artifacts
+          name: artifacts_"${{matrix.job}}"
           path: ${{env.ARTIFACTS_FOLDER}}
           overwrite: true
 
@@ -140,7 +140,7 @@ jobs:
         - name: Load artifacts
           uses: actions/download-artifact@v4
           with:
-            pattern: artifacts
+            pattern: artifacts_*
             merge-multiple: true
             path: ${{env.ARTIFACTS_FOLDER}}
         - uses: actions/checkout@v3
