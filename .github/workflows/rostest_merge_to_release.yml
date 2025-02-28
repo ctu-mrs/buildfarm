@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  VARIANT: unstable
+  VARIANT: testing
   APP_LIST: mrs
   BASE_IMAGE: ctumrs/ros_noetic:latest
   BUILDER_IMAGE: noetic_builder_amd_${{github.RUN_ID}}

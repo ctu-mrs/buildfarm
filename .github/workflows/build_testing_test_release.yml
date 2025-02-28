@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  VARIANT: unstable
+  VARIANT: testing
   APP_LIST: mrs
   BASE_IMAGE: ctumrs/ros_noetic:latest
   BUILDER_IMAGE: noetic_builder_amd_${{github.RUN_ID}}
