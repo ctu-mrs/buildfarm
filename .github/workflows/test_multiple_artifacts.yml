@@ -1,0 +1,101 @@
+name: rostest_merge_to_release
+
+on:
+  workflow_call:
+    secrets:
+      PUSH_TOKEN:
+        required: true
+
+  workflow_dispatch:
+
+  push:
+    branches:
+      - master
+
+env:
+  VARIANT: unstable
+  APP_LIST: mrs
+  BASE_IMAGE: ctumrs/ros_noetic:latest
+  BUILDER_IMAGE: noetic_builder_amd_${{github.RUN_ID}}
+  ARTIFACTS_FOLDER: /tmp/artifacts
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  init-artifacts:
+    runs-on: ubuntu-22.04
+    env:
+      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - id: prime_image
+        run: |
+          touch ${{env.ARTIFACTS_FOLDER}}/init.txt
+      - name: Save artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts
+          path: ${{env.ARTIFACTS_FOLDER}}
+          overwrite: true
+
+  generate-jobs:
+    needs: init-artifacts
+    runs-on: ubuntu-22.04
+    outputs:
+      packages: ${{ steps.generate.outputs.packages }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - id: generate
+        run: |
+          echo "packages=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" >> "$GITHUB_OUTPUT"
+
+  test-job:
+    needs: generate-jobs
+    runs-on: ubuntu-22.04
+    timeout-minutes: 360 # 6 hour timeout
+    strategy:
+      fail-fast: false
+      matrix:
+        job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
+    env:
+      TOKEN: ${{ secrets.DOCKERHUB }}
+      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+    steps:
+      - name: Load artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: artifacts
+          merge-multiple: true
+          path: ${{env.ARTIFACTS_FOLDER}}
+      - id: build
+        run: |
+          touch ${{env.ARTIFACTS_FOLDER}}/${{matrix.job}}
+      - name: Save artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts
+          path: ${{env.ARTIFACTS_FOLDER}}
+          overwrite: true
+
+  merge-and-push:
+    runs-on: ubuntu-22.04
+    needs: test-job
+    env:
+      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - id: merge
+        run: |
+          ls -la ${{env.ARTIFACTS_FOLDER}}
