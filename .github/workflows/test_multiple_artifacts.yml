@@ -36,6 +36,7 @@ jobs:
           submodules: 'recursive'
       - id: prime_image
         run: |
+          mkdir -p ${{env.ARTIFACTS_FOLDER}}
           touch ${{env.ARTIFACTS_FOLDER}}/init.txt
       - name: Save artifacts
         uses: actions/upload-artifact@v4
