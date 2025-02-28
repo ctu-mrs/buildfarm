@@ -17,9 +17,15 @@ ARTIFACT_FOLDER=$1
 
 WORKSPACE=/tmp/workspace
 
+echo "$0: extracting workspace"
+
 # extract the workspace
 cd $ARTIFACT_FOLDER
-tar -xvzf workspace.tar.gz
+tar -xvzf workspace.tar.gz -C /tmp/
+
+echo "$0: workspace extracted"
+
+ls -la $WORKSPACE/src
 
 # install lcov
 sudo apt-get -y -q install lcov binutils
