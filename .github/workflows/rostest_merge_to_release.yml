@@ -115,7 +115,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: artifacts_"${{matrix.job}}"
+          name: artifacts_${{matrix.job}}
           path: ${{env.ARTIFACTS_FOLDER}}
           overwrite: true
 
