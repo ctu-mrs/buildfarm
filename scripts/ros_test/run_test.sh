@@ -73,15 +73,11 @@ echo "$0: image loaded"
 ## |                    prepare the workspace                   |
 ## --------------------------------------------------------------
 
-mkdir -p $WORKSPACE_FOLDER
-
-if [ -e $ARTIFACT_FOLDER/workspace.tar.gz ]; then
+if [ -e $ARTIFACTS_FOLDER/workspace.tar.gz ]; then
 
   echo "$0: workspace passed from the job before"
 
-  mv $ARTIFACT_FOLDER/workspace.tar.gz $WORKSPACE_FOLDER
-  cd $WORKSPACE_FOLDER
-  tar -xvzf workspace.tar.gz
+  tar -xvzf $ARTIFACTS_FOLDER/workspace.tar.gz -C /tmp/
 
 else
 
@@ -131,11 +127,11 @@ ulimit -c unlimited
 
 docker run \
   --rm \
-  -v $WORKSPACE_FOLDER:/etc/docker/workspace \
+  -v $WORKSPACE_FOLDER:/tmp/workspace \
   -v /tmp/coredumps:/etc/docker/coredumps \
   -v /tmp/coverage:/etc/docker/coverage \
   $DOCKER_IMAGE \
-  /bin/bash -c "/etc/docker/workspace/entrypoint.sh $REPOSITORY_NAME"
+  /bin/bash -c "/tmp/workspace/entrypoint.sh $REPOSITORY_NAME"
 
 # move the generated coverage data
 if [ ! -z "$( ls -A '/tmp/coverage' )" ]; then

@@ -11,7 +11,7 @@ ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 DEBS_FOLDER=/etc/docker/debs
 OTHER_FILES_FOLDER=/etc/docker/other_files
 
-WORKSPACE=/etc/docker/workspace
+WORKSPACE=/tmp/workspace
 cd $WORKSPACE
 source /opt/ros/noetic/setup.bash
 catkin init

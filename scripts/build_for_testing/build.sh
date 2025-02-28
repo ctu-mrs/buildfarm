@@ -120,7 +120,7 @@ cp $MY_PATH/entrypoint.sh /tmp/other_files/entrypoint.sh
 
 docker run \
   --rm \
-  -v /tmp/workspace:/etc/docker/workspace \
+  -v /tmp/workspace:/tmp/workspace \
   -v /tmp/other_files:/etc/docker/other_files \
   $DOCKER_IMAGE \
   /bin/bash -c "/etc/docker/other_files/entrypoint.sh"

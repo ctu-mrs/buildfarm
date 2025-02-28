@@ -7,7 +7,7 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 
 REPOSITORY_NAME=$1
 
-WORKSPACE=/etc/docker/workspace
+WORKSPACE=/tmp/workspace
 COVERAGE=/etc/docker/coverage
 COREDUMP=/etc/docker/coredump
 
@@ -25,11 +25,11 @@ if [ ! -e $WORKSPACE/devel ]; then
   catkin config --profile debug --cmake-args -DCMAKE_BUILD_TYPE=Debug
   catkin profile set debug
 
-  echo "$0: installing dependencies using rosdep"
-
-  rosdep install -y -v --from-path src/
-
 fi
+
+echo "$0: installing dependencies using rosdep"
+
+rosdep install -y -v --from-path $WORKSPACE/src
 
 ## | ------------------- build the workspace ------------------ |
 

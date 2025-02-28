@@ -15,12 +15,11 @@ ARTIFACT_FOLDER=$1
 
 [ -z $ARTIFACT_FOLDER ] && ARTIFACT_FOLDER=/tmp/artifacts
 
-WORKSPACE=/etc/docker/workspace
+WORKSPACE=/tmp/workspace
 
 # extract the workspace
 cd $ARTIFACT_FOLDER
 tar -xvzf workspace.tar.gz
-sudo mv workspace /etc/docker/
 
 # install lcov
 sudo apt-get -y -q install lcov binutils
@@ -48,7 +47,7 @@ COVERAGE_PCT=`cat /tmp/coverage.log | tail -n 1 | awk '{print $2}'`
 
 echo "Coverage: $COVERAGE_PCT"
 
-$REPO_PATH/ci_scripts/docker/helpers/wait_for_docker.sh
+$REPO_PATH/ci_scripts/helpers/wait_for_docker.sh
 
 docker pull klaxalk/pybadges
 
