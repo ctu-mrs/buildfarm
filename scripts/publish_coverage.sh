@@ -12,37 +12,18 @@ MY_PATH=`( cd "$MY_PATH" && pwd )`
 REPO_PATH=$MY_PATH/..
 
 ARTIFACT_FOLDER=$1
-WORKSPACE=/tmp/workspace
+
+[ -z $ARTIFACT_FOLDER ] && ARTIFACT_FOLDER=/tmp/artifacts
+
+WORKSPACE=/etc/docker/workspace
+
+# extract the workspace
+cd $ARTIFACT_FOLDER
+tar -xvzf workspace.tar.gz
+sudo mv workspace /etc/docker/
 
 # install lcov
 sudo apt-get -y -q install lcov binutils
-
-# clone the sources
-
-LIST=mrs
-
-ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
-
-YAML_FILE=$LIST.yaml
-
-REPOS=$($REPO_PATH/scripts/helpers/parse_yaml.py $YAML_FILE $ARCH)
-
-mkdir -p $WORKSPACE/src
-cd $WORKSPACE/src
-
-echo "$REPOS" | while IFS= read -r REPO; do
-
-PACKAGE=$(echo "$REPO" | awk '{print $1}')
-URL=$(echo "$REPO" | awk '{print $2}')
-TEST=$(echo "$REPO" | awk '{print $6}')
-
-if [[ "$TEST" != "True" ]]; then
-  continue
-fi
-
-git clone $URL $PACKAGE
-
-done
 
 # are there any coverage files?
 
@@ -67,5 +48,8 @@ COVERAGE_PCT=`cat /tmp/coverage.log | tail -n 1 | awk '{print $2}'`
 
 echo "Coverage: $COVERAGE_PCT"
 
-pip install pybadges
-python -m pybadges --left-text="test coverage" --right-text="${COVERAGE_PCT}" --right-color='#0c0' > /tmp/coverage_html/badge.svg
+$REPO_PATH/ci_scripts/docker/helpers/wait_for_docker.sh
+
+docker pull klaxalk/pybadges
+
+docker run --rm klaxalk/pybadges /bin/python3 -m pybadges --left-text="test coverage" --right-text="${COVERAGE_PCT}" --right-color="#0c0" > /tmp/coverage_html/badge.svg

@@ -61,7 +61,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: workspace
+          name: artifacts_workspace
           path: ${{env.ARTIFACTS_FOLDER}}
           overwrite: true
 
@@ -99,7 +99,7 @@ jobs:
       - name: Load artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: workspace
+          pattern: artifacts_workspace
           merge-multiple: true
           path: ${{env.ARTIFACTS_FOLDER}}
       - name: Checkout CI scripts
@@ -112,6 +112,7 @@ jobs:
       - id: build
         run: |
           ./scripts/ros_test/run_test.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
+          rm ${{env.ARTIFACTS_FOLDER}}/workspace.tar.gz
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
