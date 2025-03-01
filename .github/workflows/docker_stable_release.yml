@@ -1,0 +1,36 @@
+name: docker_stable_release
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron:  '0 08 * * *'
+
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  build-image:
+    runs-on: ubuntu-22.04
+    env:
+      TOKEN: ${{secrets.DOCKERHUB}}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - name: Checkout CI scripts
+        uses: actions/checkout@v3
+        with:
+          repository: ctu-mrs/ci_scripts
+          ref: master
+          path: ci_scripts
+      - id: build_image
+        run: |
+          ./scripts/docker_stable_release/build_image.sh
