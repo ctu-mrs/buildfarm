@@ -26,7 +26,6 @@ jobs:
   init-artifacts:
     runs-on: ubuntu-22.04
     env:
-      TOKEN: ${{secrets.DOCKERHUB}}
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
       - uses: actions/checkout@v3
@@ -83,7 +82,6 @@ jobs:
         job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
       max-parallel: 1 # Run jobs serially
     env:
-      TOKEN: ${{secrets.DOCKERHUB}}
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
       - name: Load artifacts

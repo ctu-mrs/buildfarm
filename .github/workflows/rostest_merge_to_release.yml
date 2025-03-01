@@ -89,7 +89,6 @@ jobs:
       matrix:
         job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
     env:
-      TOKEN: ${{ secrets.DOCKERHUB }}
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
     steps:
       - uses: actions/checkout@v3
