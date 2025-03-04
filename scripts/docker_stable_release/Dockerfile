@@ -1,4 +1,4 @@
-FROM ctumrs/ros:noetic
+FROM ctumrs/ros_noetic:latest
 
 RUN apt-get -y update
 
