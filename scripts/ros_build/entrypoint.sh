@@ -25,7 +25,7 @@ git config --global --add safe.directory /etc/docker/repository
 BUILD_ORDER=$(cat /etc/docker/other_files/build_order.txt)
 
 echo ""
-echo "$0: catkin reported following topological build order:"
+echo "$0: topological build order:"
 echo "$BUILD_ORDER"
 echo ""
 
@@ -121,25 +121,15 @@ for PACKAGE in $BUILD_ORDER; do
       fakeroot debian/rules "binary"
     fi
 
-    FIND_METAPACKAGE=$(cat CMakeLists.txt | grep -e "^catkin_metapackage" | wc -l)
-
     DEB_NAME=$(dpkg --field ../*.deb | grep "Package:" | head -n 1 | awk '{print $2}')
 
     DEBS=(../*.deb)
 
-    # if [ $FIND_METAPACKAGE -eq 0 ]; then
-    #
     echo "$0: installing newly compiled deb file"
     [ -e "${DEBS[0]}" ] && apt-get -y install --allow-downgrades ../*.deb || echo "$0: no artifacts to be installed"
 
     echo "$0: moving the artifact to $DEBS_FOLDER"
     [ -e "${DEBS[0]}" ] && mv ../*.deb $DEBS_FOLDER || echo "$0: no artifacts to be moved"
-
-    # else
-    #   echo "$0: moving the artifact to $ARTIFACTS_FOLDER/metarepositories"
-    #   mkdir -p $ARTIFACTS_FOLDER/metarepositories
-    #   [ -e "${DEBS[0]}" ] && mv ../*.deb $ARTIFACTS_FOLDER/metarepositories/ || echo "$0: no artifacts to be moved"
-    # fi
 
     echo "$PACKAGE:
     ubuntu: [$DEB_NAME]
