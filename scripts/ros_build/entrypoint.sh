@@ -9,18 +9,12 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 
 DEBS_FOLDER=/etc/docker/debs
+REPO_FOLDER=/etc/docker/repository
 OTHER_FILES_FOLDER=/etc/docker/other_files
 
-WORKSPACE=/etc/docker/workspace
-mkdir -p $WORKSPACE/src
-cd $WORKSPACE
-source /opt/ros/noetic/setup.bash
-catkin init
+chmod +x $OTHER_FILES_FOLDER/get_package_dependencies.py
 
-cd src
-ln -s /etc/docker/repository
-
-git config --global --add safe.directory /etc/docker/repository
+git config --global --add safe.directory $REPO_FOLDER
 
 BUILD_ORDER=$(cat /etc/docker/other_files/build_order.txt)
 
@@ -44,12 +38,13 @@ if [ -s $ROSDEP_FILE ]; then
 
 fi
 
-for PACKAGE in $BUILD_ORDER; do
+OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
-  PKG_PATH=$(catkin locate $PACKAGE)
+  PACKAGE=$(echo $LINE | awk '{print $1}')
+  PKG_PATH=$(echo $LINE | awk '{print $2}')
 
-  echo "$0: cding to '$PKG_PATH'"
-  cd $PKG_PATH
+  echo "$0: cding to '$REPO_FOLDER/$PKG_PATH'"
+  cd $REPO_FOLDER/$PKG_PATH
 
   FUTURE_DEB_NAME=$(echo "ros-noetic-$PACKAGE" | sed 's/_/-/g')
 
@@ -70,7 +65,9 @@ for PACKAGE in $BUILD_ORDER; do
     NEW_COMMIT=true
   fi
 
-  MY_DEPENDENCIES=$(catkin list --deps --directory . -u | grep -e "^\s*-" | awk '{print $2}')
+  MY_DEPENDENCIES=$($OTHER_FILES_FOLDER/get_package_dependencies.py $REPO_FOLDER/$PKG_PATH)
+
+  echo "$0: MY_DEPENDENCIES: $MY_DEPENDENCIES"
 
   DEPENDENCIES_CHANGED=false
   for dep in `echo $MY_DEPENDENCIES`; do

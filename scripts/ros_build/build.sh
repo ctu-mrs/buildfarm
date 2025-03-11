@@ -118,6 +118,7 @@ mv $ARTIFACTS_FOLDER/compiled.txt /tmp/other_files/compiled.txt
 mv $ARTIFACTS_FOLDER/$ROSDEP_FILE /tmp/other_files/rosdep.yaml
 
 $REPO_PATH/ci_scripts/helpers/get_package_build_order.py /tmp/repository > /tmp/other_files/build_order.txt
+cp $REPO_PATH/ci_scripts/helpers/get_package_dependencies.py /tmp/other_files/get_package_dependencies.py
 
 echo "$0:"
 echo "$0: builder order:"
