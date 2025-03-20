@@ -14,4 +14,9 @@ RUN curl https://ctu-mrs.github.io/ppa-stable/add_ppa.sh | bash
 
 RUN apt-get -y install ros-noetic-mrs-uav-system-full
 
+RUN apt-get -y install gdb
+
+# needed for UVDAR and other software utilizing graphics
+RUN add-apt-repository -y ppa:kisak/kisak-mesa && sudo apt-get -y install libgbm-dev libglx-mesa0 libgl1-mesa-dri
+
 CMD ["/ros_entrypoint.sh"]
