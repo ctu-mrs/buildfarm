@@ -18,5 +18,6 @@ RUN apt-get -y install gdb
 
 # needed for UVDAR and other software utilizing graphics
 RUN add-apt-repository -y ppa:kisak/kisak-mesa && sudo apt-get -y install libgbm-dev libglx-mesa0 libgl1-mesa-dri
+RUN RUN apt-get -y install libgbm-dev gdb wpan-tools iproute2
 
 CMD ["/ros_entrypoint.sh"]
