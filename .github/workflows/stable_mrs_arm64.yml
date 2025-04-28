@@ -149,6 +149,7 @@ jobs:
     needs: collect-artifacts
     if: always()
     runs-on: ubuntu-22.04-arm
+    continue-on-error: true
     steps:
       - name: Delete old images
         uses: dataaxiom/ghcr-cleanup-action@v1

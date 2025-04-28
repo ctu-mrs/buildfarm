@@ -148,6 +148,7 @@ jobs:
     needs: collect-artifacts
     if: always()
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Delete current image
         uses: dataaxiom/ghcr-cleanup-action@v1
