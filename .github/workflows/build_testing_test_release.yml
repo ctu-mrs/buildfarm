@@ -105,6 +105,7 @@ jobs:
           ./scripts/ros_build/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
       - name: Delete old artifacts
         uses: geekyeggo/delete-artifact@v5
+        continue-on-error: true
         with:
           name: artifacts
           failOnError: false
