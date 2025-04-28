@@ -14,8 +14,6 @@ OTHER_FILES_FOLDER=/etc/docker/other_files
 
 chmod +x $OTHER_FILES_FOLDER/get_package_dependencies.py
 
-git config --global --add safe.directory $REPO_FOLDER
-
 BUILD_ORDER=$(cat /etc/docker/other_files/build_order.txt)
 
 echo ""
@@ -49,6 +47,8 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
   FUTURE_DEB_NAME=$(echo "ros-noetic-$PACKAGE" | sed 's/_/-/g')
 
   echo "$0: future deb name: $FUTURE_DEB_NAME"
+
+  git config --global --add safe.directory $REPO_FOLDER
 
   SHA=$(git rev-parse --short HEAD)
   DOCKER_SHA=$(cat $OTHER_FILES_FOLDER/base_sha.txt)
