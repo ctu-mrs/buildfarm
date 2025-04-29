@@ -63,7 +63,7 @@ if [[ "$FAILED" -eq 0 ]]; then
   echo "$0: storing coverage data"
 
   # gather all the coverage data from the workspace
-  lcov --capture --directory ${WORKSPACE} --output-file /tmp/coverage.original
+  lcov --capture --directory ${WORKSPACE} --output-file /tmp/coverage.original || echo "Failed to gather coverage"
 
   # filter out unwanted files, i.e., test files
   lcov --remove /tmp/coverage.original "*/test/*" --output-file /tmp/coverage.removed || echo "$0: coverage tracefile is empty"
