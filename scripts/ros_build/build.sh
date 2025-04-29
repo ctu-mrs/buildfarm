@@ -63,7 +63,7 @@ echo "$REPOS" | while IFS= read -r REPO; do
 
   if [[ "$GITMAN" == "True" ]]; then
     cd repository
-    pipx install gitman
+    pipx install gitman==3.5.2
     [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
   fi
 
