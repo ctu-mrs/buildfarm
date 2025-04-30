@@ -69,17 +69,26 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
   MY_DEPENDENCIES=$($OTHER_FILES_FOLDER/get_package_dependencies.py $REPO_FOLDER/$PKG_PATH)
 
-  echo "$0: MY_DEPENDENCIES: $MY_DEPENDENCIES"
+  echo ""
+  echo "$0: MY_DEPENDENCIES: '$MY_DEPENDENCIES'"
+  echo ""
 
   DEPENDENCIES_CHANGED=false
-  for dep in `echo $MY_DEPENDENCIES`; do
+
+  # this \|/ has to iterate over the dependencies in bash
+  readarray -t MY_DEPENDENCIES_ITEMIZED <<< "$MY_DEPENDENCIES"
+  for dep in "${MY_DEPENDENCIES_ITEMIZED[@]}"; do
 
     FOUND=$(cat $OTHER_FILES_FOLDER/compiled.txt | grep $dep | wc -l)
+
+    echo "$0: checking if '$dep' is within MY_DEPENDENCIES, FOUND='$FOUND'"
 
     if [ $FOUND -ge 1 ]; then
       DEPENDENCIES_CHANGED=true
       echo "$0: The dependency $dep has been updated, going to compile"
     fi
+
+    echo "$0: ... nope"
 
   done
 
