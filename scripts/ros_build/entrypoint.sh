@@ -34,7 +34,7 @@ if [ -s $ROSDEP_FILE ]; then
 
   echo "yaml file://$ROSDEP_FILE" | tee /etc/ros/rosdep/sources.list.d/temp.list
 
-  rosdep update
+  rosdep update --include-eol-distros
 
 fi
 
@@ -143,7 +143,7 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
     ubuntu: [$DEB_NAME]
   " >> $ROSDEP_FILE
 
-    rosdep update
+    rosdep update --include-eol-distros
 
     source /opt/ros/noetic/setup.bash
 

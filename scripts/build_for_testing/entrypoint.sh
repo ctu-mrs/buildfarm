@@ -19,6 +19,8 @@ catkin init
 catkin config --profile debug --cmake-args -DCMAKE_BUILD_TYPE=Debug
 catkin profile set debug
 
+rosdep update --include-eol-distros
+
 rosdep install -y -v --from-path src/
 
 cd src
