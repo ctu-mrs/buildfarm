@@ -34,9 +34,9 @@ if [ -s $ROSDEP_FILE ]; then
 
   echo "yaml file://$ROSDEP_FILE" | tee /etc/ros/rosdep/sources.list.d/temp.list
 
-  rosdep update --include-eol-distros
-
 fi
+
+rosdep update --include-eol-distros
 
 OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
