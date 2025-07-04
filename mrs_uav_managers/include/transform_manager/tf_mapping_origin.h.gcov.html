@@ -1,0 +1,474 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - MRS UAV System - Test coverage report - mrs_uav_managers/include/transform_manager/tf_mapping_origin.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../index.html" target="_parent">top level</a> - <a href="index.html" target="_parent">mrs_uav_managers/include/transform_manager</a> - tf_mapping_origin.h<span style="font-size: 80%;"> (source / <a href="tf_mapping_origin.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">MRS UAV System - Test coverage report</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">158</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2025-07-04 19:44:49</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #pragma once</a>
+<a name="2"><span class="lineNum">       2 </span>            : #ifndef TF_MAPPING_ORIGIN_H</a>
+<a name="3"><span class="lineNum">       3 </span>            : #define TF_MAPPING_ORIGIN_H</a>
+<a name="4"><span class="lineNum">       4 </span>            : </a>
+<a name="5"><span class="lineNum">       5 </span>            : #include &lt;ros/ros.h&gt;</a>
+<a name="6"><span class="lineNum">       6 </span>            : </a>
+<a name="7"><span class="lineNum">       7 </span>            : #include &lt;mrs_lib/param_loader.h&gt;</a>
+<a name="8"><span class="lineNum">       8 </span>            : #include &lt;mrs_lib/subscribe_handler.h&gt;</a>
+<a name="9"><span class="lineNum">       9 </span>            : #include &lt;mrs_lib/transform_broadcaster.h&gt;</a>
+<a name="10"><span class="lineNum">      10 </span>            : #include &lt;mrs_lib/attitude_converter.h&gt;</a>
+<a name="11"><span class="lineNum">      11 </span>            : #include &lt;mrs_lib/publisher_handler.h&gt;</a>
+<a name="12"><span class="lineNum">      12 </span>            : </a>
+<a name="13"><span class="lineNum">      13 </span>            : #include &lt;nav_msgs/Odometry.h&gt;</a>
+<a name="14"><span class="lineNum">      14 </span>            : #include &lt;geometry_msgs/QuaternionStamped.h&gt;</a>
+<a name="15"><span class="lineNum">      15 </span>            : #include &lt;geometry_msgs/TransformStamped.h&gt;</a>
+<a name="16"><span class="lineNum">      16 </span>            : </a>
+<a name="17"><span class="lineNum">      17 </span>            : #include &lt;mrs_uav_managers/estimation_manager/support.h&gt;</a>
+<a name="18"><span class="lineNum">      18 </span>            : #include &lt;mrs_uav_managers/estimation_manager/common_handlers.h&gt;</a>
+<a name="19"><span class="lineNum">      19 </span>            : </a>
+<a name="20"><span class="lineNum">      20 </span>            : namespace mrs_uav_managers</a>
+<a name="21"><span class="lineNum">      21 </span>            : {</a>
+<a name="22"><span class="lineNum">      22 </span>            : </a>
+<a name="23"><span class="lineNum">      23 </span>            : /*//{ class TfMappingOrigin */</a>
+<a name="24"><span class="lineNum">      24 </span>            : class TfMappingOrigin {</a>
+<a name="25"><span class="lineNum">      25 </span>            : </a>
+<a name="26"><span class="lineNum">      26 </span>            :   using Support = estimation_manager::Support;</a>
+<a name="27"><span class="lineNum">      27 </span>            : </a>
+<a name="28"><span class="lineNum">      28 </span>            : public:</a>
+<a name="29"><span class="lineNum">      29 </span>            :   /*//{ constructor */</a>
+<a name="30"><span class="lineNum">      30 </span><span class="lineNoCov">          0 :   TfMappingOrigin(ros::NodeHandle nh, std::shared_ptr&lt;mrs_lib::ParamLoader&gt; param_loader, const std::shared_ptr&lt;mrs_lib::TransformBroadcaster&gt;&amp; broadcaster,</span></a>
+<a name="31"><span class="lineNum">      31 </span>            :                   const std::shared_ptr&lt;estimation_manager::CommonHandlers_t&gt; ch)</a>
+<a name="32"><span class="lineNum">      32 </span><span class="lineNoCov">          0 :       : nh_(nh), broadcaster_(broadcaster), ch_(ch) {</span></a>
+<a name="33"><span class="lineNum">      33 </span>            : </a>
+<a name="34"><span class="lineNum">      34 </span><span class="lineNoCov">          0 :     ROS_INFO(&quot;[%s]: initializing&quot;, getPrintName().c_str());</span></a>
+<a name="35"><span class="lineNum">      35 </span>            : </a>
+<a name="36"><span class="lineNum">      36 </span><span class="lineNoCov">          0 :     const std::string yaml_prefix = &quot;mrs_uav_managers/transform_manager/mapping_origin_tf/&quot;;</span></a>
+<a name="37"><span class="lineNum">      37 </span>            : </a>
+<a name="38"><span class="lineNum">      38 </span>            :     /*//{ load mapping origin parameters */</a>
+<a name="39"><span class="lineNum">      39 </span><span class="lineNoCov">          0 :     param_loader-&gt;loadParam(yaml_prefix + &quot;debug_prints&quot;, debug_prints_);</span></a>
+<a name="40"><span class="lineNum">      40 </span><span class="lineNoCov">          0 :     param_loader-&gt;loadParam(yaml_prefix + &quot;lateral_topic&quot;, lateral_topic_);</span></a>
+<a name="41"><span class="lineNum">      41 </span><span class="lineNoCov">          0 :     param_loader-&gt;loadParam(yaml_prefix + &quot;altitude_topic&quot;, altitude_topic_);</span></a>
+<a name="42"><span class="lineNum">      42 </span><span class="lineNoCov">          0 :     param_loader-&gt;loadParam(yaml_prefix + &quot;orientation_topic&quot;, orientation_topic_);</span></a>
+<a name="43"><span class="lineNum">      43 </span><span class="lineNoCov">          0 :     param_loader-&gt;loadParam(yaml_prefix + &quot;inverted&quot;, tf_inverted_);</span></a>
+<a name="44"><span class="lineNum">      44 </span><span class="lineNoCov">          0 :     param_loader-&gt;loadParam(yaml_prefix + &quot;custom_frame_id/enabled&quot;, custom_frame_id_enabled_);</span></a>
+<a name="45"><span class="lineNum">      45 </span>            : </a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineNoCov">          0 :     if (custom_frame_id_enabled_) {</span></a>
+<a name="47"><span class="lineNum">      47 </span><span class="lineNoCov">          0 :       param_loader-&gt;loadParam(yaml_prefix + &quot;custom_frame_id/frame_id&quot;, custom_frame_id_);</span></a>
+<a name="48"><span class="lineNum">      48 </span>            :     }</a>
+<a name="49"><span class="lineNum">      49 </span>            : </a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineNoCov">          0 :     if (!param_loader-&gt;loadedSuccessfully()) {</span></a>
+<a name="51"><span class="lineNum">      51 </span><span class="lineNoCov">          0 :       ROS_ERROR(&quot;[%s]: Could not load all non-optional parameters. Shutting down.&quot;, getPrintName().c_str());</span></a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineNoCov">          0 :       ros::shutdown();</span></a>
+<a name="53"><span class="lineNum">      53 </span>            :     }</a>
+<a name="54"><span class="lineNum">      54 </span>            : </a>
+<a name="55"><span class="lineNum">      55 </span>            :     /*//}*/</a>
+<a name="56"><span class="lineNum">      56 </span>            : </a>
+<a name="57"><span class="lineNum">      57 </span>            :     /*//{ initialize subscribers */</a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineNoCov">          0 :     mrs_lib::SubscribeHandlerOptions shopts;</span></a>
+<a name="59"><span class="lineNum">      59 </span><span class="lineNoCov">          0 :     shopts.nh                 = nh_;</span></a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineNoCov">          0 :     shopts.node_name          = getPrintName();</span></a>
+<a name="61"><span class="lineNum">      61 </span><span class="lineNoCov">          0 :     shopts.no_message_timeout = mrs_lib::no_timeout;</span></a>
+<a name="62"><span class="lineNum">      62 </span><span class="lineNoCov">          0 :     shopts.threadsafe         = true;</span></a>
+<a name="63"><span class="lineNum">      63 </span><span class="lineNoCov">          0 :     shopts.autostart          = true;</span></a>
+<a name="64"><span class="lineNum">      64 </span><span class="lineNoCov">          0 :     shopts.queue_size         = 10;</span></a>
+<a name="65"><span class="lineNum">      65 </span><span class="lineNoCov">          0 :     shopts.transport_hints    = ros::TransportHints().tcpNoDelay();</span></a>
+<a name="66"><span class="lineNum">      66 </span>            : </a>
+<a name="67"><span class="lineNum">      67 </span>            :     sh_mapping_odom_lat_ =</a>
+<a name="68"><span class="lineNum">      68 </span><span class="lineNoCov">          0 :         mrs_lib::SubscribeHandler&lt;nav_msgs::Odometry&gt;(shopts, &quot;/&quot; + ch_-&gt;uav_name + &quot;/&quot; + lateral_topic_, &amp;TfMappingOrigin::callbackMappingOdomLat, this);</span></a>
+<a name="69"><span class="lineNum">      69 </span>            : </a>
+<a name="70"><span class="lineNum">      70 </span><span class="lineNoCov">          0 :     if (orientation_topic_ != lateral_topic_) {</span></a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineNoCov">          0 :       sh_mapping_odom_rot_ = mrs_lib::SubscribeHandler&lt;geometry_msgs::QuaternionStamped&gt;(shopts, &quot;/&quot; + ch_-&gt;uav_name + &quot;/&quot; + orientation_topic_.c_str(),</span></a>
+<a name="72"><span class="lineNum">      72 </span><span class="lineNoCov">          0 :                                                                                          &amp;TfMappingOrigin::callbackMappingOdomRot, this);</span></a>
+<a name="73"><span class="lineNum">      73 </span>            :     }</a>
+<a name="74"><span class="lineNum">      74 </span>            : </a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineNoCov">          0 :     if (altitude_topic_ != lateral_topic_) {</span></a>
+<a name="76"><span class="lineNum">      76 </span><span class="lineNoCov">          0 :       sh_mapping_odom_alt_ = mrs_lib::SubscribeHandler&lt;nav_msgs::Odometry&gt;(shopts, &quot;/&quot; + ch_-&gt;uav_name + &quot;/&quot; + altitude_topic_.c_str(),</span></a>
+<a name="77"><span class="lineNum">      77 </span><span class="lineNoCov">          0 :                                                                            &amp;TfMappingOrigin::callbackMappingOdomAlt, this);</span></a>
+<a name="78"><span class="lineNum">      78 </span>            :     }</a>
+<a name="79"><span class="lineNum">      79 </span>            :     /*//}*/</a>
+<a name="80"><span class="lineNum">      80 </span>            : </a>
+<a name="81"><span class="lineNum">      81 </span><span class="lineNoCov">          0 :     ph_map_delay_ = mrs_lib::PublisherHandler&lt;mrs_msgs::Float64Stamped&gt;(nh_, &quot;map_delay_out&quot;, 10);</span></a>
+<a name="82"><span class="lineNum">      82 </span>            : </a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineNoCov">          0 :     is_initialized_ = true;</span></a>
+<a name="84"><span class="lineNum">      84 </span><span class="lineNoCov">          0 :     ROS_INFO(&quot;[%s]: initialized&quot;, getPrintName().c_str());</span></a>
+<a name="85"><span class="lineNum">      85 </span><span class="lineNoCov">          0 :   }</span></a>
+<a name="86"><span class="lineNum">      86 </span>            :   /*//}*/</a>
+<a name="87"><span class="lineNum">      87 </span>            : </a>
+<a name="88"><span class="lineNum">      88 </span>            :   /*//{ getName() */</a>
+<a name="89"><span class="lineNum">      89 </span>            :   std::string getName() {</a>
+<a name="90"><span class="lineNum">      90 </span>            :     return name_;</a>
+<a name="91"><span class="lineNum">      91 </span>            :   }</a>
+<a name="92"><span class="lineNum">      92 </span>            :   /*//}*/</a>
+<a name="93"><span class="lineNum">      93 </span>            : </a>
+<a name="94"><span class="lineNum">      94 </span>            :   /*//{ getPrintName() */</a>
+<a name="95"><span class="lineNum">      95 </span><span class="lineNoCov">          0 :   std::string getPrintName() {</span></a>
+<a name="96"><span class="lineNum">      96 </span><span class="lineNoCov">          0 :     return ch_-&gt;nodelet_name + &quot;/&quot; + name_;</span></a>
+<a name="97"><span class="lineNum">      97 </span>            :   }</a>
+<a name="98"><span class="lineNum">      98 </span>            :   /*//}*/</a>
+<a name="99"><span class="lineNum">      99 </span>            : </a>
+<a name="100"><span class="lineNum">     100 </span>            : private:</a>
+<a name="101"><span class="lineNum">     101 </span>            :   const std::string name_ = &quot;TfMappingOrigin&quot;;</a>
+<a name="102"><span class="lineNum">     102 </span>            : </a>
+<a name="103"><span class="lineNum">     103 </span>            :   ros::NodeHandle nh_;</a>
+<a name="104"><span class="lineNum">     104 </span>            : </a>
+<a name="105"><span class="lineNum">     105 </span>            :   std::shared_ptr&lt;mrs_lib::TransformBroadcaster&gt; broadcaster_;</a>
+<a name="106"><span class="lineNum">     106 </span>            : </a>
+<a name="107"><span class="lineNum">     107 </span>            :   std::shared_ptr&lt;estimation_manager::CommonHandlers_t&gt; ch_;</a>
+<a name="108"><span class="lineNum">     108 </span>            : </a>
+<a name="109"><span class="lineNum">     109 </span>            :   std::atomic_bool is_initialized_ = false;</a>
+<a name="110"><span class="lineNum">     110 </span>            : </a>
+<a name="111"><span class="lineNum">     111 </span>            :   mrs_lib::PublisherHandler&lt;mrs_msgs::Float64Stamped&gt; ph_map_delay_;</a>
+<a name="112"><span class="lineNum">     112 </span>            : </a>
+<a name="113"><span class="lineNum">     113 </span>            :   bool        debug_prints_;</a>
+<a name="114"><span class="lineNum">     114 </span>            :   bool        tf_inverted_;</a>
+<a name="115"><span class="lineNum">     115 </span>            :   bool        custom_frame_id_enabled_;</a>
+<a name="116"><span class="lineNum">     116 </span>            :   std::string custom_frame_id_;</a>
+<a name="117"><span class="lineNum">     117 </span>            :   double      cache_duration_;</a>
+<a name="118"><span class="lineNum">     118 </span>            : </a>
+<a name="119"><span class="lineNum">     119 </span>            :   std::string                                   lateral_topic_;</a>
+<a name="120"><span class="lineNum">     120 </span>            :   mrs_lib::SubscribeHandler&lt;nav_msgs::Odometry&gt; sh_mapping_odom_lat_;</a>
+<a name="121"><span class="lineNum">     121 </span>            :   std::vector&lt;nav_msgs::Odometry&gt;               vec_mapping_odom_lat_;</a>
+<a name="122"><span class="lineNum">     122 </span>            :   std::atomic_bool                              got_mapping_odom_lat_ = false;</a>
+<a name="123"><span class="lineNum">     123 </span>            :   std::atomic&lt;double&gt;                           timestamp_lat_;</a>
+<a name="124"><span class="lineNum">     124 </span>            : </a>
+<a name="125"><span class="lineNum">     125 </span>            :   /*//{ callbackMappingOdomLat() */</a>
+<a name="126"><span class="lineNum">     126 </span>            : </a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineNoCov">          0 :   void callbackMappingOdomLat(const nav_msgs::Odometry::ConstPtr msg) {</span></a>
+<a name="128"><span class="lineNum">     128 </span>            : </a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineNoCov">          0 :     if (!is_initialized_) {</span></a>
+<a name="130"><span class="lineNum">     130 </span><span class="lineNoCov">          0 :       return;</span></a>
+<a name="131"><span class="lineNum">     131 </span>            :     }</a>
+<a name="132"><span class="lineNum">     132 </span>            : </a>
+<a name="133"><span class="lineNum">     133 </span><span class="lineNoCov">          0 :     timestamp_lat_ = msg-&gt;header.stamp.toSec();</span></a>
+<a name="134"><span class="lineNum">     134 </span>            : </a>
+<a name="135"><span class="lineNum">     135 </span><span class="lineNoCov">          0 :     if (!got_mapping_odom_lat_) {</span></a>
+<a name="136"><span class="lineNum">     136 </span><span class="lineNoCov">          0 :       got_mapping_odom_lat_ = true;</span></a>
+<a name="137"><span class="lineNum">     137 </span>            :     }</a>
+<a name="138"><span class="lineNum">     138 </span>            : </a>
+<a name="139"><span class="lineNum">     139 </span><span class="lineNoCov">          0 :     if (!got_mapping_odom_rot_ &amp;&amp; orientation_topic_ == lateral_topic_) {</span></a>
+<a name="140"><span class="lineNum">     140 </span><span class="lineNoCov">          0 :       got_mapping_odom_rot_ = true;</span></a>
+<a name="141"><span class="lineNum">     141 </span>            :     }</a>
+<a name="142"><span class="lineNum">     142 </span>            : </a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineNoCov">          0 :     if (!got_mapping_odom_alt_ &amp;&amp; altitude_topic_ == lateral_topic_) {</span></a>
+<a name="144"><span class="lineNum">     144 </span><span class="lineNoCov">          0 :       got_mapping_odom_alt_ = true;</span></a>
+<a name="145"><span class="lineNum">     145 </span>            :     }</a>
+<a name="146"><span class="lineNum">     146 </span>            : </a>
+<a name="147"><span class="lineNum">     147 </span><span class="lineNoCov">          0 :     mrs_lib::ScopeTimer scope_timer = mrs_lib::ScopeTimer(&quot;TfMappingOrigin::callbackMappingOdomLat&quot;, ch_-&gt;scope_timer.logger, ch_-&gt;scope_timer.enabled);</span></a>
+<a name="148"><span class="lineNum">     148 </span>            : </a>
+<a name="149"><span class="lineNum">     149 </span><span class="lineNoCov">          0 :     const double hdg_mapping_old = mrs_lib::AttitudeConverter(msg-&gt;pose.pose.orientation).getHeading();</span></a>
+<a name="150"><span class="lineNum">     150 </span>            : </a>
+<a name="151"><span class="lineNum">     151 </span>            :     /* publish mapping origin tf //{ */</a>
+<a name="152"><span class="lineNum">     152 </span>            : </a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineNoCov">          0 :     bool clear_needed = false;</span></a>
+<a name="154"><span class="lineNum">     154 </span>            : </a>
+<a name="155"><span class="lineNum">     155 </span><span class="lineNoCov">          0 :     if (got_mapping_odom_rot_ &amp;&amp; got_mapping_odom_alt_) {</span></a>
+<a name="156"><span class="lineNum">     156 </span><span class="lineNoCov">          0 :       std::scoped_lock lock(mtx_mapping_odom_rot_);</span></a>
+<a name="157"><span class="lineNum">     157 </span>            : </a>
+<a name="158"><span class="lineNum">     158 </span>            :       // Copy mapping odometry</a>
+<a name="159"><span class="lineNum">     159 </span><span class="lineNoCov">          0 :       nav_msgs::Odometry mapping_odom;</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineNoCov">          0 :       mapping_odom = *msg;</span></a>
+<a name="161"><span class="lineNum">     161 </span>            : </a>
+<a name="162"><span class="lineNum">     162 </span>            :       // Find corresponding orientation</a>
+<a name="163"><span class="lineNum">     163 </span><span class="lineNoCov">          0 :       geometry_msgs::QuaternionStamped rot_tmp           = *sh_mapping_odom_rot_.getMsg();  // start with newest msg</span></a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineNoCov">          0 :       ros::Time                        dbg_timestamp_rot = rot_tmp.header.stamp;</span></a>
+<a name="165"><span class="lineNum">     165 </span><span class="lineNoCov">          0 :       tf2::Quaternion                  tf2_rot;</span></a>
+<a name="166"><span class="lineNum">     166 </span>            : </a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineNoCov">          0 :       for (size_t i = 0; i &lt; vec_mapping_odom_rot_.size(); i++) {</span></a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineNoCov">          0 :         if (mapping_odom.header.stamp &lt; vec_mapping_odom_rot_.at(i).header.stamp) {</span></a>
+<a name="169"><span class="lineNum">     169 </span>            : </a>
+<a name="170"><span class="lineNum">     170 </span>            :           // Choose an orientation with closest timestamp</a>
+<a name="171"><span class="lineNum">     171 </span><span class="lineNoCov">          0 :           double time_diff      = std::fabs(vec_mapping_odom_rot_.at(i).header.stamp.toSec() - mapping_odom.header.stamp.toSec());</span></a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineNoCov">          0 :           double time_diff_prev = std::numeric_limits&lt;double&gt;::max();</span></a>
+<a name="173"><span class="lineNum">     173 </span><span class="lineNoCov">          0 :           if (i &gt; 0) {</span></a>
+<a name="174"><span class="lineNum">     174 </span><span class="lineNoCov">          0 :             time_diff_prev = std::fabs(vec_mapping_odom_rot_.at(i - 1).header.stamp.toSec() - mapping_odom.header.stamp.toSec());</span></a>
+<a name="175"><span class="lineNum">     175 </span>            :           }</a>
+<a name="176"><span class="lineNum">     176 </span><span class="lineNoCov">          0 :           if (time_diff_prev &lt; time_diff &amp;&amp; i &gt; 0) {</span></a>
+<a name="177"><span class="lineNum">     177 </span><span class="lineNoCov">          0 :             i = i - 1;</span></a>
+<a name="178"><span class="lineNum">     178 </span>            :           }</a>
+<a name="179"><span class="lineNum">     179 </span>            : </a>
+<a name="180"><span class="lineNum">     180 </span>            :           // Cache is too small if it is full and its oldest element is used</a>
+<a name="181"><span class="lineNum">     181 </span><span class="lineNoCov">          0 :           if (clear_needed &amp;&amp; i == 0) {</span></a>
+<a name="182"><span class="lineNum">     182 </span><span class="lineNoCov">          0 :             ROS_WARN_THROTTLE(1.0, &quot;[%s] Mapping orientation cache is too small.&quot;, getPrintName().c_str());</span></a>
+<a name="183"><span class="lineNum">     183 </span>            :           }</a>
+<a name="184"><span class="lineNum">     184 </span><span class="lineNoCov">          0 :           rot_tmp           = vec_mapping_odom_rot_.at(i);</span></a>
+<a name="185"><span class="lineNum">     185 </span><span class="lineNoCov">          0 :           dbg_timestamp_rot = vec_mapping_odom_rot_.at(i).header.stamp;</span></a>
+<a name="186"><span class="lineNum">     186 </span><span class="lineNoCov">          0 :           break;</span></a>
+<a name="187"><span class="lineNum">     187 </span>            :         }</a>
+<a name="188"><span class="lineNum">     188 </span>            :       }</a>
+<a name="189"><span class="lineNum">     189 </span>            : </a>
+<a name="190"><span class="lineNum">     190 </span><span class="lineNoCov">          0 :       tf2_rot = mrs_lib::AttitudeConverter(rot_tmp.quaternion);</span></a>
+<a name="191"><span class="lineNum">     191 </span>            : </a>
+<a name="192"><span class="lineNum">     192 </span>            :       // Obtain heading from orientation</a>
+<a name="193"><span class="lineNum">     193 </span><span class="lineNoCov">          0 :       double hdg = 0;</span></a>
+<a name="194"><span class="lineNum">     194 </span>            :       try {</a>
+<a name="195"><span class="lineNum">     195 </span><span class="lineNoCov">          0 :         hdg = mrs_lib::AttitudeConverter(rot_tmp.quaternion).getHeading();</span></a>
+<a name="196"><span class="lineNum">     196 </span>            :       }</a>
+<a name="197"><span class="lineNum">     197 </span><span class="lineNoCov">          0 :       catch (...) {</span></a>
+<a name="198"><span class="lineNum">     198 </span><span class="lineNoCov">          0 :         ROS_WARN(&quot;[%s]: failed to getHeading() from rot_tmp&quot;, getPrintName().c_str());</span></a>
+<a name="199"><span class="lineNum">     199 </span>            :       }</a>
+<a name="200"><span class="lineNum">     200 </span>            : </a>
+<a name="201"><span class="lineNum">     201 </span>            :       // Build rotation matrix from difference between new heading and old heading</a>
+<a name="202"><span class="lineNum">     202 </span><span class="lineNoCov">          0 :       tf2::Matrix3x3 rot_mat = mrs_lib::AttitudeConverter(Eigen::AngleAxisd(hdg_mapping_old - hdg, Eigen::Vector3d::UnitZ()));</span></a>
+<a name="203"><span class="lineNum">     203 </span>            : </a>
+<a name="204"><span class="lineNum">     204 </span>            :       // Transform the mavros orientation by the rotation matrix</a>
+<a name="205"><span class="lineNum">     205 </span><span class="lineNoCov">          0 :       geometry_msgs::Quaternion new_orientation = mrs_lib::AttitudeConverter(tf2::Transform(rot_mat) * tf2_rot);</span></a>
+<a name="206"><span class="lineNum">     206 </span>            : </a>
+<a name="207"><span class="lineNum">     207 </span>            :       // Set new orientation</a>
+<a name="208"><span class="lineNum">     208 </span><span class="lineNoCov">          0 :       mapping_odom.pose.pose.orientation = new_orientation;</span></a>
+<a name="209"><span class="lineNum">     209 </span>            : </a>
+<a name="210"><span class="lineNum">     210 </span>            : </a>
+<a name="211"><span class="lineNum">     211 </span>            :       // Find corresponding local odom</a>
+<a name="212"><span class="lineNum">     212 </span><span class="lineNoCov">          0 :       double    odom_alt          = msg-&gt;pose.pose.position.z;  // start with newest msg</span></a>
+<a name="213"><span class="lineNum">     213 </span><span class="lineNoCov">          0 :       ros::Time dbg_timestamp_alt = msg-&gt;header.stamp;</span></a>
+<a name="214"><span class="lineNum">     214 </span><span class="lineNoCov">          0 :       for (size_t i = 0; i &lt; vec_mapping_odom_alt_.size(); i++) {</span></a>
+<a name="215"><span class="lineNum">     215 </span><span class="lineNoCov">          0 :         if (mapping_odom.header.stamp &lt; vec_mapping_odom_alt_.at(i).header.stamp) {</span></a>
+<a name="216"><span class="lineNum">     216 </span>            : </a>
+<a name="217"><span class="lineNum">     217 </span>            :           // Choose orientation with closest timestamp</a>
+<a name="218"><span class="lineNum">     218 </span><span class="lineNoCov">          0 :           double time_diff      = std::fabs(vec_mapping_odom_alt_.at(i).header.stamp.toSec() - mapping_odom.header.stamp.toSec());</span></a>
+<a name="219"><span class="lineNum">     219 </span><span class="lineNoCov">          0 :           double time_diff_prev = std::numeric_limits&lt;double&gt;::max();</span></a>
+<a name="220"><span class="lineNum">     220 </span><span class="lineNoCov">          0 :           if (i &gt; 0) {</span></a>
+<a name="221"><span class="lineNum">     221 </span><span class="lineNoCov">          0 :             time_diff_prev = std::fabs(vec_mapping_odom_alt_.at(i - 1).header.stamp.toSec() - mapping_odom.header.stamp.toSec());</span></a>
+<a name="222"><span class="lineNum">     222 </span>            :           }</a>
+<a name="223"><span class="lineNum">     223 </span><span class="lineNoCov">          0 :           if (time_diff_prev &lt; time_diff &amp;&amp; i &gt; 0) {</span></a>
+<a name="224"><span class="lineNum">     224 </span><span class="lineNoCov">          0 :             i = i - 1;</span></a>
+<a name="225"><span class="lineNum">     225 </span>            :           }</a>
+<a name="226"><span class="lineNum">     226 </span>            :           // Cache is too small if it is full and its oldest element is used</a>
+<a name="227"><span class="lineNum">     227 </span><span class="lineNoCov">          0 :           if (clear_needed &amp;&amp; i == 0) {</span></a>
+<a name="228"><span class="lineNum">     228 </span><span class="lineNoCov">          0 :             ROS_WARN_THROTTLE(1.0, &quot;[%s] mapping orientation cache (for mapping tf) is too small.&quot;, getPrintName().c_str());</span></a>
+<a name="229"><span class="lineNum">     229 </span>            :           }</a>
+<a name="230"><span class="lineNum">     230 </span><span class="lineNoCov">          0 :           odom_alt          = vec_mapping_odom_alt_.at(i).pose.pose.position.z;</span></a>
+<a name="231"><span class="lineNum">     231 </span><span class="lineNoCov">          0 :           dbg_timestamp_alt = vec_mapping_odom_alt_.at(i).header.stamp;</span></a>
+<a name="232"><span class="lineNum">     232 </span><span class="lineNoCov">          0 :           break;</span></a>
+<a name="233"><span class="lineNum">     233 </span>            :         }</a>
+<a name="234"><span class="lineNum">     234 </span>            :       }</a>
+<a name="235"><span class="lineNum">     235 </span>            : </a>
+<a name="236"><span class="lineNum">     236 </span>            :       // Set altitude</a>
+<a name="237"><span class="lineNum">     237 </span><span class="lineNoCov">          0 :       mapping_odom.pose.pose.position.z = odom_alt;</span></a>
+<a name="238"><span class="lineNum">     238 </span>            : </a>
+<a name="239"><span class="lineNum">     239 </span>            :       // Get inverse transform</a>
+<a name="240"><span class="lineNum">     240 </span><span class="lineNoCov">          0 :       tf2::Transform      tf_mapping_inv   = Support::tf2FromPose(mapping_odom.pose.pose).inverse();</span></a>
+<a name="241"><span class="lineNum">     241 </span><span class="lineNoCov">          0 :       geometry_msgs::Pose pose_mapping_inv = Support::poseFromTf2(tf_mapping_inv);</span></a>
+<a name="242"><span class="lineNum">     242 </span>            : </a>
+<a name="243"><span class="lineNum">     243 </span><span class="lineNoCov">          0 :       geometry_msgs::TransformStamped tf_mapping;</span></a>
+<a name="244"><span class="lineNum">     244 </span><span class="lineNoCov">          0 :       tf_mapping.header.stamp    = mapping_odom.header.stamp;</span></a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineNoCov">          0 :       tf_mapping.header.frame_id = ch_-&gt;frames.ns_fcu;</span></a>
+<a name="246"><span class="lineNum">     246 </span><span class="lineNoCov">          0 :       if (custom_frame_id_enabled_) {</span></a>
+<a name="247"><span class="lineNum">     247 </span><span class="lineNoCov">          0 :         tf_mapping.child_frame_id = ch_-&gt;uav_name + &quot;/&quot; + custom_frame_id_;</span></a>
+<a name="248"><span class="lineNum">     248 </span>            :       } else {</a>
+<a name="249"><span class="lineNum">     249 </span><span class="lineNoCov">          0 :         tf_mapping.child_frame_id = mapping_odom.header.frame_id;</span></a>
+<a name="250"><span class="lineNum">     250 </span>            :       }</a>
+<a name="251"><span class="lineNum">     251 </span><span class="lineNoCov">          0 :       tf_mapping.transform.translation = Support::pointToVector3(pose_mapping_inv.position);</span></a>
+<a name="252"><span class="lineNum">     252 </span><span class="lineNoCov">          0 :       tf_mapping.transform.rotation    = pose_mapping_inv.orientation;</span></a>
+<a name="253"><span class="lineNum">     253 </span>            : </a>
+<a name="254"><span class="lineNum">     254 </span><span class="lineNoCov">          0 :       if (Support::noNans(tf_mapping)) {</span></a>
+<a name="255"><span class="lineNum">     255 </span>            :         try {</a>
+<a name="256"><span class="lineNum">     256 </span><span class="lineNoCov">          0 :           broadcaster_-&gt;sendTransform(tf_mapping);</span></a>
+<a name="257"><span class="lineNum">     257 </span>            :         }</a>
+<a name="258"><span class="lineNum">     258 </span><span class="lineNoCov">          0 :         catch (...) {</span></a>
+<a name="259"><span class="lineNum">     259 </span><span class="lineNoCov">          0 :           ROS_ERROR(&quot;[%s]: Exception caught during publishing TF: %s - %s.&quot;, getPrintName().c_str(), tf_mapping.child_frame_id.c_str(),</span></a>
+<a name="260"><span class="lineNum">     260 </span>            :                     tf_mapping.header.frame_id.c_str());</a>
+<a name="261"><span class="lineNum">     261 </span>            :         }</a>
+<a name="262"><span class="lineNum">     262 </span>            :       } else {</a>
+<a name="263"><span class="lineNum">     263 </span><span class="lineNoCov">          0 :         ROS_WARN_THROTTLE(1.0, &quot;[%s]: NaN detected in transform from %s to %s. Not publishing tf.&quot;, getPrintName().c_str(), tf_mapping.header.frame_id.c_str(),</span></a>
+<a name="264"><span class="lineNum">     264 </span>            :                           tf_mapping.child_frame_id.c_str());</a>
+<a name="265"><span class="lineNum">     265 </span>            :       }</a>
+<a name="266"><span class="lineNum">     266 </span>            : </a>
+<a name="267"><span class="lineNum">     267 </span>            :       // debug timestamps: rot and alt timestamps should be as close as possible to lat_timestamp, the delay is the difference between current time and the time</a>
+<a name="268"><span class="lineNum">     268 </span>            :       // of acquisition of scan that was used to calculate the pose estimate</a>
+<a name="269"><span class="lineNum">     269 </span><span class="lineNoCov">          0 :       if (debug_prints_) {</span></a>
+<a name="270"><span class="lineNum">     270 </span><span class="lineNoCov">          0 :         ROS_INFO(&quot;[%s] lat timestamp: %.6f, rot stamp: %.6f (diff: %.6f),  alt stamp: %.6f (diff: %.6f), delay: %.6f&quot;, getPrintName().c_str(),</span></a>
+<a name="271"><span class="lineNum">     271 </span>            :                  mapping_odom.header.stamp.toSec(), dbg_timestamp_rot.toSec(), dbg_timestamp_rot.toSec() - mapping_odom.header.stamp.toSec(),</a>
+<a name="272"><span class="lineNum">     272 </span>            :                  dbg_timestamp_alt.toSec(), dbg_timestamp_alt.toSec() - mapping_odom.header.stamp.toSec(),</a>
+<a name="273"><span class="lineNum">     273 </span>            :                  ros::Time::now().toSec() - mapping_odom.header.stamp.toSec());</a>
+<a name="274"><span class="lineNum">     274 </span>            :       }</a>
+<a name="275"><span class="lineNum">     275 </span>            : </a>
+<a name="276"><span class="lineNum">     276 </span><span class="lineNoCov">          0 :       mrs_msgs::Float64Stamped map_delay_msg;</span></a>
+<a name="277"><span class="lineNum">     277 </span><span class="lineNoCov">          0 :       map_delay_msg.header.stamp = ros::Time::now();</span></a>
+<a name="278"><span class="lineNum">     278 </span><span class="lineNoCov">          0 :       map_delay_msg.value        = ros::Time::now().toSec() - mapping_odom.header.stamp.toSec();</span></a>
+<a name="279"><span class="lineNum">     279 </span><span class="lineNoCov">          0 :       ph_map_delay_.publish(map_delay_msg);</span></a>
+<a name="280"><span class="lineNum">     280 </span>            :     }</a>
+<a name="281"><span class="lineNum">     281 </span>            : </a>
+<a name="282"><span class="lineNum">     282 </span>            :     //}</a>
+<a name="283"><span class="lineNum">     283 </span>            :   }</a>
+<a name="284"><span class="lineNum">     284 </span>            :   /*//}*/</a>
+<a name="285"><span class="lineNum">     285 </span>            : </a>
+<a name="286"><span class="lineNum">     286 </span>            :   std::string                                                 orientation_topic_;</a>
+<a name="287"><span class="lineNum">     287 </span>            :   mrs_lib::SubscribeHandler&lt;geometry_msgs::QuaternionStamped&gt; sh_mapping_odom_rot_;</a>
+<a name="288"><span class="lineNum">     288 </span>            :   std::vector&lt;geometry_msgs::QuaternionStamped&gt;               vec_mapping_odom_rot_;</a>
+<a name="289"><span class="lineNum">     289 </span>            :   std::mutex                                                  mtx_mapping_odom_rot_;</a>
+<a name="290"><span class="lineNum">     290 </span>            :   std::atomic_bool                                            got_mapping_odom_rot_ = false;</a>
+<a name="291"><span class="lineNum">     291 </span>            : </a>
+<a name="292"><span class="lineNum">     292 </span>            :   /*//{ callbackMappingOdomRot() */</a>
+<a name="293"><span class="lineNum">     293 </span><span class="lineNoCov">          0 :   void callbackMappingOdomRot(const geometry_msgs::QuaternionStamped::ConstPtr msg) {</span></a>
+<a name="294"><span class="lineNum">     294 </span>            : </a>
+<a name="295"><span class="lineNum">     295 </span><span class="lineNoCov">          0 :     if (!is_initialized_) {</span></a>
+<a name="296"><span class="lineNum">     296 </span><span class="lineNoCov">          0 :       return;</span></a>
+<a name="297"><span class="lineNum">     297 </span>            :     }</a>
+<a name="298"><span class="lineNum">     298 </span>            : </a>
+<a name="299"><span class="lineNum">     299 </span><span class="lineNoCov">          0 :     if (!got_mapping_odom_lat_) {</span></a>
+<a name="300"><span class="lineNum">     300 </span><span class="lineNoCov">          0 :       return;</span></a>
+<a name="301"><span class="lineNum">     301 </span>            :     }</a>
+<a name="302"><span class="lineNum">     302 </span>            : </a>
+<a name="303"><span class="lineNum">     303 </span><span class="lineNoCov">          0 :     std::scoped_lock lock(mtx_mapping_odom_rot_);</span></a>
+<a name="304"><span class="lineNum">     304 </span>            : </a>
+<a name="305"><span class="lineNum">     305 </span>            :     // Add new data</a>
+<a name="306"><span class="lineNum">     306 </span><span class="lineNoCov">          0 :     vec_mapping_odom_rot_.push_back(*msg);</span></a>
+<a name="307"><span class="lineNum">     307 </span>            : </a>
+<a name="308"><span class="lineNum">     308 </span>            :     // Delete old data</a>
+<a name="309"><span class="lineNum">     309 </span><span class="lineNoCov">          0 :     size_t index_delete = 0;</span></a>
+<a name="310"><span class="lineNum">     310 </span><span class="lineNoCov">          0 :     bool   clear_needed = false;</span></a>
+<a name="311"><span class="lineNum">     311 </span><span class="lineNoCov">          0 :     for (size_t i = 0; i &lt; vec_mapping_odom_rot_.size(); i++) {</span></a>
+<a name="312"><span class="lineNum">     312 </span><span class="lineNoCov">          0 :       if (timestamp_lat_ - vec_mapping_odom_rot_.at(i).header.stamp.toSec() &gt; cache_duration_) {</span></a>
+<a name="313"><span class="lineNum">     313 </span><span class="lineNoCov">          0 :         index_delete = i;</span></a>
+<a name="314"><span class="lineNum">     314 </span><span class="lineNoCov">          0 :         clear_needed = true;</span></a>
+<a name="315"><span class="lineNum">     315 </span>            :       } else {</a>
+<a name="316"><span class="lineNum">     316 </span><span class="lineNoCov">          0 :         break;</span></a>
+<a name="317"><span class="lineNum">     317 </span>            :       }</a>
+<a name="318"><span class="lineNum">     318 </span>            :     }</a>
+<a name="319"><span class="lineNum">     319 </span><span class="lineNoCov">          0 :     if (clear_needed) {</span></a>
+<a name="320"><span class="lineNum">     320 </span><span class="lineNoCov">          0 :       for (int i = (int)index_delete; i &gt;= 0; i--) {</span></a>
+<a name="321"><span class="lineNum">     321 </span><span class="lineNoCov">          0 :         vec_mapping_odom_rot_.erase(vec_mapping_odom_rot_.begin() + i);</span></a>
+<a name="322"><span class="lineNum">     322 </span>            :       }</a>
+<a name="323"><span class="lineNum">     323 </span><span class="lineNoCov">          0 :       clear_needed = false;</span></a>
+<a name="324"><span class="lineNum">     324 </span>            :     }</a>
+<a name="325"><span class="lineNum">     325 </span>            : </a>
+<a name="326"><span class="lineNum">     326 </span><span class="lineNoCov">          0 :     if (!got_mapping_odom_rot_) {</span></a>
+<a name="327"><span class="lineNum">     327 </span><span class="lineNoCov">          0 :       got_mapping_odom_rot_ = true;</span></a>
+<a name="328"><span class="lineNum">     328 </span>            :     }</a>
+<a name="329"><span class="lineNum">     329 </span>            : </a>
+<a name="330"><span class="lineNum">     330 </span><span class="lineNoCov">          0 :     if (debug_prints_) {</span></a>
+<a name="331"><span class="lineNum">     331 </span><span class="lineNoCov">          0 :       ROS_INFO_THROTTLE(1.0, &quot;[%s]: mapping odom rot cache size: %lu&quot;, getPrintName().c_str(), vec_mapping_odom_rot_.size());</span></a>
+<a name="332"><span class="lineNum">     332 </span>            :     }</a>
+<a name="333"><span class="lineNum">     333 </span>            :   }</a>
+<a name="334"><span class="lineNum">     334 </span>            :   /*//}*/</a>
+<a name="335"><span class="lineNum">     335 </span>            : </a>
+<a name="336"><span class="lineNum">     336 </span>            :   std::string                                   altitude_topic_;</a>
+<a name="337"><span class="lineNum">     337 </span>            :   mrs_lib::SubscribeHandler&lt;nav_msgs::Odometry&gt; sh_mapping_odom_alt_;</a>
+<a name="338"><span class="lineNum">     338 </span>            :   std::vector&lt;nav_msgs::Odometry&gt;               vec_mapping_odom_alt_;</a>
+<a name="339"><span class="lineNum">     339 </span>            :   std::mutex                                    mtx_mapping_odom_alt_;</a>
+<a name="340"><span class="lineNum">     340 </span>            :   std::atomic_bool                              got_mapping_odom_alt_ = false;</a>
+<a name="341"><span class="lineNum">     341 </span>            : </a>
+<a name="342"><span class="lineNum">     342 </span>            :   /*//{ callbackMappingOdomAlt() */</a>
+<a name="343"><span class="lineNum">     343 </span><span class="lineNoCov">          0 :   void callbackMappingOdomAlt(const nav_msgs::Odometry::ConstPtr msg) {</span></a>
+<a name="344"><span class="lineNum">     344 </span>            : </a>
+<a name="345"><span class="lineNum">     345 </span><span class="lineNoCov">          0 :     if (!is_initialized_) {</span></a>
+<a name="346"><span class="lineNum">     346 </span><span class="lineNoCov">          0 :       return;</span></a>
+<a name="347"><span class="lineNum">     347 </span>            :     }</a>
+<a name="348"><span class="lineNum">     348 </span>            : </a>
+<a name="349"><span class="lineNum">     349 </span><span class="lineNoCov">          0 :     if (!got_mapping_odom_lat_) {</span></a>
+<a name="350"><span class="lineNum">     350 </span><span class="lineNoCov">          0 :       return;</span></a>
+<a name="351"><span class="lineNum">     351 </span>            :     }</a>
+<a name="352"><span class="lineNum">     352 </span>            : </a>
+<a name="353"><span class="lineNum">     353 </span><span class="lineNoCov">          0 :     std::scoped_lock lock(mtx_mapping_odom_alt_);</span></a>
+<a name="354"><span class="lineNum">     354 </span>            : </a>
+<a name="355"><span class="lineNum">     355 </span>            :     // Add new data</a>
+<a name="356"><span class="lineNum">     356 </span><span class="lineNoCov">          0 :     vec_mapping_odom_alt_.push_back(*msg);</span></a>
+<a name="357"><span class="lineNum">     357 </span>            : </a>
+<a name="358"><span class="lineNum">     358 </span>            :     // Delete old data</a>
+<a name="359"><span class="lineNum">     359 </span><span class="lineNoCov">          0 :     size_t index_delete = 0;</span></a>
+<a name="360"><span class="lineNum">     360 </span><span class="lineNoCov">          0 :     bool   clear_needed = false;</span></a>
+<a name="361"><span class="lineNum">     361 </span><span class="lineNoCov">          0 :     for (size_t i = 0; i &lt; vec_mapping_odom_alt_.size(); i++) {</span></a>
+<a name="362"><span class="lineNum">     362 </span><span class="lineNoCov">          0 :       if (timestamp_lat_ - vec_mapping_odom_alt_.at(i).header.stamp.toSec() &gt; cache_duration_) {</span></a>
+<a name="363"><span class="lineNum">     363 </span><span class="lineNoCov">          0 :         index_delete = i;</span></a>
+<a name="364"><span class="lineNum">     364 </span><span class="lineNoCov">          0 :         clear_needed = true;</span></a>
+<a name="365"><span class="lineNum">     365 </span>            :       } else {</a>
+<a name="366"><span class="lineNum">     366 </span><span class="lineNoCov">          0 :         break;</span></a>
+<a name="367"><span class="lineNum">     367 </span>            :       }</a>
+<a name="368"><span class="lineNum">     368 </span>            :     }</a>
+<a name="369"><span class="lineNum">     369 </span><span class="lineNoCov">          0 :     if (clear_needed) {</span></a>
+<a name="370"><span class="lineNum">     370 </span><span class="lineNoCov">          0 :       for (int i = (int)index_delete; i &gt;= 0; i--) {</span></a>
+<a name="371"><span class="lineNum">     371 </span><span class="lineNoCov">          0 :         vec_mapping_odom_alt_.erase(vec_mapping_odom_alt_.begin() + i);</span></a>
+<a name="372"><span class="lineNum">     372 </span>            :       }</a>
+<a name="373"><span class="lineNum">     373 </span><span class="lineNoCov">          0 :       clear_needed = false;</span></a>
+<a name="374"><span class="lineNum">     374 </span>            :     }</a>
+<a name="375"><span class="lineNum">     375 </span>            : </a>
+<a name="376"><span class="lineNum">     376 </span><span class="lineNoCov">          0 :     if (!got_mapping_odom_alt_) {</span></a>
+<a name="377"><span class="lineNum">     377 </span><span class="lineNoCov">          0 :       got_mapping_odom_alt_ = true;</span></a>
+<a name="378"><span class="lineNum">     378 </span>            :     }</a>
+<a name="379"><span class="lineNum">     379 </span>            : </a>
+<a name="380"><span class="lineNum">     380 </span><span class="lineNoCov">          0 :     if (debug_prints_) {</span></a>
+<a name="381"><span class="lineNum">     381 </span><span class="lineNoCov">          0 :       ROS_INFO_THROTTLE(1.0, &quot;[%s]: mapping odom alt cache size: %lu&quot;, getPrintName().c_str(), vec_mapping_odom_alt_.size());</span></a>
+<a name="382"><span class="lineNum">     382 </span>            :     }</a>
+<a name="383"><span class="lineNum">     383 </span>            :   }</a>
+<a name="384"><span class="lineNum">     384 </span>            :   /*//}*/</a>
+<a name="385"><span class="lineNum">     385 </span>            : };</a>
+<a name="386"><span class="lineNum">     386 </span>            : /*//}*/</a>
+<a name="387"><span class="lineNum">     387 </span>            : </a>
+<a name="388"><span class="lineNum">     388 </span>            : }  // namespace mrs_uav_managers</a>
+<a name="389"><span class="lineNum">     389 </span>            : </a>
+<a name="390"><span class="lineNum">     390 </span>            : #endif</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.14</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
