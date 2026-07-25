@@ -228,28 +228,12 @@ docker run \
   $DOCKER_IMAGE \
   /bin/bash -c "/etc/docker/other_files/entrypoint.sh"
 
-# if there are any artifacts, update the builder image
+# copy any produced debs for the next job; the builder image is rebuilt once
+# per group by merge-artifacts, so a parallel job never pushes it here
 
 DEBS_EXIST=$(ls /tmp/debs | grep ".deb" | wc -l)
 
 if [ $DEBS_EXIST -gt 0 ]; then
-
-  echo "$0: updating the builder docker image"
-
-  cd $MY_PATH
-
-  PASS_TO_DOCKER_BUILD="Dockerfile /tmp/debs"
-
-  tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target squash_builder --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg BUILDER_IMAGE=${DOCKER_IMAGE} --tag ${DOCKER_IMAGE} --progress plain
-
-  echo "$0: exporting the builder docker image as ${DOCKER_IMAGE}"
-
-  if ! $RUN_LOCALLY; then
-
-    docker tag $DOCKER_IMAGE ghcr.io/ctu-mrs/buildfarm:$DOCKER_IMAGE
-    docker push ghcr.io/ctu-mrs/buildfarm:$DOCKER_IMAGE
-
-  fi
 
   echo "$0: copying artifacts"
 
