@@ -34,9 +34,11 @@ if [ -s $ROSDEP_FILE ]; then
 
   echo "yaml file://$ROSDEP_FILE" | tee /etc/ros/rosdep/sources.list.d/temp.list
 
+  rosdep --include-eol-distros --rosdistro=noetic update
+
 fi
 
-rosdep update --include-eol-distros
+apt-get -o Acquire::Retries="4" update
 
 OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
@@ -58,8 +60,6 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
     echo "$0: CATKIN_IGNORE present, skipping $PACKAGE"
     continue
   fi
-
-  apt-get -y update
 
   rosdep install -y -v --rosdistro=noetic --dependency-types=build --from-paths ./
 

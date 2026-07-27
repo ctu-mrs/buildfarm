@@ -1,23 +1,18 @@
-FROM ctumrs/ros_noetic:latest
+ARG BASE_IMAGE=ctumrs/ros_noetic:latest
+ARG PPA_VARIANT=stable
 
-RUN apt-get -y update
+FROM ${BASE_IMAGE}
 
-# workaround interractive prompts during apt installations
-RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install keyboard-configuration
+ARG PPA_VARIANT
 
-# INSTALL the MRS UAV System
-
-RUN apt-get -y install software-properties-common curl bash
-
-RUN curl https://ctu-mrs.github.io/ppa-stable/add_ppa.sh | bash
-
-RUN apt-get -y install ros-noetic-mrs-uav-system-full
-
-RUN apt-get -y install gdb
-
-# needed for UVDAR and other software utilizing graphics
-RUN add-apt-repository -y ppa:kisak/kisak-mesa && sudo apt-get -y install libgbm-dev libglx-mesa0 libgl1-mesa-dri
-RUN apt-get -y install libgbm-dev gdb wpan-tools iproute2
+# workaround interractive prompts during apt installations and install the MRS UAV System
+RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections && \
+    apt-get update && curl https://ctu-mrs.github.io/ppa-${PPA_VARIANT}/add_ppa.sh | bash && \
+    add-apt-repository -y ppa:kisak/kisak-mesa && \
+    apt-get --no-install-recommends -y install ros-${ROS_DISTRO}-mrs-uav-system-full \
+    gdb keyboard-configuration software-properties-common \
+    # needed for UVDAR and other software utilizing graphics
+    libgbm-dev libglx-mesa0 libgl1-mesa-dri wpan-tools iproute2 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 CMD ["/ros_entrypoint.sh"]
