@@ -14,19 +14,21 @@ OTHER_FILES_FOLDER=/etc/docker/other_files
 WORKSPACE=/tmp/workspace
 cd $WORKSPACE
 source /opt/ros/noetic/setup.bash
-catkin init
 
-catkin config --profile debug --cmake-args -DCMAKE_BUILD_TYPE=Debug
-catkin profile set debug
-
-rosdep update --include-eol-distros
-
-rosdep install -y -v --from-path src/
+apt-get -o Acquire::Retries=4 update
+rosdep install -y -v --rosdistro=noetic --from-path src/
 
 cd src
 ln -s /etc/docker/repository
 
 git config --global --add safe.directory /etc/docker/repository
+
+cd $WORKSPACE
+
+catkin init
+
+catkin config --profile debug --cmake-args -DCMAKE_BUILD_TYPE=Debug
+catkin profile set debug
 
 catkin build --limit-status-rate 0.2 --cmake-args -DCOVERAGE=true -DMRS_ENABLE_TESTING=true
 catkin build --limit-status-rate 0.2 --cmake-args -DCOVERAGE=true -DMRS_ENABLE_TESTING=true --catkin-make-args tests

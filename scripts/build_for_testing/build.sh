@@ -129,6 +129,7 @@ docker run \
 
 cd /tmp
 tar -cvzf workspace.tar.gz workspace
+[ ! -e $ARTIFACTS_FOLDER ] && mkdir -p $ARTIFACTS_FOLDER || echo ""
 mv workspace.tar.gz $ARTIFACTS_FOLDER/
 
 echo "$0: "
