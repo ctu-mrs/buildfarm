@@ -94,8 +94,6 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
   [ -e "${DEBS[0]}" ] && mv ../*.deb $DEBS_FOLDER || echo "$0: no artifacts to be moved"
 
   # records that this package was actually compiled, for downstream rebuilds
-  source /opt/ros/noetic/setup.bash
-
   echo "$PACKAGE" >> $OTHER_FILES_FOLDER/compiled.txt
 
 done; IFS=$OLDIFS
