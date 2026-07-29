@@ -29,9 +29,11 @@ fi
 
 echo "$0: installing dependencies using rosdep"
 
-rosdep update --include-eol-distros
+apt-get -o Acquire::Retries=4 update
 
-rosdep install -y -v --from-path $WORKSPACE/src
+rosdep update --include-eol-distros --rosdistro=noetic
+
+rosdep install -y -v --rosdistro=noetic --from-path $WORKSPACE/src
 
 ## | ------------------- build the workspace ------------------ |
 
