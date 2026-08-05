@@ -29,7 +29,7 @@ fi
 
 echo "$0: installing dependencies using rosdep"
 
-apt-get -o Acquire::Retries=4 update
+apt-get update
 
 rosdep update --include-eol-distros --rosdistro=noetic
 

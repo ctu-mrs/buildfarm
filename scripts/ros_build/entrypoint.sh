@@ -38,7 +38,7 @@ if [ -s $ROSDEP_FILE ]; then
 
 fi
 
-apt-get -o Acquire::Retries="4" update
+apt-get update
 
 OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 

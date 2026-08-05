@@ -12,7 +12,7 @@ cd /etc/docker/repository
 
 git config --global --add safe.directory /etc/docker/repository
 
-apt-get -o Acquire::Retries=4 update
+apt-get update
 
 # call the build script within the clone repository
 ./.ci/build_package.sh ${ARTIFACTS_FOLDER} ${BASE_IMAGE}

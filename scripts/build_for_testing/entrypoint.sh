@@ -15,7 +15,7 @@ WORKSPACE=/tmp/workspace
 cd $WORKSPACE
 source /opt/ros/noetic/setup.bash
 
-apt-get -o Acquire::Retries=4 update
+apt-get update
 rosdep install -y -v --rosdistro=noetic --from-path src/
 
 cd src
