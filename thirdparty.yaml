@@ -7,6 +7,15 @@ nlopt_ros:
     testing: release_candidate
     stable: release
 
+realsense:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/realsense
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
+
 px4_sitl_gazebo:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/px4_sitl_gazebo
