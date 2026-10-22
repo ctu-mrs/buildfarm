@@ -3,9 +3,9 @@ mrs_msgs:
   source: https://github.com/ctu-mrs/mrs_msgs
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -14,9 +14,9 @@ mrs_lib:
   source: https://github.com/ctu-mrs/mrs_lib
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: true
     full_test_coverage: true
@@ -26,9 +26,9 @@ mrs_modules_msgs:
   source: https://github.com/ctu-mrs/mrs_modules_msgs
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -37,9 +37,9 @@ mrs_uav_testing:
   source: https://github.com/ctu-mrs/mrs_uav_testing
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: true
     full_test_coverage: true
@@ -49,9 +49,9 @@ mrs_uav_gazebo_testing:
   source: https://github.com/ctu-mrs/mrs_uav_gazebo_testing
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
     full_test_coverage: false
@@ -61,9 +61,9 @@ mrs_uav_managers:
   source: https://github.com/ctu-mrs/mrs_uav_managers
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: true
     full_test_coverage: true
@@ -73,9 +73,9 @@ mrs_bumper:
   source: https://github.com/ctu-mrs/mrs_bumper
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -84,9 +84,9 @@ mrs_multirotor_simulator:
   source: https://github.com/ctu-mrs/mrs_multirotor_simulator
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
     full_test_coverage: true
@@ -96,9 +96,9 @@ mrs_uav_controllers:
   source: https://github.com/ctu-mrs/mrs_uav_controllers
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: true
     full_test_coverage: true
@@ -108,9 +108,9 @@ mrs_uav_autostart:
   source: https://github.com/ctu-mrs/mrs_uav_autostart
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: true
     full_test_coverage: true
@@ -120,9 +120,9 @@ mrs_uav_hw_api:
   source: https://github.com/ctu-mrs/mrs_uav_hw_api
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
     full_test_coverage: true
@@ -132,9 +132,9 @@ mrs_uav_state_estimators:
   source: https://github.com/ctu-mrs/mrs_uav_state_estimators
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: true
     full_test_coverage: true
@@ -144,9 +144,9 @@ mrs_uav_deployment:
   source: https://github.com/ctu-mrs/mrs_uav_deployment
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -155,9 +155,9 @@ mrs_uav_status:
   source: https://github.com/ctu-mrs/mrs_uav_status
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -166,9 +166,9 @@ mrs_uav_trackers:
   source: https://github.com/ctu-mrs/mrs_uav_trackers
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: true
     full_test_coverage: true
@@ -178,9 +178,9 @@ mrs_uav_px4_api:
   source: https://github.com/ctu-mrs/mrs_uav_px4_api
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -189,9 +189,9 @@ mrs_uav_dji_tello_api:
   source: https://github.com/ctu-mrs/mrs_uav_dji_tello_api
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -200,9 +200,9 @@ mrs_rviz_plugins:
   source: https://github.com/ctu-mrs/mrs_rviz_plugins
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -211,9 +211,9 @@ mrs_uav_trajectory_generation:
   source: https://github.com/ctu-mrs/mrs_uav_trajectory_generation
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: true
     full_test_coverage: true
@@ -223,9 +223,9 @@ mrs_serial:
   source: https://github.com/ctu-mrs/mrs_serial
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -234,9 +234,9 @@ mrs_uav_path_loader:
   source: https://github.com/ctu-mrs/mrs_uav_path_loader
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -245,9 +245,9 @@ mrs_uav_trajectory_loader:
   source: https://github.com/ctu-mrs/mrs_uav_trajectory_loader
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -256,9 +256,9 @@ mrs_utils:
   source: https://github.com/ctu-mrs/mrs_utils
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -267,9 +267,9 @@ mrs_gazebo_common_resources:
   source: https://github.com/ctu-mrs/mrs_gazebo_common_resources
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -278,9 +278,9 @@ mrs_pcl_tools:
   source: https://github.com/ctu-mrs/mrs_pcl_tools
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -289,9 +289,9 @@ mrs_subt_planning_lib:
   source: https://github.com/ctu-mrs/mrs_subt_planning_lib
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -300,9 +300,9 @@ mrs_octomap_tools:
   source: https://github.com/ctu-mrs/mrs_octomap_tools
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -311,9 +311,9 @@ mrs_octomap_server:
   source: https://github.com/ctu-mrs/mrs_octomap_server
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -322,9 +322,9 @@ mrs_octomap_planner:
   source: https://github.com/ctu-mrs/mrs_octomap_planner
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -333,9 +333,9 @@ mrs_octomap_mapping_planning:
   source: https://github.com/ctu-mrs/mrs_octomap_mapping_planning
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -344,9 +344,9 @@ mrs_uav_coppelia_simulation:
   source: https://github.com/ctu-mrs/mrs_uav_coppelia_simulation
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -355,9 +355,9 @@ mrs_uav_gazebo_simulation:
   source: https://github.com/ctu-mrs/mrs_uav_gazebo_simulation
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: true
 
@@ -366,9 +366,9 @@ aloam:
   source: https://github.com/ctu-mrs/aloam
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -377,9 +377,9 @@ mrs_uav_modules:
   source: https://github.com/ctu-mrs/mrs_uav_modules
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -388,9 +388,9 @@ mrs_uav_core:
   source: https://github.com/ctu-mrs/mrs_uav_core
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -399,9 +399,9 @@ mrs_uav_system:
   source: https://github.com/ctu-mrs/mrs_uav_system
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -410,9 +410,9 @@ mrs_hector_estimator_plugin:
   source: https://github.com/ctu-mrs/mrs_hector_estimator_plugin
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -421,9 +421,9 @@ mrs_hector_core:
   source: https://github.com/ctu-mrs/mrs_hector_core
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -432,9 +432,9 @@ mrs_open_vins_estimator_plugin:
   source: https://github.com/ctu-mrs/mrs_open_vins_estimator_plugin
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -443,9 +443,9 @@ mrs_vins_republisher:
   source: https://github.com/ctu-mrs/mrs_vins_republisher
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -454,9 +454,9 @@ mrs_vins_imu_filter:
   source: https://github.com/ctu-mrs/mrs_vins_imu_filter
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -465,9 +465,9 @@ mrs_open_vins_core:
   source: https://github.com/ctu-mrs/mrs_open_vins_core
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -476,9 +476,9 @@ mrs_aloam_estimator_plugin:
   source: https://github.com/ctu-mrs/mrs_aloam_estimator_plugin
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -487,9 +487,9 @@ mrs_aloam_core:
   source: https://github.com/ctu-mrs/mrs_aloam_core
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -498,9 +498,9 @@ uvdar_core:
   source: https://github.com/ctu-mrs/uvdar_core
   gitman: true
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -509,9 +509,9 @@ uvdar_gazebo_plugin:
   source: https://github.com/ctu-mrs/uvdar_gazebo_plugin
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -520,9 +520,9 @@ liosam:
   source: https://github.com/ctu-mrs/liosam
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -531,9 +531,9 @@ mrs_liosam_estimator_plugin:
   source: https://github.com/ctu-mrs/mrs_liosam_estimator_plugin
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -542,9 +542,9 @@ mrs_liosam_core:
   source: https://github.com/ctu-mrs/mrs_liosam_core
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -553,9 +553,9 @@ mrs_uav_unreal_simulation:
   source: https://github.com/ctu-mrs/mrs_uav_unreal_simulation
   gitman: true
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -564,9 +564,9 @@ mrs_mins_estimator_plugin:
   source: https://github.com/ctu-mrs/mrs_mins_estimator_plugin
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -575,9 +575,9 @@ mrs_mins_core:
   source: https://github.com/ctu-mrs/mrs_mins_core
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -586,9 +586,9 @@ mrs_precise_landing:
   source: https://github.com/ctu-mrs/mrs_precise_landing
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -597,9 +597,9 @@ mrs_icm_imu_driver:
   source: https://github.com/ctu-mrs/mrs_icm_imu_driver
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -608,9 +608,9 @@ mrs_robofly_core:
   source: https://github.com/ctu-mrs/mrs_robofly_core
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
 
@@ -619,8 +619,8 @@ mrs_vins_kickoff_estimator_plugin:
   source: https://github.com/ctu-mrs/mrs_vins_kickoff_estimator_plugin
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
   ros_test:
     enabled: false
