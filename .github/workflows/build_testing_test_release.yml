@@ -227,58 +227,27 @@ jobs:
     secrets: inherit
 
   collect-artifacts:
-    runs-on: ubuntu-22.04
     needs: [generate-jobs, build-group-0, build-group-1, build-group-2, build-group-3, build-group-4, build-group-5, build-group-6, build-group-last]
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
-    env:
-      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
-    steps:
-      - name: Load artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: artifacts
-          path: ${{env.ARTIFACTS_FOLDER}}
-      - id: execute
-        run: |
-          rm ${{env.ARTIFACTS_FOLDER}}/compiled.txt 2> /dev/null || true
-          rm ${{env.ARTIFACTS_FOLDER}}/base_sha.txt 2> /dev/null || true
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
-          submodules: 'recursive'
-      - name: Checkout CI scripts
-        uses: actions/checkout@v6
-        with:
-          repository: ctu-mrs/ci_scripts
-          ref: master
-          path: ci_scripts
-          token: ${{secrets.PUSH_TOKEN}}
-      - name: Deploy
-        run: ./ci_scripts/package_build/push_to_ppa.sh ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}}
-
-  delete_builder:
-    needs: collect-artifacts
-    if: always()
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - name: Delete current image
-        uses: dataaxiom/ghcr-cleanup-action@v1
-        with:
-          packages: '${{github.event.repository.name}}'
-          delete-tags: '${{env.BUILDER_IMAGE}}'
-          token: ${{secrets.PUSH_TOKEN}}
+    uses: ./.github/workflows/reusable_collect_artifacts.yml
+    with:
+      runs_on: ubuntu-22.04
+      variant: ${{ needs.generate-jobs.outputs.variant }}
+      artifacts_folder: ${{ needs.generate-jobs.outputs.artifacts_folder }}
+    secrets: inherit
 
   wait-for-ppa:
     runs-on: ubuntu-22.04
-    needs: delete_builder
+    needs: [generate-jobs, collect-artifacts]
+    if: always() && needs.collect-artifacts.result == 'success' && needs.collect-artifacts.outputs.has_debs == 'true'
     steps:
-      - id: run
+      - name: Wait for PPA to deploy
         run: |
-          sleep 300
+          sleep 180
 
-  test_and_release:
-    needs: wait-for-ppa
+  test-and-release:
+    needs: [collect-artifacts, wait-for-ppa]
+    if: always() && needs.collect-artifacts.result == 'success' && needs.wait-for-ppa.result != 'failure' && needs.wait-for-ppa.result != 'cancelled'
     uses: ctu-mrs/buildfarm/.github/workflows/rostest_merge_to_release.yml@master
     secrets:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
