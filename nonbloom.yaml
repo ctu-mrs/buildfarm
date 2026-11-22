@@ -31,8 +31,8 @@ px4_firmware:
   gitman: false
   git_refs:
     unstable: 1.13.2-dev
-    testing: release_candidate
-    stable: mrs_release
+    testing: 1.13.2-dev
+    stable: 1.13.2-dev
 
 libcamera_ros:
   architecture: [amd64, arm64]
