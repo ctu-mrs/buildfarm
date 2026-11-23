@@ -39,9 +39,9 @@ libcamera_ros:
   source: https://github.com/ctu-mrs/libcamera_ros
   gitman: false
   git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
+    unstable: ros1
+    testing: ros1_release_candidate
+    stable: ros1_release
 
 mrs_uav_bluetooth:
   architecture: [amd64]
